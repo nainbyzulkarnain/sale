@@ -1,0 +1,324 @@
+<script>
+    lucide.createIcons();
+
+    // SUPABASE CREDENTIALS & INITIALIZATION
+    const SUPABASE_URL = 'https://vkboodwwgqrhkcvwnodf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let overviewChartInstance = null;
+    let expensesChartInstance = null;
+
+    function navigateTo(viewId, element) {
+        document.querySelectorAll('.app-view').forEach(v => v.classList.add('hidden'));
+        const targetView = document.getElementById(viewId);
+        if (targetView) targetView.classList.remove('hidden');
+
+        document.querySelectorAll('#sidebarNav a, .submenu a').forEach(btn => {
+            btn.classList.remove('bg-blue-50', 'text-blue-600', 'font-bold');
+        });
+        if (element) element.classList.add('bg-blue-50', 'text-blue-600', 'font-bold');
+
+        if (window.innerWidth < 768) {
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('mobileBackdrop').classList.add('hidden');
+        }
+
+        if (viewId === 'view-audit-transactions') fetchTransactions();
+    }
+
+    function toggleMobileSidebar() {
+        document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        document.getElementById('mobileBackdrop').classList.toggle('hidden');
+    }
+
+    document.getElementById('toggleSidebar').addEventListener('click', () => {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('collapsed');
+        if (sidebar.classList.contains('collapsed')) {
+            document.querySelectorAll('.submenu').forEach(s => s.classList.add('hidden'));
+        }
+    });
+
+    function toggleSubmenu(id) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.classList.contains('collapsed')) return;
+        const menu = document.getElementById(id);
+        const arrow = document.getElementById(id + '-arrow');
+        menu.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
+    }
+
+    function setDashboardPresetDays(days) {
+        const end = new Date();
+        const start = new Date();
+        start.setDate(end.getDate() - days);
+        document.getElementById('dashStartDate').value = start.toISOString().split('T')[0];
+        document.getElementById('dashEndDate').value = end.toISOString().split('T')[0];
+        loadDashboardTelemetry();
+    }
+
+    function resetDashboardFilters() {
+        document.getElementById('dashStartDate').value = '2026-07-08';
+        document.getElementById('dashEndDate').value = '2026-08-07';
+        loadDashboardTelemetry();
+    }
+
+    function formatCurrency(val) {
+        const num = Number(val) || 0;
+        return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // REAL-TIME DATABASE ENGINE
+    async function loadDashboardTelemetry() {
+        const badge = document.getElementById('connectionBadge');
+        const startDateVal = document.getElementById('dashStartDate').value;
+        const endDateVal = document.getElementById('dashEndDate').value;
+
+        document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
+        document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
+
+        try {
+            // 1. Fetch Products
+            const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
+            if (prodErr) {
+                console.error('Products Fetch Error:', prodErr);
+                throw prodErr;
+            }
+
+            const prodList = products || [];
+
+            // Populate Low Stock
+            const lowStockBody = document.getElementById('lowStockTableBody');
+            const lowCountBadge = document.getElementById('lowStockCountBadge');
+            if (lowStockBody) {
+                const lowItems = prodList.filter(p => Number(p.opening_stock || p.stock || 0) <= 5);
+                if (lowCountBadge) lowCountBadge.innerText = `${lowItems.length} Items`;
+
+                if (lowItems.length > 0) {
+                    lowStockBody.innerHTML = lowItems.slice(0, 10).map((p, idx) => `
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
+                            <td class="p-2 sm:p-2.5">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-rose-500 shrink-0"></i>
+                                    <div>
+                                        <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-2 sm:p-2.5 font-black text-rose-600 text-xs">${p.opening_stock || p.stock || 0} Piece</td>
+                            <td class="p-2 sm:p-2.5">
+                                <span class="bg-rose-50 text-rose-600 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded border border-rose-200/60 inline-flex items-center gap-1 whitespace-nowrap">
+                                    <i data-lucide="x-circle" class="w-3 h-3 shrink-0"></i> Out of Stock
+                                </span>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    lowStockBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No low stock items. All inventory adequate.</td></tr>`;
+                }
+            }
+
+            // Populate Trending Products
+            const trendingBody = document.getElementById('trendingProductsTableBody');
+            if (trendingBody) {
+                const topProducts = prodList.slice(0, 10);
+                if (topProducts.length > 0) {
+                    trendingBody.innerHTML = topProducts.map((p, idx) => `
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
+                            <td class="p-2 sm:p-2.5">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="package" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                                    <div>
+                                        <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-2 sm:p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
+                            <td class="p-2 sm:p-2.5 font-bold text-xs">${p.opening_stock || p.stock || 0}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
+                }
+            }
+
+            // 2. Fetch Transactions
+            const { data: txData, error: txErr } = await supabaseClient.from('account_transactions').select('*');
+            if (txErr) {
+                console.error('Transactions Fetch Error:', txErr);
+                throw txErr;
+            }
+
+            if (badge) {
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
+            }
+
+            const transactions = txData || [];
+            let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
+            const now = new Date();
+            const currMonth = now.getMonth();
+            const currYear = now.getFullYear();
+
+            const dailySalesMap = {};
+            const dailyExpMap = {};
+
+            transactions.forEach(t => {
+                const cr = Number(t.credit || 0);
+                const dr = Number(t.debit || 0);
+                const dateStr = t.voucher_date || '';
+                const tDate = dateStr ? new Date(dateStr) : now;
+
+                if (dateStr >= startDateVal && dateStr <= endDateVal) {
+                    totalSalesVal += cr;
+                    totalPurchaseVal += dr;
+
+                    if (dateStr) {
+                        dailySalesMap[dateStr] = (dailySalesMap[dateStr] || 0) + cr;
+                        dailyExpMap[dateStr] = (dailyExpMap[dateStr] || 0) + dr;
+                    }
+                }
+
+                if (tDate.getMonth() === currMonth && tDate.getFullYear() === currYear) {
+                    monthSalesVal += cr;
+                    monthPurchaseVal += dr;
+                }
+            });
+
+            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal);
+            document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
+            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
+            document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
+
+            renderDynamicCharts(dailySalesMap, dailyExpMap);
+            lucide.createIcons();
+
+        } catch (err) {
+            console.error('Supabase Error:', err);
+            if (badge) {
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
+            }
+        }
+    }
+
+    function renderDynamicCharts(salesMap, expMap) {
+        const ctxMiniBar = document.getElementById('miniBarSales');
+        if (ctxMiniBar) {
+            new Chart(ctxMiniBar.getContext('2d'), {
+                type: 'bar',
+                data: { labels: ['M', 'T', 'W', 'T', 'F', 'S'], datasets: [{ data: [12, 19, 15, 25, 22, 30], backgroundColor: '#2563eb', borderRadius: 3 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+            });
+        }
+
+        const ctxMiniLine = document.getElementById('miniLineTotalSales');
+        if (ctxMiniLine) {
+            new Chart(ctxMiniLine.getContext('2d'), {
+                type: 'line',
+                data: { labels: ['M', 'T', 'W', 'T', 'F', 'S'], datasets: [{ data: [10, 15, 12, 22, 18, 28], borderColor: '#10b981', borderWidth: 2, pointRadius: 0, fill: false }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+            });
+        }
+
+        const dates = Object.keys(salesMap).sort();
+        const salesValues = dates.map(d => salesMap[d]);
+
+        const chart1Labels = dates.length > 0 ? dates : ['Jul 13', 'Jul 18', 'Jul 23', 'Jul 28', 'Aug 02', 'Aug 07'];
+        const chart1Data = dates.length > 0 ? salesValues : [0, 0, 0, 0, 0, 0];
+
+        const ctxSales = document.getElementById('salesOverviewChart');
+        if (ctxSales) {
+            if (overviewChartInstance) overviewChartInstance.destroy();
+            const ctx = ctxSales.getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+            gradient.addColorStop(0, 'rgba(37, 99, 235, 0.22)');
+            gradient.addColorStop(1, 'rgba(37, 99, 235, 0.00)');
+
+            overviewChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chart1Labels,
+                    datasets: [{
+                        label: 'Sales Revenue',
+                        data: chart1Data,
+                        borderColor: '#2563eb',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#2563eb',
+                        pointBorderWidth: 3,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, min: 0 } }
+                }
+            });
+        }
+
+        const expValues = chart1Labels.map(d => expMap[d] || 0);
+        const ctxExpenses = document.getElementById('salesExpensesChart');
+        if (ctxExpenses) {
+            if (expensesChartInstance) expensesChartInstance.destroy();
+            const ctx = ctxExpenses.getContext('2d');
+            
+            const gradSales = ctx.createLinearGradient(0, 0, 0, 240);
+            gradSales.addColorStop(0, 'rgba(16, 185, 129, 0.25)');
+            gradSales.addColorStop(1, 'rgba(16, 185, 129, 0.00)');
+
+            const gradExp = ctx.createLinearGradient(0, 0, 0, 240);
+            gradExp.addColorStop(0, 'rgba(239, 68, 68, 0.20)');
+            gradExp.addColorStop(1, 'rgba(239, 68, 68, 0.00)');
+
+            expensesChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chart1Labels,
+                    datasets: [
+                        { label: 'Sales (RS)', data: chart1Data, borderColor: '#10b981', backgroundColor: gradSales, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 },
+                        { label: 'Expenses (RS)', data: expValues, borderColor: '#ef4444', backgroundColor: gradExp, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, min: 0 } }
+                }
+            });
+        }
+    }
+
+    async function fetchTransactions() {
+        const tableBody = document.getElementById('liveTransactionTable');
+        try {
+            const { data } = await supabaseClient.from('account_transactions').select('*').order('id', { ascending: false }).limit(10);
+            if (tableBody && data) {
+                tableBody.innerHTML = data.map(row => `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 pl-5 font-bold text-blue-600">${row.voucher_no || 'N/A'}</td>
+                        <td class="p-3 text-slate-900 font-semibold">${row.narration || 'No Narration'}</td>
+                        <td class="p-3 text-slate-500">${row.voucher_date || '-'}</td>
+                        <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(row.debit || 0).toLocaleString()}</td>
+                        <td class="p-3 font-extrabold text-slate-900">RS. ${Number(row.credit || 0).toLocaleString()}</td>
+                    </tr>
+                `).join('');
+            }
+        } catch (err) {
+            console.error('Audit logs query error:', err);
+        }
+    }
+
+    window.onload = () => {
+        loadDashboardTelemetry();
+    };
+</script>
