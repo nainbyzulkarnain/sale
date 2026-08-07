@@ -20,7 +20,6 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-        /* FALCON UI ELEVATED STYLING */
         .falcon-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -675,7 +674,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // RESILIENT REAL-TIME TELEMETRY ENGINE
+    // REAL-TIME DATABASE ENGINE QUERYING PRODUCTS AND TRANSACTIONS
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
@@ -684,92 +683,84 @@
         document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
-        // Reference fallback data ensuring UI stays active while mapping tables
-        const defaultProducts = [
-            { title: 'MINI1', code: 'P-001128', sell_price: 354878, opening_stock: 80 },
-            { title: 'mahnoor01', code: 'P-001247', sell_price: 425700, opening_stock: 53 },
-            { title: 'ZEL2690', code: 'P-001331', sell_price: 139370, opening_stock: -45 },
-            { title: 'MHCK SIG VOL', code: 'P-P-001329', sell_price: 277959, opening_stock: 39 },
-            { title: 'ITEM 2', code: 'P-001355', sell_price: 10400, opening_stock: 40 }
-        ];
-
         try {
-            // Attempt to query products from Supabase
-            let prodList = [];
+            // 1. Fetch live products table from Supabase
             const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
-            
-            if (prodErr) {
-                console.warn('Notice: "products" table query returned error. Checking alternative names or using fallback.', prodErr.message);
-                prodList = defaultProducts;
-            } else {
-                prodList = (products && products.length > 0) ? products : defaultProducts;
-            }
+            if (prodErr) throw prodErr;
 
-            // Update connection badge to success state
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            // Populate Low Stock Alerts
+            const prodList = products || [];
+
+            // Populate Low Stock Alerts (Stock <= 5)
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
                 const lowItems = prodList.filter(p => Number(p.opening_stock ?? p.stock ?? 0) <= 5);
                 if (lowCountBadge) lowCountBadge.innerText = `${lowItems.length} Items`;
 
-                lowStockBody.innerHTML = lowItems.slice(0, 10).map((p, idx) => `
-                    <tr class="hover:bg-slate-50/80 transition-colors">
-                        <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
-                        <td class="p-2 sm:p-2.5">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-rose-500 shrink-0"></i>
-                                <div>
-                                    <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                    <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                if (lowItems.length > 0) {
+                    lowStockBody.innerHTML = lowItems.slice(0, 10).map((p, idx) => `
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
+                            <td class="p-2 sm:p-2.5">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-rose-500 shrink-0"></i>
+                                    <div>
+                                        <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="p-2 sm:p-2.5 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
-                        <td class="p-2 sm:p-2.5">
-                            <span class="bg-rose-50 text-rose-600 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded border border-rose-200/60 inline-flex items-center gap-1 whitespace-nowrap">
-                                <i data-lucide="x-circle" class="w-3 h-3 shrink-0"></i> Low Stock
-                            </span>
-                        </td>
-                    </tr>
-                `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No low stock items.</td></tr>`;
+                            </td>
+                            <td class="p-2 sm:p-2.5 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
+                            <td class="p-2 sm:p-2.5">
+                                <span class="bg-rose-50 text-rose-600 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded border border-rose-200/60 inline-flex items-center gap-1 whitespace-nowrap">
+                                    <i data-lucide="x-circle" class="w-3 h-3 shrink-0"></i> ${Number(p.opening_stock ?? p.stock ?? 0) <= 0 ? 'Out of Stock' : 'Low Stock'}
+                                </span>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    lowStockBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No low stock items. All inventory adequate.</td></tr>`;
+                }
             }
 
-            // Populate Trending Products
+            // Populate Trending Products List
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
-                trendingBody.innerHTML = prodList.slice(0, 10).map((p, idx) => `
-                    <tr class="hover:bg-slate-50/80 transition-colors">
-                        <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
-                        <td class="p-2 sm:p-2.5">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="package" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-                                <div>
-                                    <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                    <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                const sortedProducts = [...prodList].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
+                const topProducts = sortedProducts.slice(0, 10);
+
+                if (topProducts.length > 0) {
+                    trendingBody.innerHTML = topProducts.map((p, idx) => `
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
+                            <td class="p-2 sm:p-2.5">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="package" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                                    <div>
+                                        <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="p-2 sm:p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 354878).toLocaleString()}</td>
-                        <td class="p-2 sm:p-2.5 font-bold text-xs">${p.opening_stock ?? p.stock ?? 80}</td>
-                    </tr>
-                `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
+                            </td>
+                            <td class="p-2 sm:p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
+                            <td class="p-2 sm:p-2.5 font-bold text-xs">${p.opening_stock ?? p.stock ?? 0}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found in catalog.</td></tr>`;
+                }
             }
 
-            // 3. Query Account Transactions
-            let transactions = [];
+            // 2. Fetch live account transactions from Supabase
             const { data: txData, error: txErr } = await supabaseClient.from('account_transactions').select('*');
-            if (txErr) {
-                console.warn('Notice: account_transactions query warning:', txErr.message);
-            } else {
-                transactions = txData || [];
-            }
+            if (txErr) throw txErr;
 
+            const transactions = txData || [];
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
             const now = new Date();
             const currMonth = now.getMonth();
@@ -800,27 +791,24 @@
                 }
             });
 
-            // Assign computed or reference video default totals if database is empty
-            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal || 150813);
-            document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal || 6405333);
-            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal || 56710);
-            document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal || 4196342);
+            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal);
+            document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
+            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
+            document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
 
             renderDynamicCharts(dailySalesMap, dailyExpMap);
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Database Telemetry Exception:', err);
+            console.error('Supabase dynamic query error:', err);
             if (badge) {
-                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Live Mode Active`;
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
             }
-            renderDynamicCharts({}, {});
-            lucide.createIcons();
         }
     }
 
-    // CHART RENDERING ENGINE
+    // REAL-TIME CHART RENDERING ENGINE
     function renderDynamicCharts(salesMap, expMap) {
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
@@ -844,7 +832,7 @@
         const salesValues = dates.map(d => salesMap[d]);
 
         const chart1Labels = dates.length > 0 ? dates : ['Jul 13', 'Jul 18', 'Jul 23', 'Jul 28', 'Aug 02', 'Aug 07'];
-        const chart1Data = dates.length > 0 ? salesValues : [18000, 42000, 21000, 56000, 31000, 58000];
+        const chart1Data = dates.length > 0 ? salesValues : [0, 0, 0, 0, 0, 0];
 
         const ctxSales = document.getElementById('salesOverviewChart');
         if (ctxSales) {
@@ -900,7 +888,7 @@
                     labels: chart1Labels,
                     datasets: [
                         { label: 'Sales (RS)', data: chart1Data, borderColor: '#10b981', backgroundColor: gradSales, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 },
-                        { label: 'Expenses (RS)', data: dates.length > 0 ? expValues : [3000, 7000, 12000, 18000, 9000, 14000], borderColor: '#ef4444', backgroundColor: gradExp, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 }
+                        { label: 'Expenses (RS)', data: expValues, borderColor: '#ef4444', backgroundColor: gradExp, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 }
                     ]
                 },
                 options: {
