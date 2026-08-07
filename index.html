@@ -1,3 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#f8fafc]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS360 / ACCOUNT360 Enterprise ERP</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Supabase JS Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* FALCON UI ELEVATED STYLING */
+        .falcon-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 0.125rem 0.375rem rgba(15, 23, 42, 0.03), 0 0.0625rem 0.125rem rgba(15, 23, 42, 0.02);
+            border-radius: 0.85rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .falcon-card:hover {
+            box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.06);
+            border-color: #cbd5e1;
+        }
+
+        .btn-falcon-action {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            transition: all 0.15s ease;
+        }
+        .btn-falcon-action:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #94a3b8;
+        }
+
+        .btn-falcon-primary {
+            background: #2563eb;
+            color: #ffffff;
+            border: 1px solid #2563eb;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+            transition: all 0.15s ease;
+        }
+        .btn-falcon-primary:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.28);
+        }
+
+        .btn-falcon-success {
+            background: #10b981;
+            color: #ffffff;
+            border: 1px solid #10b981;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+            transition: all 0.15s ease;
+        }
+        .btn-falcon-success:hover {
+            background: #059669;
+            border-color: #059669;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.28);
+        }
+
+        #sidebar { transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        #sidebar.collapsed { width: 72px !important; }
+        #sidebar.collapsed .sidebar-text,
+        #sidebar.collapsed .menu-arrow,
+        #sidebar.collapsed .submenu,
+        #sidebar.collapsed .brand-title { display: none !important; }
+        #sidebar.collapsed .nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
+    </style>
+</head>
+<body class="h-full text-slate-700 antialiased selection:bg-blue-600 selection:text-white">
+
+<div class="flex h-screen overflow-hidden">
+
+    <!-- MOBILE OVERLAY BACKDROP -->
+    <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+
+    <!-- ========================================================= -->
+    <!-- PART ONE: ENTERPRISE SIDEBAR NAVIGATION & TOP NAVBAR     -->
+    <!-- ========================================================= -->
+    <aside id="sidebar" class="w-64 bg-white border-r border-slate-200/80 flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
+        
+        <!-- Brand Logo Header -->
+        <div class="h-16 flex items-center justify-between px-4 border-b border-slate-100 shrink-0">
+            <div class="flex items-center gap-3 overflow-hidden">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-base shrink-0 shadow-md shadow-blue-500/20">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                <div class="brand-title flex flex-col truncate">
+                    <span class="font-extrabold text-base text-slate-900 tracking-tight">POS360</span>
+                    <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">ACCOUNT360 ERP</span>
+                </div>
+            </div>
+            <button id="toggleSidebar" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors shrink-0">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- SIDEBAR NAVIGATION MENU -->
+        <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-xs font-semibold" id="sidebarNav">
+            
+            <!-- Dashboard -->
+            <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-blue-600 font-bold shadow-sm transition-all">
+                <i data-lucide="pie-chart" class="w-4 h-4 shrink-0 text-blue-600"></i>
+                <span class="sidebar-text truncate">Dashboard</span>
+            </a>
+
+            <!-- 1. Master Profile -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="package" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Master Profile</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="masterMenu-arrow"></i>
+                </button>
+                <div id="masterMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-categories', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Categories</a>
+                    <a href="#" onclick="navigateTo('view-units', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Product Unit</a>
+                    <a href="#" onclick="navigateTo('view-taxes', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Tax Profile</a>
+                    <a href="#" onclick="navigateTo('view-create-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Product</a>
+                    <a href="#" onclick="navigateTo('view-products', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Products List</a>
+                    <a href="#" onclick="navigateTo('view-import-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Import Product</a>
+                </div>
+            </div>
+
+            <!-- 2. CRM -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="users" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">CRM</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="crmMenu-arrow"></i>
+                </button>
+                <div id="crmMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-customers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Manage Customers</a>
+                    <a href="#" onclick="navigateTo('view-suppliers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Manage Suppliers</a>
+                </div>
+            </div>
+
+            <!-- 3. Accounts -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="wallet" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Accounts</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="accountsMenu-arrow"></i>
+                </button>
+                <div id="accountsMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-account-master', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Master</a>
+                    <a href="#" onclick="navigateTo('view-account-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account List</a>
+                </div>
+            </div>
+
+            <!-- 4. Purchase Invoice -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="file-text" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Purchase Invoice</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="purchaseMenu-arrow"></i>
+                </button>
+                <div id="purchaseMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-create-purchase', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Purchase</a>
+                    <a href="#" onclick="navigateTo('view-purchase-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase List</a>
+                    <a href="#" onclick="navigateTo('view-purchase-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase Return</a>
+                </div>
+            </div>
+
+            <!-- 5. POS Invoice -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="shopping-cart" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">POS Invoice</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="posMenu-arrow"></i>
+                </button>
+                <div id="posMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-pos-create', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Invoice</a>
+                    <a href="#" onclick="navigateTo('view-pos-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sales List</a>
+                    <a href="#" onclick="navigateTo('view-sales-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sales Return</a>
+                </div>
+            </div>
+
+            <!-- 6. Stock Adjustment -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('stockAdjMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="sliders" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Stock Adjustment</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="stockAdjMenu-arrow"></i>
+                </button>
+                <div id="stockAdjMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-create-adjustment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Adjustment</a>
+                    <a href="#" onclick="navigateTo('view-adjustment-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Adjustment List</a>
+                </div>
+            </div>
+
+            <!-- 7. Vouchers -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('vouchersMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="receipt" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Vouchers</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="vouchersMenu-arrow"></i>
+                </button>
+                <div id="vouchersMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-cash-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Cash Receipt Voucher</a>
+                    <a href="#" onclick="navigateTo('view-cash-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Cash Payment Voucher</a>
+                    <a href="#" onclick="navigateTo('view-bank-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Bank Receipt Voucher</a>
+                    <a href="#" onclick="navigateTo('view-bank-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Bank Payment Voucher</a>
+                    <a href="#" onclick="navigateTo('view-create-journal', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Journal</a>
+                </div>
+            </div>
+
+            <!-- 8. HR Department -->
+            <a href="#" onclick="navigateTo('view-hr-department', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="building-2" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">HR Department</span>
+            </a>
+
+            <!-- 9. Purchase Reports -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('purRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="clipboard-list" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Purchase Reports</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="purRptMenu-arrow"></i>
+                </button>
+                <div id="purRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-date', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Date Wise Report</a>
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-supplier', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase By Supplier</a>
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Product Wise Purchase</a>
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-all', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">All Product Wise Purchase</a>
+                </div>
+            </div>
+
+            <!-- 10. Sales Reports -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('saleRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="bar-chart-2" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Sales Reports</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="saleRptMenu-arrow"></i>
+                </button>
+                <div id="saleRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-rpt-sales-daily', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Daily Sales Summary</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-item', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Sale Report</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-customer', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Customer Wise Sell Report</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-itemwise', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Wise Sales</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-loadpaper', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sell Load Paper</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-summary', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Sell Summary</a>
+                </div>
+            </div>
+
+            <!-- 11. Stock Report -->
+            <a href="#" onclick="navigateTo('view-stock-report', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="boxes" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">Stock Report</span>
+            </a>
+
+            <!-- 12. Utilities & Downloads -->
+            <a href="#" onclick="navigateTo('view-download-product-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="download" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">Download Product List</span>
+            </a>
+            <a href="#" onclick="navigateTo('view-print-customer-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="printer" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">Print Customer List</span>
+            </a>
+
+            <!-- 13. Account Reports -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="file-spreadsheets" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Account Reports</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="accRptMenu-arrow"></i>
+                </button>
+                <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-account-ledger', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Ledger</a>
+                    <a href="#" onclick="navigateTo('view-day-book', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Day Book</a>
+                    <a href="#" onclick="navigateTo('view-trail-balance', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Trail Balance</a>
+                    <a href="#" onclick="navigateTo('view-income-statement', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Income Statement</a>
+                    <a href="#" onclick="navigateTo('view-trading-pls', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Trading PLS Statement</a>
+                    <a href="#" onclick="navigateTo('view-balance-sheet', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Balance Sheet</a>
+                </div>
+            </div>
+
+            <!-- 14. Administrative -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Administrative</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 sidebar-text transition-transform duration-200 text-slate-400" id="adminMenu-arrow"></i>
+                </button>
+                <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-audit-transactions', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Audit Transactions</a>
+                    <a href="#" onclick="navigateTo('view-app-settings', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Application Settings</a>
+                    <a href="#" onclick="navigateTo('view-db-backup', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Database Backup</a>
+                </div>
+            </div>
+
+        </nav>
+
+        <!-- User Quick Profile Footer -->
+        <div class="p-3 border-t border-slate-100 flex items-center gap-3 shrink-0">
+            <div class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm">
+                HA
+            </div>
+            <div class="brand-title overflow-hidden">
+                <p class="text-xs font-bold text-slate-900 truncate">Hassnain Admin</p>
+                <p class="text-[10px] text-slate-400 font-semibold truncate">Master Administrator</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        <!-- TOP NAVBAR HEADER -->
+        <header class="h-16 bg-white border-b border-slate-200/80 px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+                <div class="flex items-center gap-2 bg-slate-100/80 px-3.5 py-1.5 rounded-full border border-slate-200/60 text-xs w-48 sm:w-72 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+                    <input type="text" placeholder="Search products, vouchers, customers..." class="bg-transparent text-slate-700 focus:outline-none w-full font-medium">
+                </div>
+            </div>
+
+            <!-- Connection Status Badge & Profile Header -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <span id="connectionBadge" class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Connecting to Supabase...
+                </span>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs">
+                        H
+                    </div>
+                    <span class="text-xs font-bold text-slate-800 hidden sm:inline">HASSNAIN</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========================================================= -->
+        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW (#view-dashboard) -->
+        <!-- ========================================================= -->
+        <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
+
+            <!-- Welcome Banner & Quick Date Filters -->
+            <div class="falcon-card p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 sm:gap-4 bg-gradient-to-r from-blue-50/40 via-white to-white">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
+                        <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Welcome to POS360</h2>
+                        <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-0.5">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                    <div class="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold shadow-sm w-full sm:w-auto justify-between sm:justify-start">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-blue-600 shrink-0"></i>
+                        <input type="date" id="dashStartDate" value="2026-07-08" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <span class="text-slate-300">to</span>
+                        <input type="date" id="dashEndDate" value="2026-08-07" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                    </div>
+                    <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-slate-500">
+                        <button onclick="setDashboardPresetDays(7)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Last 7 Days</button>
+                        <button onclick="setDashboardPresetDays(30)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Last 30 Days</button>
+                        <button onclick="setDashboardPresetDays(90)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Last 90 Days</button>
+                    </div>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button onclick="loadDashboardTelemetry()" class="btn-falcon-primary flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+                            <i data-lucide="filter" class="w-3.5 h-3.5"></i> Apply
+                        </button>
+                        <button onclick="resetDashboardFilters()" class="btn-falcon-success flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REAL-TIME DYNAMICALLY CALCULATED KPI METRIC CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                
+                <!-- Card 1: This Month Sales -->
+                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
+                    <div class="space-y-1 min-w-0">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">THIS MONTH SALES</p>
+                        <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
+                        <p id="kpiMonthSalesSub" class="text-[10px] text-slate-400 font-bold">Current Month</p>
+                    </div>
+                    <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0">
+                        <canvas id="miniBarSales"></canvas>
+                    </div>
+                </div>
+
+                <!-- Card 2: Total Sales -->
+                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
+                    <div class="space-y-1 min-w-0">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">TOTAL SALES</p>
+                        <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
+                        <p id="kpiTotalSalesSub" class="text-[10px] text-slate-400 font-bold">Selected Date Range</p>
+                    </div>
+                    <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0">
+                        <canvas id="miniLineTotalSales"></canvas>
+                    </div>
+                </div>
+
+                <!-- Card 3: This Month Purchase -->
+                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
+                    <div class="space-y-1 min-w-0">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
+                        <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
+                        <p id="kpiMonthPurchaseSub" class="text-[10px] text-slate-400 font-bold">Current Month</p>
+                    </div>
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Total Purchase -->
+                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
+                    <div class="space-y-1 min-w-0">
+                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">TOTAL PURCHASE</p>
+                        <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
+                        <p id="kpiTotalPurchaseSub" class="text-[10px] text-slate-400 font-bold">Selected Date Range</p>
+                    </div>
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0">
+                        <i data-lucide="boxes" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- DYNAMIC ANALYTICS CHARTS -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+                
+                <!-- Chart 1: Sales Overview -->
+                <div class="falcon-card p-4 sm:p-5">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="line-chart" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900 truncate">Sales Overview</h3>
+                        </div>
+                    </div>
+                    <div class="relative h-56 sm:h-64 w-full mt-3 sm:mt-4">
+                        <canvas id="salesOverviewChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Dual Area Visual for Sales vs Expenses -->
+                <div class="falcon-card p-4 sm:p-5">
+                    <div class="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="activity" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900 truncate">Sales vs Expenses</h3>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] font-extrabold">
+                            <span class="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Sales
+                            </span>
+                            <span class="inline-flex items-center gap-1 text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200/60">
+                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Expenses
+                            </span>
+                        </div>
+                    </div>
+                    <div class="relative h-56 sm:h-64 w-full mt-3 sm:mt-4">
+                        <canvas id="salesExpensesChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- REAL-TIME POPULATED TRENDING PRODUCTS & LOW STOCK ALERTS -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
+                
+                <!-- Trending Products -->
+                <div class="falcon-card p-3.5 sm:p-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
+                                <i data-lucide="flame" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">Trending Products</h3>
+                        </div>
+                        <span class="text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 px-2.5 py-0.5 rounded-md">Top List</span>
+                    </div>
+                    <div class="overflow-x-auto mt-2 sm:mt-3 custom-scrollbar">
+                        <table class="w-full text-left text-xs min-w-[320px]">
+                            <thead class="bg-slate-50 text-slate-400 font-bold text-[10px] uppercase border-b border-slate-100">
+                                <tr>
+                                    <th class="p-2 sm:p-2.5">#</th>
+                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
+                                    <th class="p-2 sm:p-2.5">PRICE</th>
+                                    <th class="p-2 sm:p-2.5">STOCK</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trendingProductsTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Querying live products from Supabase...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alert -->
+                <div class="falcon-card p-3.5 sm:p-4">
+                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">Low Stock Alert</h3>
+                        </div>
+                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md">Checking...</span>
+                    </div>
+                    <div class="overflow-x-auto mt-2 sm:mt-3 custom-scrollbar">
+                        <table class="w-full text-left text-xs min-w-[320px]">
+                            <thead class="bg-slate-50 text-slate-400 font-bold text-[10px] uppercase border-b border-slate-100">
+                                <tr>
+                                    <th class="p-2 sm:p-2.5">#</th>
+                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
+                                    <th class="p-2 sm:p-2.5">STOCK</th>
+                                    <th class="p-2 sm:p-2.5">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lowStockTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Querying stock alerts from Supabase...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- AUDIT TRANSACTIONS VIEW -->
+        <main id="view-audit-transactions" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
+            <div class="falcon-card overflow-hidden">
+                <div class="p-4 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i> Live Account Audit Logs (Supabase Connected)
+                        </h3>
+                        <p class="text-xs text-slate-400">Real-time audit log retrieved directly from PostgreSQL.</p>
+                    </div>
+                    <button onclick="fetchTransactions()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh Audit Logs
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+                            <tr>
+                                <th class="p-3 pl-5">Voucher #</th>
+                                <th class="p-3">Narration / Detail</th>
+                                <th class="p-3">Date</th>
+                                <th class="p-3">Debit</th>
+                                <th class="p-3">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="liveTransactionTable" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading live data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+
+<!-- SCRIPT CONTROLLER ENGINE -->
 <script>
     lucide.createIcons();
 
@@ -9,6 +614,7 @@
     let overviewChartInstance = null;
     let expensesChartInstance = null;
 
+    // CENTRAL SPA ROUTING ENGINE
     function navigateTo(viewId, element) {
         document.querySelectorAll('.app-view').forEach(v => v.classList.add('hidden'));
         const targetView = document.getElementById(viewId);
@@ -69,7 +675,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // REAL-TIME DATABASE ENGINE
+    // REAL-TIME DATABASE ENGINE QUERYING PRODUCTS AND TRANSACTIONS
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
@@ -79,20 +685,22 @@
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
         try {
-            // 1. Fetch Products
+            // 1. Fetch live products table from Supabase
             const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
-            if (prodErr) {
-                console.error('Products Fetch Error:', prodErr);
-                throw prodErr;
+            if (prodErr) throw prodErr;
+
+            if (badge) {
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
             const prodList = products || [];
 
-            // Populate Low Stock
+            // Populate Low Stock Alerts (Stock <= 5)
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
-                const lowItems = prodList.filter(p => Number(p.opening_stock || p.stock || 0) <= 5);
+                const lowItems = prodList.filter(p => Number(p.opening_stock ?? p.stock ?? 0) <= 5);
                 if (lowCountBadge) lowCountBadge.innerText = `${lowItems.length} Items`;
 
                 if (lowItems.length > 0) {
@@ -108,10 +716,10 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="p-2 sm:p-2.5 font-black text-rose-600 text-xs">${p.opening_stock || p.stock || 0} Piece</td>
+                            <td class="p-2 sm:p-2.5 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
                             <td class="p-2 sm:p-2.5">
                                 <span class="bg-rose-50 text-rose-600 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded border border-rose-200/60 inline-flex items-center gap-1 whitespace-nowrap">
-                                    <i data-lucide="x-circle" class="w-3 h-3 shrink-0"></i> Out of Stock
+                                    <i data-lucide="x-circle" class="w-3 h-3 shrink-0"></i> ${Number(p.opening_stock ?? p.stock ?? 0) <= 0 ? 'Out of Stock' : 'Low Stock'}
                                 </span>
                             </td>
                         </tr>
@@ -121,10 +729,12 @@
                 }
             }
 
-            // Populate Trending Products
+            // Populate Trending Products List
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
-                const topProducts = prodList.slice(0, 10);
+                const sortedProducts = [...prodList].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
+                const topProducts = sortedProducts.slice(0, 10);
+
                 if (topProducts.length > 0) {
                     trendingBody.innerHTML = topProducts.map((p, idx) => `
                         <tr class="hover:bg-slate-50/80 transition-colors">
@@ -139,25 +749,17 @@
                                 </div>
                             </td>
                             <td class="p-2 sm:p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                            <td class="p-2 sm:p-2.5 font-bold text-xs">${p.opening_stock || p.stock || 0}</td>
+                            <td class="p-2 sm:p-2.5 font-bold text-xs">${p.opening_stock ?? p.stock ?? 0}</td>
                         </tr>
                     `).join('');
                 } else {
-                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found in catalog.</td></tr>`;
                 }
             }
 
-            // 2. Fetch Transactions
+            // 2. Fetch live account transactions from Supabase
             const { data: txData, error: txErr } = await supabaseClient.from('account_transactions').select('*');
-            if (txErr) {
-                console.error('Transactions Fetch Error:', txErr);
-                throw txErr;
-            }
-
-            if (badge) {
-                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
-            }
+            if (txErr) throw txErr;
 
             const transactions = txData || [];
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
@@ -199,7 +801,7 @@
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Supabase Error:', err);
+            console.error('Supabase dynamic query error:', err);
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
@@ -207,6 +809,7 @@
         }
     }
 
+    // REAL-TIME CHART RENDERING ENGINE
     function renderDynamicCharts(salesMap, expMap) {
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
@@ -322,3 +925,5 @@
         loadDashboardTelemetry();
     };
 </script>
+</body>
+</html>
