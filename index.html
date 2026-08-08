@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS360 / ACCOUNT360 Enterprise ERP</title>
+    <title>POS360 / ACCOUNT360 Enterprise ERP - Falcon Edition</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -30,7 +30,7 @@
             transition: all 0.2s ease;
         }
         .falcon-card:hover {
-            box-shadow: 0 1rem 2rem rgba(18, 38, 63, 0.06);
+            box-shadow: 1rem 2rem rgba(18, 38, 63, 0.06);
             border-color: #ccd9e8;
         }
 
@@ -88,22 +88,22 @@
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- ========================================================= -->
-    <!-- SIDEBAR NAVIGATION (Matching Software Forest Green Theme) -->
+    <!-- SIDEBAR NAVIGATION (Authentic Falcon Admin Light Theme)     -->
     <!-- ========================================================= -->
-    <aside id="sidebar" class="w-64 bg-[#1a382b] text-slate-200 border-r border-[#142e22] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
+    <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
         <!-- Brand Logo Header -->
-        <div class="h-16 flex items-center justify-between px-4 border-b border-[#224838] shrink-0 bg-[#153124]">
+        <div class="h-16 flex items-center justify-between px-4 border-b border-[#e3ebf6] shrink-0 bg-white">
             <div class="flex items-center gap-3 overflow-hidden">
-                <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-extrabold text-base shrink-0 shadow-md">
-                    <span class="text-xs font-black">N</span>
+                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-base shrink-0 shadow-md shadow-blue-500/20">
+                    <span class="text-xs font-black">F</span>
                 </div>
                 <div class="brand-title flex flex-col truncate">
-                    <span class="font-extrabold text-sm text-white tracking-tight">NAIN</span>
-                    <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">POS360 / ACCOUNT360</span>
+                    <span class="font-extrabold text-sm text-slate-900 tracking-tight">POS360 ERP</span>
+                    <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">Falcon Edition</span>
                 </div>
             </div>
-            <button id="toggleSidebar" class="p-1.5 rounded-lg hover:bg-[#224838] text-emerald-300 transition-colors shrink-0">
+            <button id="toggleSidebar" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors shrink-0">
                 <i data-lucide="menu" class="w-5 h-5"></i>
             </button>
         </div>
@@ -112,84 +112,84 @@
         <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-xs font-semibold" id="sidebarNav">
             
             <!-- Dashboard -->
-            <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#224838] text-white font-bold shadow-sm transition-all">
-                <i data-lucide="pie-chart" class="w-4 h-4 shrink-0 text-emerald-400"></i>
+            <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-blue-600 font-bold shadow-sm transition-all">
+                <i data-lucide="pie-chart" class="w-4 h-4 shrink-0 text-blue-600"></i>
                 <span class="sidebar-text truncate">Dashboard</span>
             </a>
 
             <!-- 1. Master Profile -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
+                <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="package" class="w-4 h-4 shrink-0 text-emerald-400"></i>
+                        <i data-lucide="package" class="w-4 h-4 shrink-0 text-slate-400"></i>
                         <span class="sidebar-text truncate">Master Profile</span>
                     </div>
                     <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="masterMenu-arrow"></i>
                 </button>
-                <div id="masterMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-categories', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Categories</a>
-                    <a href="#" onclick="navigateTo('view-units', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Product Unit</a>
-                    <a href="#" onclick="navigateTo('view-taxes', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Tax Profile</a>
-                    <a href="#" onclick="navigateTo('view-create-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Create Product</a>
-                    <a href="#" onclick="navigateTo('view-products', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Products List</a>
-                    <a href="#" onclick="navigateTo('view-import-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Import Product</a>
+                <div id="masterMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-categories', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Categories</a>
+                    <a href="#" onclick="navigateTo('view-units', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Product Unit</a>
+                    <a href="#" onclick="navigateTo('view-taxes', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Tax Profile</a>
+                    <a href="#" onclick="navigateTo('view-create-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Product</a>
+                    <a href="#" onclick="navigateTo('view-products', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Products List</a>
+                    <a href="#" onclick="navigateTo('view-import-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Import Product</a>
                 </div>
             </div>
 
             <!-- 2. CRM -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
+                <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="users" class="w-4 h-4 shrink-0 text-emerald-400"></i>
+                        <i data-lucide="users" class="w-4 h-4 shrink-0 text-slate-400"></i>
                         <span class="sidebar-text truncate">CRM</span>
                     </div>
                     <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="crmMenu-arrow"></i>
                 </button>
-                <div id="crmMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-customers', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Manage Customers</a>
-                    <a href="#" onclick="navigateTo('view-suppliers', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Manage Suppliers</a>
+                <div id="crmMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-customers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Manage Customers</a>
+                    <a href="#" onclick="navigateTo('view-suppliers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Manage Suppliers</a>
                 </div>
             </div>
 
             <!-- 3. Accounts -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
+                <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="wallet" class="w-4 h-4 shrink-0 text-emerald-400"></i>
+                        <i data-lucide="wallet" class="w-4 h-4 shrink-0 text-slate-400"></i>
                         <span class="sidebar-text truncate">Accounts</span>
                     </div>
                     <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="accountsMenu-arrow"></i>
                 </button>
-                <div id="accountsMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-account-master', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Account Master</a>
-                    <a href="#" onclick="navigateTo('view-account-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Account List</a>
+                <div id="accountsMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-account-master', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Master</a>
+                    <a href="#" onclick="navigateTo('view-account-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account List</a>
                 </div>
             </div>
 
             <!-- 4. Administrative Audit Logs -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
+                <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-emerald-400"></i>
+                        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-slate-400"></i>
                         <span class="sidebar-text truncate">Administrative</span>
                     </div>
                     <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="adminMenu-arrow"></i>
                 </button>
-                <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-audit-transactions', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Audit Transactions</a>
+                <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-audit-transactions', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Audit Transactions</a>
                 </div>
             </div>
 
         </nav>
 
         <!-- User Quick Profile Footer -->
-        <div class="p-3 border-t border-[#224838] flex items-center gap-3 shrink-0 bg-[#153124]">
-            <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm">
+        <div class="p-3 border-t border-[#e3ebf6] flex items-center gap-3 shrink-0 bg-white">
+            <div class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm">
                 HA
             </div>
             <div class="brand-title overflow-hidden">
-                <p class="text-xs font-bold text-white truncate">Hassnain Admin</p>
-                <p class="text-[10px] text-emerald-400 font-semibold truncate">Master Administrator</p>
+                <p class="text-xs font-bold text-slate-900 truncate">Hassnain Admin</p>
+                <p class="text-[10px] text-slate-400 font-semibold truncate">Master Administrator</p>
             </div>
         </div>
     </aside>
@@ -236,7 +236,7 @@
                     </div>
                     <div>
                         <h2 class="text-lg sm:text-xl font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
-                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
+                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Live PostgreSQL telemetry dashboard.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -330,7 +330,7 @@
                                 <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">PRICE</th><th class="p-2">STOCK</th></tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading products...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading products from Supabase...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -338,7 +338,7 @@
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
                         <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Low Stock Alert</h3>
-                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 px-2.5 py-0.5 rounded-md">Checking...</span>
+                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md">Checking...</span>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs">
@@ -355,7 +355,7 @@
         </main>
 
         <!-- ========================================================= -->
-        <h1>PART THREE: MASTER PROFILE & OTHER MODULE VIEWS</h1>
+        <!-- MASTER PROFILE VIEWS                                     -->
         <!-- ========================================================= -->
 
         <!-- Categories View -->
@@ -621,9 +621,9 @@
         if (targetView) targetView.classList.remove('hidden');
 
         document.querySelectorAll('#sidebarNav a, .submenu a').forEach(btn => {
-            btn.classList.remove('bg-[#224838]', 'text-white', 'font-bold');
+            btn.classList.remove('bg-blue-50', 'text-blue-600', 'font-bold');
         });
-        if (element) element.classList.add('bg-[#224838]', 'text-white', 'font-bold');
+        if (element) element.classList.add('bg-blue-50', 'text-blue-600', 'font-bold');
 
         if (window.innerWidth < 768) {
             document.getElementById('sidebar').classList.add('-translate-x-full');
@@ -675,7 +675,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // SUPABASE DASHBOARD TELEMETRY & GRAPHS WITH FALLBACK HANDLING
+    // REAL SUPABASE DATABASE TELEMETRY & QUERYING
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
@@ -685,11 +685,9 @@
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
         try {
-            // Test connection with a lightweight check
+            // Live query to products table
             const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
-            if (prodErr) {
-                console.warn('Supabase RLS or table warning:', prodErr);
-            }
+            if (prodErr) throw prodErr;
 
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
@@ -698,6 +696,7 @@
 
             const prodList = products || [];
 
+            // Low stock calculation (stock <= 5)
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
@@ -721,6 +720,7 @@
                 }
             }
 
+            // Trending products sorted by price/sales
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 const sortedProducts = [...prodList].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
@@ -739,11 +739,14 @@
                         </tr>
                     `).join('');
                 } else {
-                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found in catalog.</td></tr>`;
                 }
             }
 
-            const { data: txData } = await supabaseClient.from('account_transactions').select('*');
+            // Live query to account transactions
+            const { data: txData, error: txErr } = await supabaseClient.from('account_transactions').select('*');
+            if (txErr) throw txErr;
+
             const transactions = txData || [];
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
             const now = new Date();
@@ -783,10 +786,10 @@
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Supabase telemetry error:', err);
+            console.error('Supabase query error:', err);
             if (badge) {
-                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
             }
         }
     }
@@ -888,7 +891,7 @@
             const { data } = await supabaseClient.from('categories').select('*');
             tbody.innerHTML = (data || []).map((c, idx) => `
                 <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${c.name || c.category_name}</td><td class="p-3 text-[#748194]">${c.description || '-'}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
-            `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found.</td></tr>`;
+            `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found in Supabase.</td></tr>`;
         } catch (err) {
             tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found.</td></tr>`;
         }
@@ -900,11 +903,11 @@
         const description = document.getElementById('catDesc').value;
         try {
             await supabaseClient.from('categories').insert([{ name, description }]);
-            alert('Category saved successfully.');
+            alert('Category saved to Supabase successfully.');
             document.getElementById('categoryForm').reset();
             loadCategories();
         } catch (err) {
-            alert('Error saving category.');
+            alert('Error saving category: ' + err.message);
         }
     }
 
@@ -914,7 +917,7 @@
             const { data } = await supabaseClient.from('units').select('*');
             tbody.innerHTML = (data || []).map((u, idx) => `
                 <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${u.name || u.unit_name}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
-            `).join('') || `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found.</td></tr>`;
+            `).join('') || `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found in Supabase.</td></tr>`;
         } catch (err) {
             tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found.</td></tr>`;
         }
@@ -925,11 +928,11 @@
         const name = document.getElementById('unitName').value;
         try {
             await supabaseClient.from('units').insert([{ name }]);
-            alert('Unit saved successfully.');
+            alert('Unit saved to Supabase successfully.');
             document.getElementById('unitForm').reset();
             loadUnits();
         } catch (err) {
-            alert('Error saving unit.');
+            alert('Error saving unit: ' + err.message);
         }
     }
 
@@ -939,7 +942,7 @@
             const { data } = await supabaseClient.from('tax_profiles').select('*');
             tbody.innerHTML = (data || []).map((t, idx) => `
                 <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${t.name || t.profile_name}</td><td class="p-3 font-extrabold text-blue-600">${t.rate || t.tax_rate}%</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
-            `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found.</td></tr>`;
+            `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found in Supabase.</td></tr>`;
         } catch (err) {
             tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found.</td></tr>`;
         }
@@ -951,11 +954,11 @@
         const rate = Number(document.getElementById('taxRate').value);
         try {
             await supabaseClient.from('tax_profiles').insert([{ name, rate }]);
-            alert('Tax profile saved successfully.');
+            alert('Tax profile saved to Supabase successfully.');
             document.getElementById('taxForm').reset();
             loadTaxProfiles();
         } catch (err) {
-            alert('Error saving tax profile.');
+            alert('Error saving tax profile: ' + err.message);
         }
     }
 
@@ -989,11 +992,11 @@
 
         try {
             await supabaseClient.from('products').insert([{ title, code, category, unit, cost_price, sell_price, opening_stock, tax_profile }]);
-            alert('Product published successfully.');
+            alert('Product published to Supabase successfully.');
             document.getElementById('createProductForm').reset();
             navigateTo('view-products', null);
         } catch (err) {
-            alert('Error publishing product.');
+            alert('Error publishing product: ' + err.message);
         }
     }
 
@@ -1014,7 +1017,7 @@
                         <td class="p-3 text-[#748194] font-semibold">Active</td>
                     </tr>
                 `;
-            }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
+            }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found in Supabase.</td></tr>`;
 
             document.querySelectorAll('.barcode-svg').forEach(el => {
                 const skuVal = el.getAttribute('data-sku');
@@ -1040,7 +1043,7 @@
                         <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(row.debit || 0).toLocaleString()}</td>
                         <td class="p-3 font-extrabold text-[#2c3e50]">RS. ${Number(row.credit || 0).toLocaleString()}</td>
                     </tr>
-                `).join('');
+                `).join('') || `<tr><td colspan="5" class="p-4 text-center text-slate-400">No audit transactions found in Supabase.</td></tr>`;
             }
         } catch (err) {}
     }
