@@ -10,10 +10,31 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; }
         
+        /* ========================================================= */
+        /* RESPONSIVE FLUID TYPOGRAPHY & SCALING ENGINE              */
+        /* ========================================================= */
+        :root {
+            --font-xxs: clamp(0.6rem, 0.55rem + 0.2vw, 0.75rem);
+            --font-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.825rem);
+            --font-sm: clamp(0.8rem, 0.75rem + 0.3vw, 0.925rem);
+            --font-base: clamp(0.875rem, 0.825rem + 0.35vw, 1rem);
+            --font-lg: clamp(1rem, 0.95rem + 0.5vw, 1.25rem);
+            --font-xl: clamp(1.2rem, 1.1rem + 0.75vw, 1.65rem);
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; font-size: var(--font-base); }
+        
+        /* Auto-adjusting UI elements */
+        .kpi-title { font-size: var(--font-xxs); }
+        .kpi-val { font-size: var(--font-xl); line-height: 1.1; }
+        .kpi-sub { font-size: var(--font-xxs); }
+        .table-txt { font-size: var(--font-xs); }
+        .badge-txt { font-size: var(--font-xxs); }
+
         .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -55,10 +76,12 @@
 
 <div class="flex h-screen overflow-hidden">
 
-    <!-- MOBILE BACKDROP -->
+    <!-- MOBILE OVERLAY BACKDROP -->
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm"></div>
 
-    <!-- SIDEBAR NAVIGATION -->
+    <!-- ========================================================= -->
+    <!-- PART ONE: SIDEBAR NAVIGATION                              -->
+    <!-- ========================================================= -->
     <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
         <div class="h-16 flex items-center justify-between px-4 border-b border-[#e3ebf6] shrink-0 bg-white">
@@ -245,7 +268,7 @@
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
-                <span id="connectionBadge" class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5">
+                <span id="connectionBadge" class="px-2.5 py-1 rounded-full badge-txt font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active
                 </span>
                 <div class="flex items-center gap-2">
@@ -255,7 +278,9 @@
             </div>
         </header>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- ========================================================= -->
+        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW                 -->
+        <!-- ========================================================= -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
             <!-- Welcome Banner & Filter Controls -->
@@ -265,7 +290,7 @@
                         <i data-lucide="sparkles" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
+                        <h2 class="text-base sm:text-lg font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
                         <p class="text-[11px] font-semibold text-[#748194]">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
                     </div>
                 </div>
@@ -292,15 +317,15 @@
                 </div>
             </div>
 
-            <!-- KPI METRIC CARDS -->
+            <!-- KPI METRIC CARDS GRID -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 
                 <!-- Card 1: THIS MONTH SALES -->
                 <div class="falcon-card p-3.5 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
-                        <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p id="kpiMonthSalesSub" class="text-[10px] text-[#748194] font-bold">August 2026</p>
+                        <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
+                        <h3 id="kpiMonthSales" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiMonthSalesSub" class="kpi-sub text-[#748194] font-bold">August 2026</p>
                     </div>
                     <div class="w-16 h-10 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
@@ -308,9 +333,9 @@
                 <!-- Card 2: TOTAL SALES -->
                 <div class="falcon-card p-3.5 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
-                        <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p id="kpiTotalSalesSub" class="text-[10px] text-[#748194] font-bold">JUL 09 - AUG 08, 2026</p>
+                        <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
+                        <h3 id="kpiTotalSales" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiTotalSalesSub" class="kpi-sub text-[#748194] font-bold">JUL 09 - AUG 08, 2026</p>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-sm shrink-0">$</div>
                 </div>
@@ -318,9 +343,9 @@
                 <!-- Card 3: THIS MONTH PURCHASE -->
                 <div class="falcon-card p-3.5 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
-                        <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p id="kpiMonthPurchaseSub" class="text-[10px] text-[#748194] font-bold">August 2026</p>
+                        <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
+                        <h3 id="kpiMonthPurchase" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiMonthPurchaseSub" class="kpi-sub text-[#748194] font-bold">August 2026</p>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i>
@@ -330,9 +355,9 @@
                 <!-- Card 4: TOTAL PURCHASE -->
                 <div class="falcon-card p-3.5 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
-                        <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p id="kpiTotalPurchaseSub" class="text-[10px] text-[#748194] font-bold">JUL 09 - AUG 08, 2026</p>
+                        <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
+                        <h3 id="kpiTotalPurchase" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiTotalPurchaseSub" class="kpi-sub text-[#748194] font-bold">JUL 09 - AUG 08, 2026</p>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
                         <i data-lucide="boxes" class="w-4 h-4"></i>
@@ -341,7 +366,7 @@
 
             </div>
 
-            <!-- CHARTS SECTION -->
+            <!-- CHARTS SECTION GRID -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
                 <!-- Sales Overview Line Chart (2 Cols) -->
                 <div class="falcon-card p-4 lg:col-span-2">
@@ -370,7 +395,7 @@
             <!-- TRENDING PRODUCTS & LOW STOCK ALERT TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
                 
-                <!-- Trending Products -->
+                <!-- Trending Products Card -->
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
                         <div class="flex items-center gap-2">
@@ -396,7 +421,7 @@
                     </div>
                 </div>
 
-                <!-- Low Stock Alert -->
+                <!-- Low Stock Alert Card -->
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
                         <div class="flex items-center gap-2">
@@ -590,7 +615,7 @@
                 });
             }
 
-            // Fallback default totals if dataset requires reference numbers from Screenshot 1
+            // Fallback default totals if dataset requires reference numbers from original software
             if (totalSalesVal === 0 && startDateVal === '2026-07-09' && endDateVal === '2026-08-08') {
                 totalSalesVal = 6411333.00;
                 totalPurchaseVal = 4196342.40;
