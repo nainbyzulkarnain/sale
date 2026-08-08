@@ -366,7 +366,7 @@
         </header>
 
         <!-- ========================================================= -->
-        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW (#view-dashboard) -->
+        <!-- FALCON DASHBOARD VIEW (#view-dashboard)                    -->
         <!-- ========================================================= -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
@@ -391,7 +391,7 @@
                     <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
                         <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
                         <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
-                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Selected Month</button>
+                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">This Month</button>
                         <button onclick="setDashboardPreset('all')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors font-bold">All Time</button>
                     </div>
                     <div class="flex gap-2 w-full sm:w-auto">
@@ -507,7 +507,7 @@
                 
                 <!-- Trending Products -->
                 <div class="falcon-card p-3.5 sm:p-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
                                 <i data-lucide="flame" class="w-4 h-4"></i>
@@ -521,11 +521,11 @@
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr class="h-9">
-                                    <th class="py-2 px-3 w-10 text-center">#</th>
-                                    <th class="py-2 px-3">PRODUCT</th>
-                                    <th class="py-2 px-3">PRICE</th>
-                                    <th class="py-2 px-3 text-right">STOCK</th>
+                                <tr>
+                                    <th class="p-2 sm:p-2.5">#</th>
+                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
+                                    <th class="p-2 sm:p-2.5">PRICE</th>
+                                    <th class="p-2 sm:p-2.5">CURRENT STOCK</th>
                                 </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
@@ -537,7 +537,7 @@
 
                 <!-- Low Stock Alert -->
                 <div class="falcon-card p-3.5 sm:p-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
                                 <i data-lucide="alert-triangle" class="w-4 h-4"></i>
@@ -551,11 +551,11 @@
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr class="h-9">
-                                    <th class="py-2 px-3 w-10 text-center">#</th>
-                                    <th class="py-2 px-3">PRODUCT</th>
-                                    <th class="py-2 px-3">STOCK</th>
-                                    <th class="py-2 px-3 text-right">STATUS</th>
+                                <tr>
+                                    <th class="p-2 sm:p-2.5">#</th>
+                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
+                                    <th class="p-2 sm:p-2.5">STOCK</th>
+                                    <th class="p-2 sm:p-2.5">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
@@ -615,7 +615,22 @@
     let allRawTransactions = [];
     let allRawProducts = [];
 
-    // PURE YYYY-MM-DD DATE PARSER
+    // HELPER FUNCTIONS TO GET TODAY & REAL DATES
+    function getTodayYYYYMMDD() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function getFirstDayOfCurrentMonthYYYYMMDD() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        return `${year}-${month}-01`;
+    }
+
     function parseToYYYYMMDD(raw) {
         if (!raw) return '';
         const s = String(raw).trim();
@@ -665,45 +680,43 @@
         if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    // ACCURATE PRESET DATE FILTER ENGINE
+    // REAL-TIME PRESET FILTER ENGINE
     function setDashboardPreset(presetType) {
-        if (allRawTransactions.length === 0) return;
-
-        const dateStrs = allRawTransactions
-            .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-            .filter(d => d.length === 10)
-            .sort();
-
-        if (dateStrs.length === 0) return;
-
-        const minDateStr = dateStrs[0];
-        const maxDateStr = dateStrs[dateStrs.length - 1];
-
-        let start = minDateStr;
-        let end = maxDateStr;
+        const todayStr = getTodayYYYYMMDD();
+        const today = new Date();
+        let startStr = getFirstDayOfCurrentMonthYYYYMMDD();
 
         if (presetType === '7_days') {
-            const maxD = new Date(maxDateStr + 'T00:00:00');
-            maxD.setDate(maxD.getDate() - 7);
-            start = maxD.toISOString().split('T')[0];
+            const d = new Date();
+            d.setDate(today.getDate() - 7);
+            startStr = d.toISOString().split('T')[0];
         } else if (presetType === '30_days') {
-            const maxD = new Date(maxDateStr + 'T00:00:00');
-            maxD.setDate(maxD.getDate() - 30);
-            start = maxD.toISOString().split('T')[0];
+            const d = new Date();
+            d.setDate(today.getDate() - 30);
+            startStr = d.toISOString().split('T')[0];
         } else if (presetType === 'this_month') {
-            start = maxDateStr.substring(0, 7) + '-01';
+            startStr = getFirstDayOfCurrentMonthYYYYMMDD();
         } else if (presetType === 'all') {
-            start = minDateStr;
-            end = maxDateStr;
+            if (allRawTransactions.length > 0) {
+                const dateStrs = allRawTransactions
+                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
+                    .filter(d => d.length === 10)
+                    .sort();
+                if (dateStrs.length > 0) {
+                    startStr = dateStrs[0];
+                }
+            } else {
+                startStr = '2026-01-01';
+            }
         }
 
-        document.getElementById('dashStartDate').value = start;
-        document.getElementById('dashEndDate').value = end;
+        document.getElementById('dashStartDate').value = startStr;
+        document.getElementById('dashEndDate').value = todayStr;
         loadDashboardTelemetry();
     }
 
     function resetDashboardFilters() {
-        setDashboardPreset('all');
+        setDashboardPreset('this_month');
     }
 
     function formatCurrency(val) {
@@ -711,19 +724,19 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // DYNAMIC REAL-TIME TELEMETRY ENGINE
+    // TELEMETRY ENGINE CONNECTED TO SUPABASE
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
 
         try {
-            // 1. Fetch products if not loaded
+            // Fetch Products
             if (allRawProducts.length === 0) {
                 const prodRes = await supabaseClient.from('products').select('*');
                 if (prodRes.error) throw prodRes.error;
                 allRawProducts = prodRes.data || [];
             }
 
-            // 2. Fetch transactions if not loaded
+            // Fetch Transactions
             if (allRawTransactions.length === 0) {
                 const txRes = await supabaseClient.from('account_transactions').select('*');
                 if (txRes.data) allRawTransactions = txRes.data;
@@ -735,28 +748,15 @@
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            // Auto-detect transaction date bounds to initialize date inputs dynamically
-            if (allRawTransactions.length > 0 && (!document.getElementById('dashStartDate').value || !document.getElementById('dashEndDate').value)) {
-                const dateStrs = allRawTransactions
-                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-                    .filter(d => d.length === 10)
-                    .sort();
-
-                if (dateStrs.length > 0) {
-                    document.getElementById('dashStartDate').value = dateStrs[0];
-                    document.getElementById('dashEndDate').value = dateStrs[dateStrs.length - 1];
-                }
-            }
-
-            const startDateVal = document.getElementById('dashStartDate').value || '2026-01-01';
-            const endDateVal = document.getElementById('dashEndDate').value || '2026-12-31';
+            const startDateVal = document.getElementById('dashStartDate').value || getFirstDayOfCurrentMonthYYYYMMDD();
+            const endDateVal = document.getElementById('dashEndDate').value || getTodayYYYYMMDD();
 
             document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiMonthSalesLabel').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiMonthPurchaseLabel').innerText = `${startDateVal} to ${endDateVal}`;
 
-            // Render Low Stock Table (Fixed height row-by-row alignment)
+            // Low Stock Table
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
@@ -770,22 +770,22 @@
                         const stockVal = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
                         const isZero = stockVal <= 0;
                         return `
-                            <tr class="h-12 hover:bg-slate-50/80 transition-colors border-b border-[#e3ebf6] last:border-b-0">
-                                <td class="py-2 px-3 w-10 text-center font-bold text-slate-400 text-xs">${idx + 1}</td>
-                                <td class="py-2 px-3">
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-2.5 font-bold text-slate-400 text-xs">${idx + 1}</td>
+                                <td class="p-2.5">
                                     <div class="flex items-center gap-2">
                                         <div class="w-6 h-6 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-[10px] shrink-0">
                                             <i data-lucide="package-x" class="w-3.5 h-3.5"></i>
                                         </div>
-                                        <div class="truncate max-w-[180px]">
-                                            <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
-                                            <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
+                                        <div>
+                                            <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                            <span class="text-[10px] text-[#748194] font-medium">${p.code || p.sku || 'SKU'}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="py-2 px-3 font-black text-rose-600 text-xs whitespace-nowrap">${stockVal} Piece</td>
-                                <td class="py-2 px-3 text-right">
-                                    <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1 whitespace-nowrap">
+                                <td class="p-2.5 font-black text-rose-600 text-xs">${stockVal} Piece</td>
+                                <td class="p-2.5">
+                                    <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1">
                                         <span class="w-1.5 h-1.5 rounded-full ${isZero ? 'bg-rose-500' : 'bg-amber-500'}"></span> ${isZero ? 'Out of Stock' : 'Low Stock'}
                                     </span>
                                 </td>
@@ -797,7 +797,7 @@
                 }
             }
 
-            // Render Trending Products Table (Fixed height row-by-row alignment)
+            // Trending Products Table
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 const sortedProducts = [...allRawProducts].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
@@ -807,23 +807,23 @@
                     trendingBody.innerHTML = topProducts.map((p, idx) => {
                         const stockVal = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
                         return `
-                            <tr class="h-12 hover:bg-slate-50/80 transition-colors border-b border-[#e3ebf6] last:border-b-0">
-                                <td class="py-2 px-3 w-10 text-center font-bold text-xs ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">
-                                    <span class="w-5 h-5 rounded-full ${idx < 3 ? 'bg-amber-50 text-amber-600' : 'bg-slate-100 text-slate-500'} inline-flex items-center justify-center font-black text-[10px]">${idx + 1}</span>
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-2.5 font-bold text-xs ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">
+                                    ${idx < 3 ? `<span class="w-5 h-5 rounded-full bg-amber-50 text-amber-600 inline-flex items-center justify-center font-black text-[10px]">${idx + 1}</span>` : idx + 1}
                                 </td>
-                                <td class="py-2 px-3">
+                                <td class="p-2.5">
                                     <div class="flex items-center gap-2">
                                         <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[10px] shrink-0">
                                             <i data-lucide="package" class="w-3.5 h-3.5"></i>
                                         </div>
-                                        <div class="truncate max-w-[180px]">
-                                            <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
-                                            <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
+                                        <div>
+                                            <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                            <span class="text-[10px] text-[#748194] font-medium">${p.code || p.sku || 'SKU'}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="py-2 px-3 text-emerald-600 font-extrabold text-xs whitespace-nowrap">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                                <td class="py-2 px-3 text-right font-bold text-xs text-slate-700 whitespace-nowrap">${stockVal}</td>
+                                <td class="p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
+                                <td class="p-2.5 font-bold text-xs text-slate-700">${stockVal}</td>
                             </tr>
                         `;
                     }).join('');
@@ -832,7 +832,7 @@
                 }
             }
 
-            // Calculate Metrics strictly matching date window using YYYY-MM-DD string matching
+            // Calculate Metrics strictly matching date range using YYYY-MM-DD string matching
             let totalSalesVal = 0;
             let totalPurchaseVal = 0;
             const dailySalesMap = {};
@@ -841,6 +841,7 @@
             allRawTransactions.forEach(t => {
                 const cr = Number(t.credit || t.amount || 0);
                 const dr = Number(t.debit || 0);
+                
                 const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
 
                 if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
@@ -852,7 +853,7 @@
                 }
             });
 
-            // Synchronize KPI Cards
+            // Update KPI Cards
             document.getElementById('kpiMonthSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(totalPurchaseVal);
@@ -870,9 +871,8 @@
         }
     }
 
-    // SAFE & ACCURATE CHART RENDERING ENGINE
+    // CHART RENDERING ENGINE
     function renderDynamicCharts(salesMap, expMap, startDateStr, endDateStr) {
-        // Mini Sparklines
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
             if (miniBarChartInstance) miniBarChartInstance.destroy();
@@ -994,6 +994,8 @@
     }
 
     window.onload = () => {
+        document.getElementById('dashStartDate').value = getFirstDayOfCurrentMonthYYYYMMDD();
+        document.getElementById('dashEndDate').value = getTodayYYYYMMDD();
         loadDashboardTelemetry();
     };
 </script>
