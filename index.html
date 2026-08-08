@@ -86,7 +86,7 @@
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- ========================================================= -->
-    <!-- PART ONE: SIDEBAR NAVIGATION (15 Modules, 38 Submodules)  -->
+    <!-- SIDEBAR NAVIGATION (15 Modules, 38 Submodules)            -->
     <!-- ========================================================= -->
     <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
@@ -366,7 +366,7 @@
         </header>
 
         <!-- ========================================================= -->
-        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW (#view-dashboard) -->
+        <!-- FALCON DASHBOARD VIEW (#view-dashboard)                    -->
         <!-- ========================================================= -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
@@ -384,14 +384,14 @@
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                     <div class="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#e3ebf6] text-xs font-semibold shadow-sm w-full sm:w-auto justify-between sm:justify-start">
                         <i data-lucide="calendar" class="w-3.5 h-3.5 text-blue-600 shrink-0"></i>
-                        <input type="date" id="dashStartDate" value="2026-01-23" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <input type="date" id="dashStartDate" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
                         <span class="text-slate-300">to</span>
-                        <input type="date" id="dashEndDate" value="2026-08-08" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <input type="date" id="dashEndDate" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
                     </div>
                     <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
                         <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
                         <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
-                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Active Month</button>
+                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Selected Month</button>
                         <button onclick="setDashboardPreset('all')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors font-bold">All Time</button>
                     </div>
                     <div class="flex gap-2 w-full sm:w-auto">
@@ -408,20 +408,20 @@
             <!-- KPI METRIC CARDS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 
-                <!-- Card 1: Active Month Sales -->
+                <!-- Card 1: Sales in Selected Period -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
                             <i data-lucide="trending-up" class="w-3.5 h-3.5 text-blue-600"></i>
-                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">ACTIVE MONTH SALES</p>
+                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">PERIOD SALES</p>
                         </div>
                         <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthSalesLabel">Active Month</p>
+                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthSalesLabel">Selected Range</p>
                     </div>
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
 
-                <!-- Card 2: Total Sales (Filtered Window) -->
+                <!-- Card 2: Total Revenue (Selected Window) -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
@@ -434,22 +434,22 @@
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniLineTotalSales"></canvas></div>
                 </div>
 
-                <!-- Card 3: Active Month Purchase -->
+                <!-- Card 3: Purchase in Selected Period -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
                             <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-amber-500"></i>
-                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">ACTIVE MONTH PURCHASE</p>
+                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">PERIOD PURCHASE</p>
                         </div>
                         <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthPurchaseLabel">Active Month</p>
+                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthPurchaseLabel">Selected Range</p>
                     </div>
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     </div>
                 </div>
 
-                <!-- Card 4: Total Purchase (Filtered Window) -->
+                <!-- Card 4: Total Purchase (Selected Window) -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
@@ -476,7 +476,7 @@
                             </div>
                             <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales Overview</h3>
                         </div>
-                        <span id="chartSalesRangeLabel" class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">Live Timeline</span>
+                        <span id="chartSalesRangeLabel" class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">Filtered Timeline</span>
                     </div>
                     <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesOverviewChart"></canvas></div>
                 </div>
@@ -606,7 +606,7 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // GLOBAL CHART INSTANCES (Prevents "Canvas is already in use" crashes)
+    // GLOBAL CHART INSTANCES
     let miniBarChartInstance = null;
     let miniLineChartInstance = null;
     let overviewChartInstance = null;
@@ -614,6 +614,22 @@
 
     let allRawTransactions = [];
     let allRawProducts = [];
+    let isInitialLoad = true;
+
+    // PURE YYYY-MM-DD DATE PARSER (IMMUNE TO TIMEZONE SHIFTS)
+    function parseToYYYYMMDD(raw) {
+        if (!raw) return '';
+        const s = String(raw).trim();
+        if (s.includes('T')) return s.split('T')[0];
+        if (s.includes(' ')) return s.split(' ')[0];
+        if (s.includes('/')) {
+            const parts = s.split('/');
+            if (parts[2] && parts[2].length === 4) {
+                return `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+            }
+        }
+        return s;
+    }
 
     function navigateTo(viewId, element) {
         document.querySelectorAll('.app-view').forEach(v => v.classList.add('hidden'));
@@ -652,23 +668,38 @@
 
     // ACCURATE PRESET DATE FILTER ENGINE
     function setDashboardPreset(presetType) {
-        let start = new Date('2026-01-23');
-        let end = new Date('2026-08-08');
+        if (allRawTransactions.length === 0) return;
+
+        const dateStrs = allRawTransactions
+            .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
+            .filter(d => d.length === 10)
+            .sort();
+
+        if (dateStrs.length === 0) return;
+
+        const minDateStr = dateStrs[0];
+        const maxDateStr = dateStrs[dateStrs.length - 1];
+
+        let start = minDateStr;
+        let end = maxDateStr;
 
         if (presetType === '7_days') {
-            start = new Date('2026-08-01');
+            const maxD = new Date(maxDateStr + 'T00:00:00');
+            maxD.setDate(maxD.getDate() - 7);
+            start = maxD.toISOString().split('T')[0];
         } else if (presetType === '30_days') {
-            start = new Date('2026-07-09');
+            const maxD = new Date(maxDateStr + 'T00:00:00');
+            maxD.setDate(maxD.getDate() - 30);
+            start = maxD.toISOString().split('T')[0];
         } else if (presetType === 'this_month') {
-            start = new Date('2026-02-01');
-            end = new Date('2026-02-28');
+            start = maxDateStr.substring(0, 7) + '-01';
         } else if (presetType === 'all') {
-            start = new Date('2026-01-23');
-            end = new Date('2026-08-08');
+            start = minDateStr;
+            end = maxDateStr;
         }
 
-        document.getElementById('dashStartDate').value = start.toISOString().split('T')[0];
-        document.getElementById('dashEndDate').value = end.toISOString().split('T')[0];
+        document.getElementById('dashStartDate').value = start;
+        document.getElementById('dashEndDate').value = end;
         loadDashboardTelemetry();
     }
 
@@ -681,24 +712,22 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // DYNAMIC REAL-TIME TELEMETRY & AUTOMATIC ACTIVE MONTH CALCULATION
+    // REAL DYNAMIC TELEMETRY ENGINE WITH PURE STRING DATE MATCHING
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
-        const startDateVal = document.getElementById('dashStartDate').value;
-        const endDateVal = document.getElementById('dashEndDate').value;
-
-        const startTimestamp = new Date(startDateVal + 'T00:00:00').getTime();
-        const endTimestamp = new Date(endDateVal + 'T23:59:59').getTime();
-
-        document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
-        document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
         try {
-            // 1. Fetch live products catalog from Supabase
+            // 1. Fetch products
             if (allRawProducts.length === 0) {
                 const prodRes = await supabaseClient.from('products').select('*');
                 if (prodRes.error) throw prodRes.error;
                 allRawProducts = prodRes.data || [];
+            }
+
+            // 2. Fetch transactions
+            if (allRawTransactions.length === 0) {
+                const txRes = await supabaseClient.from('account_transactions').select('*');
+                if (txRes.data) allRawTransactions = txRes.data;
             }
 
             // Connection Badge Update
@@ -707,7 +736,29 @@
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            // Render Low Stock Table (Check current_stock, stock_qty, stock, or opening_stock)
+            // Auto-sync initial date picker inputs to match actual dataset range on first load
+            if (isInitialLoad && allRawTransactions.length > 0) {
+                const dateStrs = allRawTransactions
+                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
+                    .filter(d => d.length === 10)
+                    .sort();
+
+                if (dateStrs.length > 0) {
+                    document.getElementById('dashStartDate').value = dateStrs[0];
+                    document.getElementById('dashEndDate').value = dateStrs[dateStrs.length - 1];
+                }
+                isInitialLoad = false;
+            }
+
+            const startDateVal = document.getElementById('dashStartDate').value;
+            const endDateVal = document.getElementById('dashEndDate').value;
+
+            document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
+            document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
+            document.getElementById('kpiMonthSalesLabel').innerText = `${startDateVal} to ${endDateVal}`;
+            document.getElementById('kpiMonthPurchaseLabel').innerText = `${startDateVal} to ${endDateVal}`;
+
+            // Low Stock Table
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
@@ -748,7 +799,7 @@
                 }
             }
 
-            // Render Trending Products Table
+            // Trending Products Table
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 const sortedProducts = [...allRawProducts].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
@@ -783,61 +834,33 @@
                 }
             }
 
-            // 2. Fetch live account transactions from Supabase
-            if (allRawTransactions.length === 0) {
-                const txRes = await supabaseClient.from('account_transactions').select('*');
-                if (txRes.data) allRawTransactions = txRes.data;
-            }
-
-            // Automatically detect the latest active transaction month from database
-            const validDates = allRawTransactions
-                .map(t => new Date(t.voucher_date || t.date || t.created_at))
-                .filter(d => !isNaN(d.getTime()));
-
-            const latestDate = validDates.length > 0 ? new Date(Math.max(...validDates)) : new Date('2026-02-28');
-            const activeMonth = latestDate.getMonth();
-            const activeYear = latestDate.getFullYear();
-
-            let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
+            // Calculate Sales & Purchases strictly matching selected date window using YYYY-MM-DD string comparison
+            let totalSalesVal = 0;
+            let totalPurchaseVal = 0;
             const dailySalesMap = {};
             const dailyExpMap = {};
 
-            // Calculate Metrics strictly inside user selected date range
             allRawTransactions.forEach(t => {
                 const cr = Number(t.credit || t.amount || 0);
                 const dr = Number(t.debit || 0);
                 
-                const rawDate = t.voucher_date || t.date || t.created_at;
-                const tDate = rawDate ? new Date(rawDate) : latestDate;
-                const tTime = tDate.getTime();
-                const formattedDateKey = tDate.toISOString().split('T')[0];
+                const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
 
-                // Strict filter for selected start and end date inputs
-                if (tTime >= startTimestamp && tTime <= endTimestamp) {
+                // Pure string comparison (100% immune to JS timezone offsets!)
+                if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
                     totalSalesVal += cr;
                     totalPurchaseVal += dr;
                     
-                    dailySalesMap[formattedDateKey] = (dailySalesMap[formattedDateKey] || 0) + cr;
-                    dailyExpMap[formattedDateKey] = (dailyExpMap[formattedDateKey] || 0) + dr;
-                }
-
-                // Sum metrics for the latest active month in dataset
-                if (tDate.getMonth() === activeMonth && tDate.getFullYear() === activeYear) {
-                    monthSalesVal += cr;
-                    monthPurchaseVal += dr;
+                    dailySalesMap[tDateStr] = (dailySalesMap[tDateStr] || 0) + cr;
+                    dailyExpMap[tDateStr] = (dailyExpMap[tDateStr] || 0) + dr;
                 }
             });
 
-            // Update KPI metric values
-            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal);
+            // Synchronize ALL FOUR KPI Cards to the selected date range
+            document.getElementById('kpiMonthSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
-            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
+            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(totalPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
-
-            // Dynamic Month Label
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            document.getElementById('kpiMonthSalesLabel').innerText = `${monthNames[activeMonth]} ${activeYear}`;
-            document.getElementById('kpiMonthPurchaseLabel').innerText = `${monthNames[activeMonth]} ${activeYear}`;
 
             renderDynamicCharts(dailySalesMap, dailyExpMap, startDateVal, endDateVal);
             lucide.createIcons();
@@ -874,7 +897,6 @@
             });
         }
 
-        // Generate X-Axis Timeline Labels strictly for selected date window
         const sortedDates = Object.keys(salesMap).sort();
         let chartLabels = [];
         let chartDataSales = [];
@@ -976,7 +998,7 @@
     }
 
     window.onload = () => {
-        setDashboardPreset('all');
+        loadDashboardTelemetry();
     };
 </script>
 </body>
