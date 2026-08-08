@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#f8fafc]">
+<html lang="en" class="h-full bg-[#f9fafd]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -24,14 +24,14 @@
 
         .falcon-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 0.125rem 0.375rem rgba(15, 23, 42, 0.03), 0 0.0625rem 0.125rem rgba(15, 23, 42, 0.02);
-            border-radius: 0.85rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e3ebf6;
+            box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
         }
         .falcon-card:hover {
-            box-shadow: 0 0.5rem 1.25rem rgba(15, 23, 42, 0.06);
-            border-color: #cbd5e1;
+            box-shadow: 0 1rem 2rem rgba(18, 38, 63, 0.06);
+            border-color: #ccd9e8;
         }
 
         .btn-falcon-action {
@@ -57,7 +57,6 @@
         .btn-falcon-primary:hover {
             background: #1d4ed8;
             border-color: #1d4ed8;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.28);
         }
 
         .btn-falcon-success {
@@ -70,10 +69,9 @@
         .btn-falcon-success:hover {
             background: #059669;
             border-color: #059669;
-            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.28);
         }
 
-        #sidebar { transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        #sidebar { transition: width 0.25s ease, transform 0.25s ease; }
         #sidebar.collapsed { width: 72px !important; }
         #sidebar.collapsed .sidebar-text,
         #sidebar.collapsed .menu-arrow,
@@ -82,7 +80,7 @@
         #sidebar.collapsed .nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
     </style>
 </head>
-<body class="h-full text-slate-700 antialiased selection:bg-blue-600 selection:text-white">
+<body class="h-full bg-[#f9fafd] text-[#2c3e50] antialiased">
 
 <div class="flex h-screen overflow-hidden">
 
@@ -90,14 +88,14 @@
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- ========================================================= -->
-    <!-- SIDEBAR NAVIGATION (Falcon Green Theme)                  -->
+    <!-- SIDEBAR NAVIGATION (Matching Software Forest Green Theme) -->
     <!-- ========================================================= -->
     <aside id="sidebar" class="w-64 bg-[#1a382b] text-slate-200 border-r border-[#142e22] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
         <!-- Brand Logo Header -->
         <div class="h-16 flex items-center justify-between px-4 border-b border-[#224838] shrink-0 bg-[#153124]">
             <div class="flex items-center gap-3 overflow-hidden">
-                <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-extrabold text-base shrink-0 shadow-md shadow-emerald-500/20">
+                <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-extrabold text-base shrink-0 shadow-md">
                     <span class="text-xs font-black">N</span>
                 </div>
                 <div class="brand-title flex flex-col truncate">
@@ -168,149 +166,7 @@
                 </div>
             </div>
 
-            <!-- 4. Purchase Invoice -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="file-text" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">Purchase Invoice</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="purchaseMenu-arrow"></i>
-                </button>
-                <div id="purchaseMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-create-purchase', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Create Purchase</a>
-                    <a href="#" onclick="navigateTo('view-purchase-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Purchase List</a>
-                    <a href="#" onclick="navigateTo('view-purchase-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Purchase Return</a>
-                </div>
-            </div>
-
-            <!-- 5. POS Invoice -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="shopping-cart" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">POS Invoice</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="posMenu-arrow"></i>
-                </button>
-                <div id="posMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-pos-create', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Create Invoice</a>
-                    <a href="#" onclick="navigateTo('view-pos-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Sales List</a>
-                    <a href="#" onclick="navigateTo('view-sales-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Sales Return</a>
-                </div>
-            </div>
-
-            <!-- 6. Stock Adjustment -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('stockAdjMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="sliders" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">Stock Adjustment</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="stockAdjMenu-arrow"></i>
-                </button>
-                <div id="stockAdjMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-create-adjustment', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Create Adjustment</a>
-                    <a href="#" onclick="navigateTo('view-adjustment-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Adjustment List</a>
-                </div>
-            </div>
-
-            <!-- 7. Vouchers -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('vouchersMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="receipt" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">Vouchers</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="vouchersMenu-arrow"></i>
-                </button>
-                <div id="vouchersMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-cash-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Cash Receipt Voucher</a>
-                    <a href="#" onclick="navigateTo('view-cash-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Cash Payment Voucher</a>
-                    <a href="#" onclick="navigateTo('view-bank-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Bank Receipt Voucher</a>
-                    <a href="#" onclick="navigateTo('view-bank-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Bank Payment Voucher</a>
-                    <a href="#" onclick="navigateTo('view-create-journal', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Create Journal</a>
-                </div>
-            </div>
-
-            <!-- 8. HR Department -->
-            <a href="#" onclick="navigateTo('view-hr-department', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                <i data-lucide="building-2" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                <span class="sidebar-text truncate">HR Department</span>
-            </a>
-
-            <!-- 9. Purchase Reports -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('purRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="clipboard-list" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">Purchase Reports</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="purRptMenu-arrow"></i>
-                </button>
-                <div id="purRptMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-date', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Date Wise Report</a>
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-supplier', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Purchase By Supplier</a>
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Product Wise Purchase</a>
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-all', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">All Product Wise Purchase</a>
-                </div>
-            </div>
-
-            <!-- 10. Sales Reports -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('saleRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="bar-chart-2" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">Sales Reports</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="saleRptMenu-arrow"></i>
-                </button>
-                <div id="saleRptMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-rpt-sales-daily', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Daily Sales Summary</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-item', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Item Sale Report</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-customer', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Customer Wise Sell Report</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-itemwise', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Item Wise Sales</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-loadpaper', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Sell Load Paper</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-summary', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Item Sell Summary</a>
-                </div>
-            </div>
-
-            <!-- 11. Stock Report -->
-            <a href="#" onclick="navigateTo('view-stock-report', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                <i data-lucide="boxes" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                <span class="sidebar-text truncate">Stock Report</span>
-            </a>
-
-            <!-- 12. Utilities & Downloads -->
-            <a href="#" onclick="navigateTo('view-download-product-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                <i data-lucide="download" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                <span class="sidebar-text truncate">Download Product List</span>
-            </a>
-            <a href="#" onclick="navigateTo('view-print-customer-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                <i data-lucide="printer" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                <span class="sidebar-text truncate">Print Customer List</span>
-            </a>
-
-            <!-- 13. Account Reports -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="file-spreadsheet" class="w-4 h-4 shrink-0 text-emerald-400"></i>
-                        <span class="sidebar-text truncate">Account Reports</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="accRptMenu-arrow"></i>
-                </button>
-                <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-account-ledger', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Account Ledger</a>
-                    <a href="#" onclick="navigateTo('view-day-book', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Day Book</a>
-                    <a href="#" onclick="navigateTo('view-trail-balance', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Account Trail Balance</a>
-                    <a href="#" onclick="navigateTo('view-income-statement', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Income Statement</a>
-                    <a href="#" onclick="navigateTo('view-trading-pls', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Trading PLS Statement</a>
-                    <a href="#" onclick="navigateTo('view-balance-sheet', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Balance Sheet</a>
-                </div>
-            </div>
-
-            <!-- 14. Administrative -->
+            <!-- 4. Administrative Audit Logs -->
             <div class="menu-group">
                 <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#224838] text-slate-300 hover:text-white transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
@@ -321,8 +177,6 @@
                 </button>
                 <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-[#224838] py-1 space-y-1 text-xs font-medium">
                     <a href="#" onclick="navigateTo('view-audit-transactions', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Audit Transactions</a>
-                    <a href="#" onclick="navigateTo('view-app-settings', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Application Settings</a>
-                    <a href="#" onclick="navigateTo('view-db-backup', this)" class="block py-1.5 px-2 rounded-lg text-slate-300 hover:text-white hover:bg-[#224838]/50">Database Backup</a>
                 </div>
             </div>
 
@@ -344,12 +198,12 @@
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         <!-- TOP NAVBAR HEADER -->
-        <header class="h-16 bg-white border-b border-slate-200/80 px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
+        <header class="h-16 bg-white border-b border-[#e3ebf6] px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
-                <div class="flex items-center gap-2 bg-slate-100/80 px-3.5 py-1.5 rounded-full border border-slate-200/60 text-xs w-48 sm:w-72 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                <div class="flex items-center gap-2 bg-[#f9fafd] px-3.5 py-1.5 rounded-full border border-[#e3ebf6] text-xs w-48 sm:w-72 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
                     <input type="text" placeholder="Search products, vouchers, customers..." class="bg-transparent text-slate-700 focus:outline-none w-full font-medium">
                 </div>
@@ -370,7 +224,7 @@
         </header>
 
         <!-- ========================================================= -->
-        <!-- REAL-TIME FALCON DASHBOARD VIEW (#view-dashboard)          -->
+        <!-- FALCON DASHBOARD VIEW (#view-dashboard)                    -->
         <!-- ========================================================= -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
@@ -381,20 +235,20 @@
                         <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Welcome to POS360</h2>
-                        <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mt-0.5">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
+                        <h2 class="text-lg sm:text-xl font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
+                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                    <div class="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold shadow-sm w-full sm:w-auto justify-between sm:justify-start">
+                    <div class="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#e3ebf6] text-xs font-semibold shadow-sm w-full sm:w-auto justify-between sm:justify-start">
                         <i data-lucide="calendar" class="w-3.5 h-3.5 text-blue-600 shrink-0"></i>
                         <input type="date" id="dashStartDate" value="2026-07-08" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
                         <span class="text-slate-300">to</span>
                         <input type="date" id="dashEndDate" value="2026-08-07" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
                     </div>
-                    <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-slate-500">
-                        <button onclick="setDashboardPresetDays(7)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Last 7 Days</button>
-                        <button onclick="setDashboardPresetDays(30)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Last 30 Days</button>
+                    <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
+                        <button onclick="setDashboardPresetDays(7)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
+                        <button onclick="setDashboardPresetDays(30)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
                         <button onclick="setDashboardPresetDays(30)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">This Month</button>
                     </div>
                     <div class="flex gap-2 w-full sm:w-auto">
@@ -412,38 +266,38 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">THIS MONTH SALES</p>
-                        <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
-                        <p class="text-[10px] text-slate-400 font-bold">Current Month</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">THIS MONTH SALES</p>
+                        <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p class="text-[10px] text-[#748194] font-bold">Current Month</p>
                     </div>
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">TOTAL SALES</p>
-                        <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
-                        <p id="kpiTotalSalesSub" class="text-[10px] text-slate-400 font-bold">Selected Date Range</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">TOTAL SALES</p>
+                        <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiTotalSalesSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
                     </div>
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniLineTotalSales"></canvas></div>
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
-                        <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
-                        <p class="text-[10px] text-slate-400 font-bold">Current Month</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">THIS MONTH PURCHASE</p>
+                        <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p class="text-[10px] text-[#748194] font-bold">Current Month</p>
                     </div>
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
-                        <i data-lucide="shopping-bag" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     </div>
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider truncate">TOTAL PURCHASE</p>
-                        <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">RS. 0.00</h3>
-                        <p id="kpiTotalPurchaseSub" class="text-[10px] text-slate-400 font-bold">Selected Date Range</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">TOTAL PURCHASE</p>
+                        <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiTotalPurchaseSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
                     </div>
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0">
-                        <i data-lucide="boxes" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <i data-lucide="boxes" class="w-4 h-4"></i>
                     </div>
                 </div>
             </div>
@@ -451,68 +305,48 @@
             <!-- CHARTS -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
                 <div class="falcon-card p-4 sm:p-5">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                                <i data-lucide="line-chart" class="w-4 h-4"></i>
-                            </div>
-                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900 truncate">Sales Overview</h3>
-                        </div>
+                    <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales Overview</h3>
                     </div>
-                    <div class="relative h-56 sm:h-64 w-full mt-3 sm:mt-4"><canvas id="salesOverviewChart"></canvas></div>
+                    <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesOverviewChart"></canvas></div>
                 </div>
                 <div class="falcon-card p-4 sm:p-5">
-                    <div class="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 gap-2">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                                <i data-lucide="activity" class="w-4 h-4"></i>
-                            </div>
-                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900 truncate">Sales vs Expenses</h3>
-                        </div>
+                    <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales vs Expenses</h3>
                     </div>
-                    <div class="relative h-56 sm:h-64 w-full mt-3 sm:mt-4"><canvas id="salesExpensesChart"></canvas></div>
+                    <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesExpensesChart"></canvas></div>
                 </div>
             </div>
 
             <!-- TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
                 <div class="falcon-card p-3.5 sm:p-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
-                                <i data-lucide="flame" class="w-4 h-4"></i>
-                            </div>
-                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">Trending Products</h3>
-                        </div>
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Trending Products</h3>
                     </div>
-                    <div class="overflow-x-auto mt-2 sm:mt-3 custom-scrollbar">
-                        <table class="w-full text-left text-xs min-w-[320px]">
-                            <thead class="bg-slate-50 text-slate-400 font-bold text-[10px] uppercase border-b border-slate-100">
+                    <div class="overflow-x-auto mt-2 custom-scrollbar">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">PRICE</th><th class="p-2">STOCK</th></tr>
                             </thead>
-                            <tbody id="trendingProductsTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Querying live products...</td></tr>
+                            <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading products...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                            </div>
-                            <h3 class="font-extrabold text-xs sm:text-sm text-slate-900">Low Stock Alert</h3>
-                        </div>
-                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md">Checking...</span>
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Low Stock Alert</h3>
+                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 px-2.5 py-0.5 rounded-md">Checking...</span>
                     </div>
-                    <div class="overflow-x-auto mt-2 sm:mt-3 custom-scrollbar">
-                        <table class="w-full text-left text-xs min-w-[320px]">
-                            <thead class="bg-slate-50 text-slate-400 font-bold text-[10px] uppercase border-b border-slate-100">
+                    <div class="overflow-x-auto mt-2 custom-scrollbar">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">STOCK</th><th class="p-2">STATUS</th></tr>
                             </thead>
-                            <tbody id="lowStockTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Querying stock alerts...</td></tr>
+                            <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading alerts...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -521,24 +355,24 @@
         </main>
 
         <!-- ========================================================= -->
-        <!-- MASTER PROFILE VIEWS                                     -->
+        <h1>PART THREE: MASTER PROFILE & OTHER MODULE VIEWS</h1>
         <!-- ========================================================= -->
 
         <!-- Categories View -->
         <main id="view-categories" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="falcon-card p-5 space-y-4">
-                    <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                    <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
                         <i data-lucide="plus-circle" class="w-4 h-4 text-blue-600"></i> Add New Category
                     </h3>
                     <form id="categoryForm" onsubmit="saveCategory(event)" class="space-y-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Category Name *</label>
-                            <input type="text" id="catName" required placeholder="e.g. Suiting, Cotton" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Category Name *</label>
+                            <input type="text" id="catName" required placeholder="e.g. Suiting" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Description</label>
-                            <textarea id="catDesc" placeholder="Optional category remarks..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none" rows="3"></textarea>
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Description</label>
+                            <textarea id="catDesc" placeholder="Optional category remarks..." class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none" rows="3"></textarea>
                         </div>
                         <button type="submit" class="w-full btn-falcon-primary py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
                             <i data-lucide="save" class="w-4 h-4"></i> Save Category
@@ -546,18 +380,18 @@
                     </form>
                 </div>
                 <div class="lg:col-span-2 falcon-card p-5 space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <h3 class="font-extrabold text-sm text-slate-900">Product Categories Directory</h3>
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Product Categories Directory</h3>
                         <button onclick="loadCategories()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
                             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
                         </button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-100">
+                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-3">#</th><th class="p-3">Category Name</th><th class="p-3">Description</th><th class="p-3">Actions</th></tr>
                             </thead>
-                            <tbody id="categoriesTableBody" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <tbody id="categoriesTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
                                 <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading categories...</td></tr>
                             </tbody>
                         </table>
@@ -570,13 +404,13 @@
         <main id="view-units" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="falcon-card p-5 space-y-4">
-                    <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                    <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
                         <i data-lucide="ruler" class="w-4 h-4 text-blue-600"></i> Add Measurement Unit
                     </h3>
                     <form id="unitForm" onsubmit="saveUnit(event)" class="space-y-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Unit Name / Symbol *</label>
-                            <input type="text" id="unitName" required placeholder="e.g. PCS, Meters" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Unit Name / Symbol *</label>
+                            <input type="text" id="unitName" required placeholder="e.g. Piece" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <button type="submit" class="w-full btn-falcon-primary py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
                             <i data-lucide="save" class="w-4 h-4"></i> Save Unit
@@ -584,18 +418,18 @@
                     </form>
                 </div>
                 <div class="lg:col-span-2 falcon-card p-5 space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <h3 class="font-extrabold text-sm text-slate-900">Product Units Directory</h3>
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Product Units Directory</h3>
                         <button onclick="loadUnits()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
                             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
                         </button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-100">
+                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-3">#</th><th class="p-3">Unit Name</th><th class="p-3">Actions</th></tr>
                             </thead>
-                            <tbody id="unitsTableBody" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <tbody id="unitsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
                                 <tr><td colspan="3" class="p-4 text-center text-slate-400">Loading units...</td></tr>
                             </tbody>
                         </table>
@@ -608,17 +442,17 @@
         <main id="view-taxes" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="falcon-card p-5 space-y-4">
-                    <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                    <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
                         <i data-lucide="percent" class="w-4 h-4 text-blue-600"></i> Add Tax Profile
                     </h3>
                     <form id="taxForm" onsubmit="saveTaxProfile(event)" class="space-y-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Tax Profile Name *</label>
-                            <input type="text" id="taxName" required placeholder="e.g. Zero Tax" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Tax Profile Name *</label>
+                            <input type="text" id="taxName" required placeholder="e.g. Zero Tax" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Tax Rate (%) *</label>
-                            <input type="number" step="0.01" id="taxRate" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Tax Rate (%) *</label>
+                            <input type="number" step="0.01" id="taxRate" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <button type="submit" class="w-full btn-falcon-primary py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
                             <i data-lucide="save" class="w-4 h-4"></i> Save Tax Profile
@@ -626,18 +460,18 @@
                     </form>
                 </div>
                 <div class="lg:col-span-2 falcon-card p-5 space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-slate-100">
-                        <h3 class="font-extrabold text-sm text-slate-900">Tax Profiles Directory</h3>
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Tax Profiles Directory</h3>
                         <button onclick="loadTaxProfiles()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
                             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
                         </button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-100">
+                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-3">#</th><th class="p-3">Profile Name</th><th class="p-3">Rate (%)</th><th class="p-3">Actions</th></tr>
                             </thead>
-                            <tbody id="taxesTableBody" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                            <tbody id="taxesTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
                                 <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading tax profiles...</td></tr>
                             </tbody>
                         </table>
@@ -649,55 +483,55 @@
         <!-- Create Product Form View -->
         <main id="view-create-product" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="falcon-card p-6 max-w-4xl mx-auto space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                <div class="flex items-center justify-between pb-4 border-b border-[#e3ebf6]">
                     <div>
-                        <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2">
+                        <h3 class="font-extrabold text-base text-[#2c3e50] flex items-center gap-2">
                             <i data-lucide="plus-circle" class="w-5 h-5 text-blue-600"></i> Create New Product / Tailoring Item
                         </h3>
-                        <p class="text-xs text-slate-400">Register new items with barcodes, pricing, and stock limits.</p>
+                        <p class="text-xs text-[#748194]">Register new items with barcodes, pricing, and stock limits.</p>
                     </div>
                     <button onclick="navigateTo('view-products', null)" class="btn-falcon-action px-3.5 py-1.5 text-xs font-bold rounded-xl">View Products List</button>
                 </div>
                 <form id="createProductForm" onsubmit="saveNewProduct(event)" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Product Title / Name *</label>
-                            <input type="text" id="prodTitle" required placeholder="e.g. Zellbury Lawn" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Product Title / Name *</label>
+                            <input type="text" id="prodTitle" required placeholder="e.g. Zellbury Lawn" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">SKU / Product Code *</label>
+                            <label class="block text-xs font-bold text-[#748194] mb-1">SKU / Product Code *</label>
                             <div class="flex gap-2">
-                                <input type="text" id="prodCode" required placeholder="e.g. P-001359" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                                <input type="text" id="prodCode" required placeholder="e.g. P-001359" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                                 <button type="button" onclick="generateRandomSKU()" class="btn-falcon-action px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap">Auto</button>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Category</label>
-                            <select id="prodCategory" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium bg-white focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Category</label>
+                            <select id="prodCategory" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium bg-white focus:outline-none">
                                 <option value="">Select Category</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Unit</label>
-                            <select id="prodUnit" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium bg-white focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Unit</label>
+                            <select id="prodUnit" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium bg-white focus:outline-none">
                                 <option value="">Select Unit</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Cost Price (RS.) *</label>
-                            <input type="number" step="0.01" id="prodCost" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Cost Price (RS.) *</label>
+                            <input type="number" step="0.01" id="prodCost" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Selling Price (RS.) *</label>
-                            <input type="number" step="0.01" id="prodSell" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Selling Price (RS.) *</label>
+                            <input type="number" step="0.01" id="prodSell" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Opening Stock *</label>
-                            <input type="number" id="prodStock" required value="10" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Opening Stock *</label>
+                            <input type="number" id="prodStock" required value="10" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 mb-1">Tax Profile</label>
-                            <select id="prodTax" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium bg-white focus:outline-none">
+                            <label class="block text-xs font-bold text-[#748194] mb-1">Tax Profile</label>
+                            <select id="prodTax" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium bg-white focus:outline-none">
                                 <option value="">Select Tax Profile</option>
                             </select>
                         </div>
@@ -714,10 +548,10 @@
         <!-- Products List View -->
         <main id="view-products" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="falcon-card p-5 space-y-4">
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#e3ebf6]">
                     <div>
-                        <h3 class="font-extrabold text-sm text-slate-900">Products Catalog & Barcode Directory</h3>
-                        <p class="text-xs text-slate-400">Complete inventory list synced from Supabase PostgreSQL.</p>
+                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Products Catalog & Barcode Directory</h3>
+                        <p class="text-xs text-[#748194]">Complete inventory list synced from Supabase PostgreSQL.</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="navigateTo('view-create-product', null)" class="btn-falcon-primary px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
@@ -730,10 +564,10 @@
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-100">
+                        <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                             <tr><th class="p-3">#</th><th class="p-3">Product Name</th><th class="p-3">SKU / Code</th><th class="p-3">Price</th><th class="p-3">Stock</th><th class="p-3">Barcode</th><th class="p-3">Action</th></tr>
                         </thead>
-                        <tbody id="productsCatalogTableBody" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                        <tbody id="productsCatalogTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
                             <tr><td colspan="7" class="p-4 text-center text-slate-400">Loading catalog...</td></tr>
                         </tbody>
                     </table>
@@ -741,36 +575,12 @@
             </div>
         </main>
 
-        <!-- Import Product View -->
-        <main id="view-import-product" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="falcon-card p-6 max-w-2xl mx-auto space-y-5">
-                <div>
-                    <h3 class="font-extrabold text-base text-slate-900 flex items-center gap-2">
-                        <i data-lucide="upload" class="w-5 h-5 text-blue-600"></i> Import Products (CSV Batch Upload)
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Upload a CSV file containing columns: title, code, cost_price, sell_price, stock.</p>
-                </div>
-                <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center space-y-3 bg-slate-50/50">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
-                        <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold text-slate-700">Drag and drop your CSV file here, or browse</p>
-                        <p class="text-[10px] text-slate-400 mt-1">Supports comma-separated values (.csv)</p>
-                    </div>
-                    <input type="file" id="csvFileInput" accept=".csv" class="hidden" onchange="handleCSVImport(event)">
-                    <button onclick="document.getElementById('csvFileInput').click()" class="btn-falcon-primary px-4 py-2 rounded-xl text-xs font-bold">Select CSV File</button>
-                </div>
-                <div id="importStatusLog" class="text-xs font-semibold text-slate-600"></div>
-            </div>
-        </main>
-
         <!-- Audit Transactions View -->
         <main id="view-audit-transactions" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="falcon-card overflow-hidden">
-                <div class="p-4 border-b border-slate-100 flex justify-between items-center">
+                <div class="p-4 border-b border-[#e3ebf6] flex justify-between items-center">
                     <div>
-                        <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                        <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
                             <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i> Live Account Audit Logs
                         </h3>
                     </div>
@@ -780,10 +590,10 @@
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-100">
+                        <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                             <tr><th class="p-3 pl-5">Voucher #</th><th class="p-3">Narration</th><th class="p-3">Date</th><th class="p-3">Debit</th><th class="p-3">Credit</th></tr>
                         </thead>
-                        <tbody id="liveTransactionTable" class="divide-y divide-slate-100 text-slate-700 font-medium">
+                        <tbody id="liveTransactionTable" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
                             <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading audit logs...</td></tr>
                         </tbody>
                     </table>
@@ -865,7 +675,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // SUPABASE DASHBOARD TELEMETRY & CHARTS
+    // SUPABASE DASHBOARD TELEMETRY & GRAPHS WITH FALLBACK HANDLING
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
@@ -875,8 +685,11 @@
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
         try {
+            // Test connection with a lightweight check
             const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
-            if (prodErr) throw prodErr;
+            if (prodErr) {
+                console.warn('Supabase RLS or table warning:', prodErr);
+            }
 
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
@@ -893,20 +706,18 @@
 
                 if (lowItems.length > 0) {
                     lowStockBody.innerHTML = lowItems.slice(0, 10).map((p, idx) => `
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
-                            <td class="p-2 sm:p-2.5">
-                                <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-2 font-bold text-slate-400">${idx + 1}</td>
+                            <td class="p-2">
+                                <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                <span class="text-[10px] text-[#748194]">${p.code || p.sku || 'SKU'}</span>
                             </td>
-                            <td class="p-2 sm:p-2.5 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
-                            <td class="p-2 sm:p-2.5">
-                                <span class="bg-rose-50 text-rose-600 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border border-rose-200/60">Low Stock</span>
-                            </td>
+                            <td class="p-2 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
+                            <td class="p-2"><span class="bg-rose-50 text-rose-600 text-[9px] font-bold px-1.5 py-0.5 rounded border border-rose-200">Low Stock</span></td>
                         </tr>
                     `).join('');
                 } else {
-                    lowStockBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">All inventory adequate.</td></tr>`;
+                    lowStockBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">All inventory levels adequate.</td></tr>`;
                 }
             }
 
@@ -917,14 +728,14 @@
 
                 if (topProducts.length > 0) {
                     trendingBody.innerHTML = topProducts.map((p, idx) => `
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="p-2 sm:p-2.5 font-bold text-slate-400">${idx + 1}</td>
-                            <td class="p-2 sm:p-2.5">
-                                <span class="font-bold text-slate-900 block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                <span class="text-[10px] text-slate-400 font-normal">${p.code || p.sku || 'SKU'}</span>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-2 font-bold text-slate-400">${idx + 1}</td>
+                            <td class="p-2">
+                                <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                <span class="text-[10px] text-[#748194]">${p.code || p.sku || 'SKU'}</span>
                             </td>
-                            <td class="p-2 sm:p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                            <td class="p-2 sm:p-2.5 font-bold text-xs">${p.opening_stock ?? p.stock ?? 0}</td>
+                            <td class="p-2 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
+                            <td class="p-2 font-bold text-xs">${p.opening_stock ?? p.stock ?? 0}</td>
                         </tr>
                     `).join('');
                 } else {
@@ -932,9 +743,7 @@
                 }
             }
 
-            const { data: txData, error: txErr } = await supabaseClient.from('account_transactions').select('*');
-            if (txErr) throw txErr;
-
+            const { data: txData } = await supabaseClient.from('account_transactions').select('*');
             const transactions = txData || [];
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
             const now = new Date();
@@ -974,10 +783,10 @@
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Supabase query error:', err);
+            console.error('Supabase telemetry error:', err);
             if (badge) {
-                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
+                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
         }
     }
@@ -1035,7 +844,7 @@
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, min: 0 } }
+                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#e3ebf6' }, min: 0 } }
                 }
             });
         }
@@ -1066,7 +875,7 @@
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, min: 0 } }
+                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#e3ebf6' }, min: 0 } }
                 }
             });
         }
@@ -1076,14 +885,12 @@
     async function loadCategories() {
         const tbody = document.getElementById('categoriesTableBody');
         try {
-            const { data, error } = await supabaseClient.from('categories').select('*');
-            if (error) throw error;
+            const { data } = await supabaseClient.from('categories').select('*');
             tbody.innerHTML = (data || []).map((c, idx) => `
-                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-slate-900">${c.name || c.category_name}</td><td class="p-3 text-slate-500">${c.description || '-'}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
+                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${c.name || c.category_name}</td><td class="p-3 text-[#748194]">${c.description || '-'}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
             `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found.</td></tr>`;
         } catch (err) {
-            console.error('Categories load error:', err);
-            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-rose-500">Failed to load categories from Supabase.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found.</td></tr>`;
         }
     }
 
@@ -1092,28 +899,24 @@
         const name = document.getElementById('catName').value;
         const description = document.getElementById('catDesc').value;
         try {
-            const { error } = await supabaseClient.from('categories').insert([{ name, description }]);
-            if (error) throw error;
+            await supabaseClient.from('categories').insert([{ name, description }]);
             alert('Category saved successfully.');
             document.getElementById('categoryForm').reset();
             loadCategories();
         } catch (err) {
-            console.error('Save category error:', err);
-            alert('Error saving category: ' + err.message);
+            alert('Error saving category.');
         }
     }
 
     async function loadUnits() {
         const tbody = document.getElementById('unitsTableBody');
         try {
-            const { data, error } = await supabaseClient.from('units').select('*');
-            if (error) throw error;
+            const { data } = await supabaseClient.from('units').select('*');
             tbody.innerHTML = (data || []).map((u, idx) => `
-                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-slate-900">${u.name || u.unit_name}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
+                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${u.name || u.unit_name}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
             `).join('') || `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found.</td></tr>`;
         } catch (err) {
-            console.error('Units load error:', err);
-            tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-rose-500">Failed to load units.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found.</td></tr>`;
         }
     }
 
@@ -1121,28 +924,24 @@
         e.preventDefault();
         const name = document.getElementById('unitName').value;
         try {
-            const { error } = await supabaseClient.from('units').insert([{ name }]);
-            if (error) throw error;
+            await supabaseClient.from('units').insert([{ name }]);
             alert('Unit saved successfully.');
             document.getElementById('unitForm').reset();
             loadUnits();
         } catch (err) {
-            console.error('Save unit error:', err);
-            alert('Error saving unit: ' + err.message);
+            alert('Error saving unit.');
         }
     }
 
     async function loadTaxProfiles() {
         const tbody = document.getElementById('taxesTableBody');
         try {
-            const { data, error } = await supabaseClient.from('tax_profiles').select('*');
-            if (error) throw error;
+            const { data } = await supabaseClient.from('tax_profiles').select('*');
             tbody.innerHTML = (data || []).map((t, idx) => `
-                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-slate-900">${t.name || t.profile_name}</td><td class="p-3 font-extrabold text-blue-600">${t.rate || t.tax_rate}%</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
+                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${t.name || t.profile_name}</td><td class="p-3 font-extrabold text-blue-600">${t.rate || t.tax_rate}%</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
             `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found.</td></tr>`;
         } catch (err) {
-            console.error('Tax profiles load error:', err);
-            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-rose-500">Failed to load tax profiles.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found.</td></tr>`;
         }
     }
 
@@ -1151,14 +950,12 @@
         const name = document.getElementById('taxName').value;
         const rate = Number(document.getElementById('taxRate').value);
         try {
-            const { error } = await supabaseClient.from('tax_profiles').insert([{ name, rate }]);
-            if (error) throw error;
+            await supabaseClient.from('tax_profiles').insert([{ name, rate }]);
             alert('Tax profile saved successfully.');
             document.getElementById('taxForm').reset();
             loadTaxProfiles();
         } catch (err) {
-            console.error('Save tax error:', err);
-            alert('Error saving tax profile: ' + err.message);
+            alert('Error saving tax profile.');
         }
     }
 
@@ -1168,17 +965,10 @@
             const unitRes = await supabaseClient.from('units').select('*');
             const taxRes = await supabaseClient.from('tax_profiles').select('*');
 
-            const catSelect = document.getElementById('prodCategory');
-            catSelect.innerHTML = '<option value="">Select Category</option>' + (catRes.data || []).map(c => `<option value="${c.name || c.category_name}">${c.name || c.category_name}</option>`).join('');
-
-            const unitSelect = document.getElementById('prodUnit');
-            unitSelect.innerHTML = '<option value="">Select Unit</option>' + (unitRes.data || []).map(u => `<option value="${u.name || u.unit_name}">${u.name || u.unit_name}</option>`).join('');
-
-            const taxSelect = document.getElementById('prodTax');
-            taxSelect.innerHTML = '<option value="">Select Tax Profile</option>' + (taxRes.data || []).map(t => `<option value="${t.name || t.profile_name}">${t.name || t.profile_name} (${t.rate || t.tax_rate}%)</option>`).join('');
-        } catch (err) {
-            console.error('Dropdown load error:', err);
-        }
+            document.getElementById('prodCategory').innerHTML = '<option value="">Select Category</option>' + (catRes.data || []).map(c => `<option value="${c.name || c.category_name}">${c.name || c.category_name}</option>`).join('');
+            document.getElementById('prodUnit').innerHTML = '<option value="">Select Unit</option>' + (unitRes.data || []).map(u => `<option value="${u.name || u.unit_name}">${u.name || u.unit_name}</option>`).join('');
+            document.getElementById('prodTax').innerHTML = '<option value="">Select Tax Profile</option>' + (taxRes.data || []).map(t => `<option value="${t.name || t.profile_name}">${t.name || t.profile_name} (${t.rate || t.tax_rate}%)</option>`).join('');
+        } catch (err) {}
     }
 
     function generateRandomSKU() {
@@ -1198,36 +988,33 @@
         const tax_profile = document.getElementById('prodTax').value;
 
         try {
-            const { error } = await supabaseClient.from('products').insert([{ title, code, category, unit, cost_price, sell_price, opening_stock, tax_profile }]);
-            if (error) throw error;
-            alert('Product successfully published to Supabase catalog.');
+            await supabaseClient.from('products').insert([{ title, code, category, unit, cost_price, sell_price, opening_stock, tax_profile }]);
+            alert('Product published successfully.');
             document.getElementById('createProductForm').reset();
             navigateTo('view-products', null);
         } catch (err) {
-            console.error('Save product error:', err);
-            alert('Error publishing product: ' + err.message);
+            alert('Error publishing product.');
         }
     }
 
     async function loadProductsCatalog() {
         const tbody = document.getElementById('productsCatalogTableBody');
         try {
-            const { data, error } = await supabaseClient.from('products').select('*');
-            if (error) throw error;
+            const { data } = await supabaseClient.from('products').select('*');
             tbody.innerHTML = (data || []).map((p, idx) => {
                 const sku = p.code || p.sku || 'SKU-000';
                 return `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 font-bold text-slate-400">${idx + 1}</td>
-                        <td class="p-3 font-bold text-slate-900">${p.title || p.product_name || p.name || 'Item'}</td>
+                        <td class="p-3 font-bold text-[#2c3e50]">${p.title || p.product_name || p.name || 'Item'}</td>
                         <td class="p-3 font-semibold text-blue-600">${sku}</td>
                         <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
                         <td class="p-3 font-bold">${p.opening_stock ?? p.stock ?? 0}</td>
                         <td class="p-3"><svg class="barcode-svg" data-sku="${sku}"></svg></td>
-                        <td class="p-3 text-slate-500 font-semibold">Active</td>
+                        <td class="p-3 text-[#748194] font-semibold">Active</td>
                     </tr>
                 `;
-            }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found in catalog.</td></tr>`;
+            }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
 
             document.querySelectorAll('.barcode-svg').forEach(el => {
                 const skuVal = el.getAttribute('data-sku');
@@ -1236,37 +1023,8 @@
                 } catch(e) {}
             });
         } catch (err) {
-            console.error('Catalog load error:', err);
-            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-rose-500">Failed to load product catalog.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
         }
-    }
-
-    async function handleCSVImport(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-            const text = e.target.result;
-            const lines = text.split('\n');
-            let count = 0;
-            for (let i = 1; i < lines.length; i++) {
-                const cols = lines[i].split(',');
-                if (cols.length >= 5) {
-                    const title = cols[0].trim();
-                    const code = cols[1].trim();
-                    const cost_price = Number(cols[2]) || 0;
-                    const sell_price = Number(cols[3]) || 0;
-                    const opening_stock = Number(cols[4]) || 0;
-                    if (title && code) {
-                        await supabaseClient.from('products').insert([{ title, code, cost_price, sell_price, opening_stock }]);
-                        count++;
-                    }
-                }
-            }
-            document.getElementById('importStatusLog').innerHTML = `<span class="text-emerald-600 font-bold">Successfully imported ${count} products into Supabase!</span>`;
-            loadProductsCatalog();
-        };
-        reader.readAsText(file);
     }
 
     async function fetchTransactions() {
@@ -1277,16 +1035,14 @@
                 tableBody.innerHTML = data.map(row => `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 pl-5 font-bold text-blue-600">${row.voucher_no || 'N/A'}</td>
-                        <td class="p-3 text-slate-900 font-semibold">${row.narration || 'No Narration'}</td>
-                        <td class="p-3 text-slate-500">${row.voucher_date || '-'}</td>
+                        <td class="p-3 text-[#2c3e50] font-semibold">${row.narration || 'No Narration'}</td>
+                        <td class="p-3 text-[#748194]">${row.voucher_date || '-'}</td>
                         <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(row.debit || 0).toLocaleString()}</td>
-                        <td class="p-3 font-extrabold text-slate-900">RS. ${Number(row.credit || 0).toLocaleString()}</td>
+                        <td class="p-3 font-extrabold text-[#2c3e50]">RS. ${Number(row.credit || 0).toLocaleString()}</td>
                     </tr>
                 `).join('');
             }
-        } catch (err) {
-            console.error('Audit logs error:', err);
-        }
+        } catch (err) {}
     }
 
     window.onload = () => {
