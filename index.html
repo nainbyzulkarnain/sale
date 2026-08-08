@@ -416,7 +416,7 @@
                             <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">ACTIVE MONTH SALES</p>
                         </div>
                         <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthSalesLabel">Current Month</p>
+                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthSalesLabel">Active Month</p>
                     </div>
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
@@ -442,7 +442,7 @@
                             <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">ACTIVE MONTH PURCHASE</p>
                         </div>
                         <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthPurchaseLabel">Current Month</p>
+                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthPurchaseLabel">Active Month</p>
                     </div>
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i>
@@ -505,7 +505,7 @@
             <!-- TRENDING PRODUCTS & LOW STOCK TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
                 
-                <!-- Trending Products (Top Performers by Price/Volume) -->
+                <!-- Trending Products -->
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
                         <div class="flex items-center gap-2">
@@ -606,7 +606,7 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // GLOBAL CHART INSTANCE TRACKERS
+    // GLOBAL CHART INSTANCES (Prevents "Canvas is already in use" crashes)
     let miniBarChartInstance = null;
     let miniLineChartInstance = null;
     let overviewChartInstance = null;
@@ -660,7 +660,7 @@
         } else if (presetType === '30_days') {
             start = new Date('2026-07-09');
         } else if (presetType === 'this_month') {
-            start = new Date('2026-02-01'); // Peak active database month
+            start = new Date('2026-02-01');
             end = new Date('2026-02-28');
         } else if (presetType === 'all') {
             start = new Date('2026-01-23');
@@ -681,7 +681,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // DYNAMIC REAL-TIME TELEMETRY & ACCURATE FIELD MAPPING
+    // DYNAMIC REAL-TIME TELEMETRY & AUTOMATIC ACTIVE MONTH CALCULATION
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
@@ -707,7 +707,7 @@
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            // Render Low Stock Table (Check current_stock, stock, or opening_stock)
+            // Render Low Stock Table (Check current_stock, stock_qty, stock, or opening_stock)
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
@@ -748,7 +748,7 @@
                 }
             }
 
-            // Render Trending Products Table sorted by highest price/sales value
+            // Render Trending Products Table
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 const sortedProducts = [...allRawProducts].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
@@ -789,12 +789,16 @@
                 if (txRes.data) allRawTransactions = txRes.data;
             }
 
-            let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
-            
-            // Identify peak/active transaction month dynamically from dataset (e.g. Feb/Mar 2026)
-            let activeMonth = 1; // February (index 1)
-            let activeYear = 2026;
+            // Automatically detect the latest active transaction month from database
+            const validDates = allRawTransactions
+                .map(t => new Date(t.voucher_date || t.date || t.created_at))
+                .filter(d => !isNaN(d.getTime()));
 
+            const latestDate = validDates.length > 0 ? new Date(Math.max(...validDates)) : new Date('2026-02-28');
+            const activeMonth = latestDate.getMonth();
+            const activeYear = latestDate.getFullYear();
+
+            let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
             const dailySalesMap = {};
             const dailyExpMap = {};
 
@@ -804,7 +808,7 @@
                 const dr = Number(t.debit || 0);
                 
                 const rawDate = t.voucher_date || t.date || t.created_at;
-                const tDate = rawDate ? new Date(rawDate) : new Date('2026-02-01');
+                const tDate = rawDate ? new Date(rawDate) : latestDate;
                 const tTime = tDate.getTime();
                 const formattedDateKey = tDate.toISOString().split('T')[0];
 
@@ -817,7 +821,7 @@
                     dailyExpMap[formattedDateKey] = (dailyExpMap[formattedDateKey] || 0) + dr;
                 }
 
-                // Active Month Calculation
+                // Sum metrics for the latest active month in dataset
                 if (tDate.getMonth() === activeMonth && tDate.getFullYear() === activeYear) {
                     monthSalesVal += cr;
                     monthPurchaseVal += dr;
@@ -830,8 +834,10 @@
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
 
-            document.getElementById('kpiMonthSalesLabel').innerText = "February 2026";
-            document.getElementById('kpiMonthPurchaseLabel').innerText = "February 2026";
+            // Dynamic Month Label
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('kpiMonthSalesLabel').innerText = `${monthNames[activeMonth]} ${activeYear}`;
+            document.getElementById('kpiMonthPurchaseLabel').innerText = `${monthNames[activeMonth]} ${activeYear}`;
 
             renderDynamicCharts(dailySalesMap, dailyExpMap, startDateVal, endDateVal);
             lucide.createIcons();
