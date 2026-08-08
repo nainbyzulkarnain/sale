@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS360 / ACCOUNT360 Enterprise ERP - Falcon Edition</title>
+    <title>POS360 ERP - Falcon Edition</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -25,47 +25,22 @@
             border-radius: 0.75rem;
             transition: all 0.2s ease;
         }
-        .falcon-card:hover {
-            box-shadow: 0 1rem 2rem rgba(18, 38, 63, 0.06);
-            border-color: #cbd5e1;
-        }
-
-        .btn-falcon-action {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #475569;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-            transition: all 0.15s ease;
-        }
-        .btn-falcon-action:hover {
-            background: #f1f5f9;
-            color: #0f172a;
-            border-color: #94a3b8;
-        }
 
         .btn-falcon-primary {
             background: #2563eb;
             color: #ffffff;
             border: 1px solid #2563eb;
             box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
-            transition: all 0.15s ease;
         }
-        .btn-falcon-primary:hover {
-            background: #1d4ed8;
-            border-color: #1d4ed8;
-        }
+        .btn-falcon-primary:hover { background: #1d4ed8; }
 
         .btn-falcon-success {
             background: #10b981;
             color: #ffffff;
             border: 1px solid #10b981;
             box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
-            transition: all 0.15s ease;
         }
-        .btn-falcon-success:hover {
-            background: #059669;
-            border-color: #059669;
-        }
+        .btn-falcon-success:hover { background: #059669; }
 
         #sidebar { transition: width 0.25s ease, transform 0.25s ease; }
         #sidebar.collapsed { width: 72px !important; }
@@ -80,250 +55,173 @@
 
 <div class="flex h-screen overflow-hidden">
 
-    <!-- MOBILE OVERLAY BACKDROP -->
-    <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+    <!-- MOBILE BACKDROP -->
+    <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm"></div>
 
     <!-- SIDEBAR NAVIGATION -->
     <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
-        <!-- Brand Logo Header -->
         <div class="h-16 flex items-center justify-between px-4 border-b border-[#e3ebf6] shrink-0 bg-white">
             <div class="flex items-center gap-3 overflow-hidden">
-                <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-base shrink-0 shadow-md shadow-blue-500/20">
-                    <span class="text-xs font-black">F</span>
+                <div class="w-9 h-9 rounded-xl bg-emerald-700 flex items-center justify-center text-white font-black text-xs shrink-0 shadow-md">
+                    NAIN
                 </div>
                 <div class="brand-title flex flex-col truncate">
                     <span class="font-extrabold text-sm text-slate-900 tracking-tight">POS360 ERP</span>
-                    <span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider">Falcon Edition</span>
+                    <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Falcon Edition</span>
                 </div>
             </div>
-            <button id="toggleSidebar" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors shrink-0">
+            <button id="toggleSidebar" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 shrink-0">
                 <i data-lucide="menu" class="w-5 h-5"></i>
             </button>
         </div>
 
-        <!-- SIDEBAR NAVIGATION MENU -->
         <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-xs font-semibold" id="sidebarNav">
-            
-            <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-blue-600 font-bold shadow-sm transition-all">
+            <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-blue-600 font-bold shadow-sm">
                 <i data-lucide="pie-chart" class="w-4 h-4 shrink-0 text-blue-600"></i>
                 <span class="sidebar-text truncate">Dashboard</span>
             </a>
 
             <!-- 1. Master Profile -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="package" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <i data-lucide="package" class="w-4 h-4 text-slate-400"></i>
                         <span class="sidebar-text truncate">Master Profile</span>
                     </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="masterMenu-arrow"></i>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="masterMenu-arrow"></i>
                 </button>
                 <div id="masterMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-categories', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Categories</a>
-                    <a href="#" onclick="navigateTo('view-units', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Product Unit</a>
-                    <a href="#" onclick="navigateTo('view-taxes', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Tax Profile</a>
-                    <a href="#" onclick="navigateTo('view-create-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Product</a>
-                    <a href="#" onclick="navigateTo('view-products', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Products List</a>
-                    <a href="#" onclick="navigateTo('view-import-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Import Product</a>
+                    <a href="#" onclick="navigateTo('view-categories', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Categories</a>
+                    <a href="#" onclick="navigateTo('view-units', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Product Unit</a>
+                    <a href="#" onclick="navigateTo('view-taxes', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Tax Profile</a>
+                    <a href="#" onclick="navigateTo('view-create-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Create Product</a>
+                    <a href="#" onclick="navigateTo('view-products', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Products List</a>
+                    <a href="#" onclick="navigateTo('view-import-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Import Product</a>
                 </div>
             </div>
 
             <!-- 2. CRM -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="users" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
                         <span class="sidebar-text truncate">CRM</span>
                     </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="crmMenu-arrow"></i>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="crmMenu-arrow"></i>
                 </button>
                 <div id="crmMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-customers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Manage Customers</a>
-                    <a href="#" onclick="navigateTo('view-suppliers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Manage Suppliers</a>
+                    <a href="#" onclick="navigateTo('view-customers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Manage Customers</a>
+                    <a href="#" onclick="navigateTo('view-suppliers', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Manage Suppliers</a>
                 </div>
             </div>
 
             <!-- 3. Accounts -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="wallet" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <i data-lucide="wallet" class="w-4 h-4 text-slate-400"></i>
                         <span class="sidebar-text truncate">Accounts</span>
                     </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="accountsMenu-arrow"></i>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="accountsMenu-arrow"></i>
                 </button>
                 <div id="accountsMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-account-master', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Master</a>
-                    <a href="#" onclick="navigateTo('view-account-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account List</a>
+                    <a href="#" onclick="navigateTo('view-account-master', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Account Master</a>
+                    <a href="#" onclick="navigateTo('view-account-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Account List</a>
                 </div>
             </div>
 
             <!-- 4. Purchase Invoice -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="file-text" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
                         <span class="sidebar-text truncate">Purchase Invoice</span>
                     </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="purchaseMenu-arrow"></i>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="purchaseMenu-arrow"></i>
                 </button>
                 <div id="purchaseMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-create-purchase', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Purchase</a>
-                    <a href="#" onclick="navigateTo('view-purchase-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase List</a>
-                    <a href="#" onclick="navigateTo('view-purchase-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase Return</a>
+                    <a href="#" onclick="navigateTo('view-create-purchase', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Create Purchase</a>
+                    <a href="#" onclick="navigateTo('view-purchase-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Purchase List</a>
                 </div>
             </div>
 
             <!-- 5. POS Invoice -->
             <div class="menu-group">
-                <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="shopping-cart" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <i data-lucide="shopping-cart" class="w-4 h-4 text-slate-400"></i>
                         <span class="sidebar-text truncate">POS Invoice</span>
                     </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="posMenu-arrow"></i>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="posMenu-arrow"></i>
                 </button>
                 <div id="posMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-pos-create', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Invoice</a>
-                    <a href="#" onclick="navigateTo('view-pos-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sales List</a>
-                    <a href="#" onclick="navigateTo('view-sales-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sales Return</a>
+                    <a href="#" onclick="navigateTo('view-pos-create', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Create Invoice</a>
+                    <a href="#" onclick="navigateTo('view-pos-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600">Sales List</a>
                 </div>
             </div>
 
             <!-- 6. Stock Adjustment -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('stockAdjMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="sliders" class="w-4 h-4 shrink-0 text-slate-400"></i>
-                        <span class="sidebar-text truncate">Stock Adjustment</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="stockAdjMenu-arrow"></i>
-                </button>
-                <div id="stockAdjMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-create-adjustment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Adjustment</a>
-                    <a href="#" onclick="navigateTo('view-adjustment-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Adjustment List</a>
-                </div>
-            </div>
+            <a href="#" onclick="navigateTo('view-stock-adjustment', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
+                <span class="sidebar-text truncate">Stock Adjustment</span>
+            </a>
 
             <!-- 7. Vouchers -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('vouchersMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="receipt" class="w-4 h-4 shrink-0 text-slate-400"></i>
-                        <span class="sidebar-text truncate">Vouchers</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="vouchersMenu-arrow"></i>
-                </button>
-                <div id="vouchersMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-cash-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Cash Receipt Voucher</a>
-                    <a href="#" onclick="navigateTo('view-cash-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Cash Payment Voucher</a>
-                    <a href="#" onclick="navigateTo('view-bank-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Bank Receipt Voucher</a>
-                    <a href="#" onclick="navigateTo('view-bank-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Bank Payment Voucher</a>
-                    <a href="#" onclick="navigateTo('view-create-journal', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Journal</a>
-                </div>
-            </div>
+            <a href="#" onclick="navigateTo('view-vouchers', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="receipt" class="w-4 h-4 text-slate-400"></i>
+                <span class="sidebar-text truncate">Vouchers</span>
+            </a>
 
             <!-- 8. HR Department -->
-            <a href="#" onclick="navigateTo('view-hr-department', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                <i data-lucide="building-2" class="w-4 h-4 shrink-0 text-slate-400"></i>
+            <a href="#" onclick="navigateTo('view-hr-department', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i>
                 <span class="sidebar-text truncate">HR Department</span>
             </a>
 
             <!-- 9. Purchase Reports -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('purRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="clipboard-list" class="w-4 h-4 shrink-0 text-slate-400"></i>
-                        <span class="sidebar-text truncate">Purchase Reports</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="purRptMenu-arrow"></i>
-                </button>
-                <div id="purRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-date', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Date Wise Report</a>
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-supplier', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase By Supplier</a>
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Product Wise Purchase</a>
-                    <a href="#" onclick="navigateTo('view-rpt-purchase-all', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">All Product Wise Purchase</a>
-                </div>
-            </div>
+            <a href="#" onclick="navigateTo('view-purchase-reports', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400"></i>
+                <span class="sidebar-text truncate">Purchase Reports</span>
+            </a>
 
             <!-- 10. Sales Reports -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('saleRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="bar-chart-2" class="w-4 h-4 shrink-0 text-slate-400"></i>
-                        <span class="sidebar-text truncate">Sales Reports</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="saleRptMenu-arrow"></i>
-                </button>
-                <div id="saleRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-rpt-sales-daily', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Daily Sales Summary</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-item', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Sale Report</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-customer', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Customer Wise Sell Report</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-itemwise', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Wise Sales</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-loadpaper', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sell Load Paper</a>
-                    <a href="#" onclick="navigateTo('view-rpt-sales-summary', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Sell Summary</a>
-                </div>
-            </div>
+            <a href="#" onclick="navigateTo('view-sales-reports', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-slate-400"></i>
+                <span class="sidebar-text truncate">Sales Reports</span>
+            </a>
 
             <!-- 11. Stock Report -->
-            <a href="#" onclick="navigateTo('view-stock-report', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                <i data-lucide="boxes" class="w-4 h-4 shrink-0 text-slate-400"></i>
+            <a href="#" onclick="navigateTo('view-stock-report', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="boxes" class="w-4 h-4 text-slate-400"></i>
                 <span class="sidebar-text truncate">Stock Report</span>
             </a>
 
-            <!-- 12. Utilities & Downloads -->
-            <a href="#" onclick="navigateTo('view-download-product-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                <i data-lucide="download" class="w-4 h-4 shrink-0 text-slate-400"></i>
+            <!-- 12. Utilities -->
+            <a href="#" onclick="navigateTo('view-download-product-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="download" class="w-4 h-4 text-slate-400"></i>
                 <span class="sidebar-text truncate">Download Product List</span>
             </a>
-            <a href="#" onclick="navigateTo('view-print-customer-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                <i data-lucide="printer" class="w-4 h-4 shrink-0 text-slate-400"></i>
+            <a href="#" onclick="navigateTo('view-print-customer-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i>
                 <span class="sidebar-text truncate">Print Customer List</span>
             </a>
 
             <!-- 13. Account Reports -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="file-spreadsheet" class="w-4 h-4 shrink-0 text-slate-400"></i>
-                        <span class="sidebar-text truncate">Account Reports</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="accRptMenu-arrow"></i>
-                </button>
-                <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-account-ledger', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Ledger</a>
-                    <a href="#" onclick="navigateTo('view-day-book', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Day Book</a>
-                    <a href="#" onclick="navigateTo('view-trail-balance', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Trail Balance</a>
-                    <a href="#" onclick="navigateTo('view-income-statement', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Income Statement</a>
-                    <a href="#" onclick="navigateTo('view-trading-pls', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Trading PLS Statement</a>
-                    <a href="#" onclick="navigateTo('view-balance-sheet', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Balance Sheet</a>
-                </div>
-            </div>
+            <a href="#" onclick="navigateTo('view-account-reports', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4 text-slate-400"></i>
+                <span class="sidebar-text truncate">Account Reports</span>
+            </a>
 
             <!-- 14. Administrative -->
-            <div class="menu-group">
-                <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-slate-400"></i>
-                        <span class="sidebar-text truncate">Administrative</span>
-                    </div>
-                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="adminMenu-arrow"></i>
-                </button>
-                <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
-                    <a href="#" onclick="navigateTo('view-audit-transactions', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Audit Transactions</a>
-                    <a href="#" onclick="navigateTo('view-app-settings', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Application Settings</a>
-                    <a href="#" onclick="navigateTo('view-db-backup', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Database Backup</a>
-                </div>
-            </div>
-
+            <a href="#" onclick="navigateTo('view-administrative', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600">
+                <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
+                <span class="sidebar-text truncate">Administrative</span>
+            </a>
         </nav>
 
-        <!-- User Quick Profile Footer -->
         <div class="p-3 border-t border-[#e3ebf6] flex items-center gap-3 shrink-0 bg-white">
-            <div class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm">
-                HA
-            </div>
+            <div class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0">HA</div>
             <div class="brand-title overflow-hidden">
                 <p class="text-xs font-bold text-slate-900 truncate">Hassnain Admin</p>
                 <p class="text-[10px] text-slate-400 font-semibold truncate">Master Administrator</p>
@@ -331,30 +229,27 @@
         </div>
     </aside>
 
-    <!-- MAIN CONTENT CONTAINER -->
+    <!-- MAIN CONTAINER -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        <!-- TOP NAVBAR HEADER -->
+        <!-- HEADER -->
         <header class="h-16 bg-white border-b border-[#e3ebf6] px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
-                <div class="flex items-center gap-2 bg-[#f9fafd] px-3.5 py-1.5 rounded-full border border-[#e3ebf6] text-xs w-48 sm:w-72 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                <div class="flex items-center gap-2 bg-[#f9fafd] px-3.5 py-1.5 rounded-full border border-[#e3ebf6] text-xs w-48 sm:w-72">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
                     <input type="text" placeholder="Search products, vouchers, customers..." class="bg-transparent text-slate-700 focus:outline-none w-full font-medium">
                 </div>
             </div>
 
-            <!-- Connection Status Badge -->
             <div class="flex items-center gap-2 sm:gap-3">
                 <span id="connectionBadge" class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active
                 </span>
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs">
-                        H
-                    </div>
+                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs">H</div>
                     <span class="text-xs font-bold text-slate-800 hidden sm:inline">HASSNAIN</span>
                 </div>
             </div>
@@ -363,36 +258,35 @@
         <!-- DASHBOARD VIEW -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
-            <!-- Welcome Banner & Date Filters -->
-            <div class="falcon-card p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 sm:gap-4 bg-gradient-to-r from-blue-50/40 via-white to-white">
+            <!-- Welcome Banner & Filter Controls -->
+            <div class="falcon-card p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-blue-50/40 via-white to-white">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
-                        <i data-lucide="sparkles" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    <div class="w-9 h-9 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h2 class="text-lg sm:text-xl font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
-                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Real-time GitHub dataset engine.</p>
+                        <h2 class="text-lg font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
+                        <p class="text-[11px] font-semibold text-[#748194]">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                    <div class="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#e3ebf6] text-xs font-semibold shadow-sm w-full sm:w-auto justify-between sm:justify-start">
+                    <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-[#e3ebf6] text-xs font-semibold shadow-sm">
                         <i data-lucide="calendar" class="w-3.5 h-3.5 text-blue-600 shrink-0"></i>
-                        <input type="date" id="dashStartDate" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <input type="date" id="dashStartDate" value="2026-07-09" class="bg-transparent text-slate-700 focus:outline-none text-[11px]">
                         <span class="text-slate-300">to</span>
-                        <input type="date" id="dashEndDate" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <input type="date" id="dashEndDate" value="2026-08-08" class="bg-transparent text-slate-700 focus:outline-none text-[11px]">
                     </div>
                     <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
-                        <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
-                        <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
-                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Selected Month</button>
-                        <button onclick="setDashboardPreset('all')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors font-bold">All Time</button>
+                        <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg">Last 7 Days</button>
+                        <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg">Last 30 Days</button>
+                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg">This Month</button>
                     </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="loadDashboardTelemetry()" class="btn-falcon-primary flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+                    <div class="flex gap-2">
+                        <button onclick="loadDashboardTelemetry()" class="btn-falcon-primary px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
                             <i data-lucide="filter" class="w-3.5 h-3.5"></i> Apply Filter
                         </button>
-                        <button onclick="resetDashboardFilters()" class="btn-falcon-success flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Clear
+                        <button onclick="resetDashboardFilters()" class="btn-falcon-success px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Clear Filter
                         </button>
                     </div>
                 </div>
@@ -401,115 +295,89 @@
             <!-- KPI METRIC CARDS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 
-                <!-- Card 1 -->
-                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
+                <!-- Card 1: THIS MONTH SALES -->
+                <div class="falcon-card p-3.5 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <div class="flex items-center gap-1.5">
-                            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-blue-600"></i>
-                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">PERIOD SALES</p>
-                        </div>
-                        <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthSalesLabel">Selected Range</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
+                        <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 156,813.00</h3>
+                        <p class="text-[10px] text-[#748194] font-bold">August 2026</p>
                     </div>
-                    <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniBarSales"></canvas></div>
+                    <div class="w-16 h-10 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
+                <!-- Card 2: TOTAL SALES -->
+                <div class="falcon-card p-3.5 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <div class="flex items-center gap-1.5">
-                            <i data-lucide="dollar-sign" class="w-3.5 h-3.5 text-emerald-500"></i>
-                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
-                        </div>
-                        <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p id="kpiTotalSalesSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
+                        <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 6,411,333.00</h3>
+                        <p id="kpiTotalSalesSub" class="text-[10px] text-[#748194] font-bold">JUL 09 - AUG 08, 2026</p>
                     </div>
-                    <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniLineTotalSales"></canvas></div>
+                    <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-sm shrink-0">$</div>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
+                <!-- Card 3: THIS MONTH PURCHASE -->
+                <div class="falcon-card p-3.5 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <div class="flex items-center gap-1.5">
-                            <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-amber-500"></i>
-                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">PERIOD PURCHASE</p>
-                        </div>
-                        <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthPurchaseLabel">Selected Range</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
+                        <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 56,710.00</h3>
+                        <p class="text-[10px] text-[#748194] font-bold">August 2026</p>
                     </div>
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     </div>
                 </div>
 
-                <!-- Card 4 -->
-                <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
+                <!-- Card 4: TOTAL PURCHASE -->
+                <div class="falcon-card p-3.5 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <div class="flex items-center gap-1.5">
-                            <i data-lucide="boxes" class="w-3.5 h-3.5 text-purple-600"></i>
-                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
-                        </div>
-                        <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p id="kpiTotalPurchaseSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
+                        <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 4,196,342.40</h3>
+                        <p id="kpiTotalPurchaseSub" class="text-[10px] text-[#748194] font-bold">JUL 09 - AUG 08, 2026</p>
                     </div>
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
                         <i data-lucide="boxes" class="w-4 h-4"></i>
                     </div>
                 </div>
 
             </div>
 
-            <!-- CHARTS -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-                <div class="falcon-card p-4 sm:p-5">
+            <!-- CHARTS SECTION -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+                <!-- Sales Overview Line Chart (2 Cols) -->
+                <div class="falcon-card p-4 lg:col-span-2">
                     <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                                <i data-lucide="line-chart" class="w-4 h-4"></i>
-                            </div>
-                            <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales Overview</h3>
-                        </div>
-                        <span id="chartSalesRangeLabel" class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">Filtered Timeline</span>
+                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales Overview <span class="text-[10px] text-slate-400 font-normal pl-2">(Jul 09, 2026 - Aug 08, 2026)</span></h3>
                     </div>
-                    <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesOverviewChart"></canvas></div>
+                    <div class="relative h-60 w-full mt-3"><canvas id="salesOverviewChart"></canvas></div>
                 </div>
 
-                <div class="falcon-card p-4 sm:p-5">
-                    <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                                <i data-lucide="activity" class="w-4 h-4"></i>
-                            </div>
-                            <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales vs Expenses</h3>
-                        </div>
-                        <div class="flex items-center gap-2 text-[10px] font-extrabold">
-                            <span class="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Sales
-                            </span>
-                            <span class="inline-flex items-center gap-1 text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">
-                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Expenses
-                            </span>
-                        </div>
+                <!-- Sales vs Expenses Doughnut Chart (1 Col) -->
+                <div class="falcon-card p-4 flex flex-col justify-between">
+                    <div class="pb-3 border-b border-[#e3ebf6]">
+                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales vs Expenses</h3>
+                        <p class="text-[10px] text-slate-400 font-semibold">Today (Aug 08, 2026)</p>
                     </div>
-                    <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesExpensesChart"></canvas></div>
+                    <div class="relative h-48 w-full my-auto flex items-center justify-center">
+                        <canvas id="salesExpensesDoughnut"></canvas>
+                    </div>
+                    <div class="flex justify-center items-center gap-6 pt-2 border-t border-[#e3ebf6] text-xs font-bold">
+                        <span class="flex items-center gap-1.5 text-blue-600"><span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Sales</span>
+                        <span class="flex items-center gap-1.5 text-rose-500"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Expenses</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- TABLES -->
+            <!-- TRENDING PRODUCTS & LOW STOCK ALERT TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
                 
                 <!-- Trending Products -->
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
                         <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
-                                <i data-lucide="flame" class="w-4 h-4"></i>
-                            </div>
+                            <i data-lucide="flame" class="w-4 h-4 text-emerald-600"></i>
                             <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Trending Products</h3>
                         </div>
-                        <span class="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-md flex items-center gap-1">
-                            <i data-lucide="award" class="w-3 h-3"></i> Top Performers
-                        </span>
+                        <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-md">Top 10</span>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
@@ -517,12 +385,12 @@
                                 <tr class="h-9">
                                     <th class="py-2 px-3 w-10 text-center">#</th>
                                     <th class="py-2 px-3">PRODUCT</th>
-                                    <th class="py-2 px-3">PRICE</th>
-                                    <th class="py-2 px-3 text-right">CURRENT STOCK</th>
+                                    <th class="py-2 px-3 text-right">SALES</th>
+                                    <th class="py-2 px-3 text-center w-16">QTY</th>
                                 </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading catalog from data.json...</td></tr>
+                                <!-- Populated dynamically -->
                             </tbody>
                         </table>
                     </div>
@@ -532,58 +400,28 @@
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
                         <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                            </div>
+                            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500"></i>
                             <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Low Stock Alert</h3>
                         </div>
-                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md flex items-center gap-1">
-                            <i data-lucide="alert-circle" class="w-3 h-3"></i> Checking...
-                        </span>
+                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-600 text-white px-2.5 py-0.5 rounded-md">10 Items</span>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr class="h-9">
-                                    <th class="py-2 px-3 w-10 text-center">#</th>
+                                    <th class="py-2 px-3 w-12 text-center">#</th>
                                     <th class="py-2 px-3">PRODUCT</th>
-                                    <th class="py-2 px-3">STOCK</th>
+                                    <th class="py-2 px-3 text-right">STOCK</th>
                                     <th class="py-2 px-3 text-right">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading stock alerts...</td></tr>
+                                <!-- Populated dynamically -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-            </div>
-        </main>
-
-        <!-- AUDIT TRANSACTIONS VIEW -->
-        <main id="view-audit-transactions" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="falcon-card overflow-hidden">
-                <div class="p-4 border-b border-[#e3ebf6] flex justify-between items-center">
-                    <div>
-                        <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
-                            <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i> Live Account Audit Logs
-                        </h3>
-                    </div>
-                    <button onclick="fetchTransactions()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                            <tr><th class="p-3 pl-5">Voucher #</th><th class="p-3">Narration</th><th class="p-3">Date</th><th class="p-3">Debit</th><th class="p-3">Credit</th></tr>
-                        </thead>
-                        <tbody id="liveTransactionTable" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                            <tr><td colspan="5" class="p-4 text-center text-slate-400">Loading audit logs...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </main>
 
@@ -594,48 +432,25 @@
 <script>
     lucide.createIcons();
 
-    // GLOBAL CHART INSTANCES
     let miniBarChartInstance = null;
-    let miniLineChartInstance = null;
     let overviewChartInstance = null;
-    let expensesChartInstance = null;
+    let doughnutChartInstance = null;
 
-    let allRawTransactions = [];
-    let allRawProducts = [];
-    let isInitialLoad = true;
+    let dbRaw = {};
 
-    // DATE PARSER
-    function parseToYYYYMMDD(raw) {
-        if (!raw) return '';
-        const s = String(raw).trim();
-        if (s.includes('T')) return s.split('T')[0];
-        if (s.includes(' ')) return s.split(' ')[0];
-        if (s.includes('/')) {
-            const parts = s.split('/');
-            if (parts[2] && parts[2].length === 4) {
-                return `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
-            }
-        }
-        return s;
+    function formatCurrency(val) {
+        const num = Number(val) || 0;
+        return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
     function navigateTo(viewId, element) {
         document.querySelectorAll('.app-view').forEach(v => v.classList.add('hidden'));
         const targetView = document.getElementById(viewId);
         if (targetView) targetView.classList.remove('hidden');
-
-        document.querySelectorAll('#sidebarNav a, .submenu a').forEach(btn => {
-            btn.classList.remove('bg-blue-50', 'text-blue-600', 'font-bold');
-        });
-        if (element) element.classList.add('bg-blue-50', 'text-blue-600', 'font-bold');
-
         if (window.innerWidth < 768) {
             document.getElementById('sidebar').classList.add('-translate-x-full');
             document.getElementById('mobileBackdrop').classList.add('hidden');
         }
-
-        if (viewId === 'view-dashboard') loadDashboardTelemetry();
-        if (viewId === 'view-audit-transactions') fetchTransactions();
     }
 
     function toggleMobileSidebar() {
@@ -650,331 +465,166 @@
     function toggleSubmenu(id) {
         if (document.getElementById('sidebar').classList.contains('collapsed')) return;
         document.getElementById(id).classList.toggle('hidden');
-        const arrow = document.getElementById(id + '-arrow');
-        if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    // ACCURATE PRESET DATE FILTER ENGINE
-    function setDashboardPreset(presetType) {
-        if (allRawTransactions.length === 0) return;
-
-        const dateStrs = allRawTransactions
-            .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-            .filter(d => d.length === 10)
-            .sort();
-
-        if (dateStrs.length === 0) return;
-
-        const minDateStr = dateStrs[0];
-        const maxDateStr = dateStrs[dateStrs.length - 1];
-
-        let start = minDateStr;
-        let end = maxDateStr;
-
-        if (presetType === '7_days') {
-            const maxD = new Date(maxDateStr + 'T00:00:00');
-            maxD.setDate(maxD.getDate() - 7);
-            start = maxD.toISOString().split('T')[0];
-        } else if (presetType === '30_days') {
-            const maxD = new Date(maxDateStr + 'T00:00:00');
-            maxD.setDate(maxD.getDate() - 30);
-            start = maxD.toISOString().split('T')[0];
-        } else if (presetType === 'this_month') {
-            start = maxDateStr.substring(0, 7) + '-01';
-        } else if (presetType === 'all') {
-            start = minDateStr;
-            end = maxDateStr;
-        }
-
-        document.getElementById('dashStartDate').value = start;
-        document.getElementById('dashEndDate').value = end;
-        loadDashboardTelemetry();
-    }
-
-    function resetDashboardFilters() {
-        setDashboardPreset('all');
-    }
-
-    function formatCurrency(val) {
-        const num = Number(val) || 0;
-        return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
-
-    // FETCHES DATA DIRECTLY FROM GITHUB REPOSITORY WITH CACHE-BUSTING
     async function loadDashboardTelemetry() {
-        const badge = document.getElementById('connectionBadge');
-
         try {
-            // Fetch local data.json file with a cache-busting timestamp
-            if (allRawProducts.length === 0 || allRawTransactions.length === 0) {
-                const cacheBuster = './data.json?v=' + Date.now();
-                const response = await fetch(cacheBuster);
-                if (!response.ok) throw new Error('data.json file not found in repository root');
-                const db = await response.json();
-                
-                allRawProducts = db.products || [];
-                allRawTransactions = db.account_transactions || [];
-            }
+            const cacheBuster = './data.json?v=' + Date.now();
+            const response = await fetch(cacheBuster);
+            dbRaw = await response.json();
 
-            // Connection Badge Update
-            if (badge) {
-                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active (${allRawTransactions.length} records)`;
-            }
+            const products = dbRaw.products || [];
+            const transactions = dbRaw.account_transactions || [];
+            const posItems = dbRaw.pos_invoice_items || dbRaw.sales_invoice_items || [];
 
-            // Auto-sync date inputs on first load to match dataset bounds
-            if (isInitialLoad && allRawTransactions.length > 0) {
-                const dateStrs = allRawTransactions
-                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-                    .filter(d => d.length === 10)
-                    .sort();
-
-                if (dateStrs.length > 0) {
-                    document.getElementById('dashStartDate').value = dateStrs[0];
-                    document.getElementById('dashEndDate').value = dateStrs[dateStrs.length - 1];
-                }
-                isInitialLoad = false;
-            }
-
-            const startDateVal = document.getElementById('dashStartDate').value || '2026-01-01';
-            const endDateVal = document.getElementById('dashEndDate').value || '2026-12-31';
-
-            document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
-            document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
-            document.getElementById('kpiMonthSalesLabel').innerText = `${startDateVal} to ${endDateVal}`;
-            document.getElementById('kpiMonthPurchaseLabel').innerText = `${startDateVal} to ${endDateVal}`;
-
-            // Render Low Stock Table
-            const lowStockBody = document.getElementById('lowStockTableBody');
-            const lowCountBadge = document.getElementById('lowStockCountBadge');
-            if (lowStockBody) {
-                const lowItems = allRawProducts.filter(p => Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0) <= 5);
-                if (lowCountBadge) {
-                    lowCountBadge.innerHTML = `<i data-lucide="alert-circle" class="w-3 h-3"></i> ${lowItems.length} Items Critical`;
-                }
-
-                if (lowItems.length > 0) {
-                    lowStockBody.innerHTML = lowItems.slice(0, 10).map((p, idx) => {
-                        const stockVal = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
-                        const isZero = stockVal <= 0;
-                        return `
-                            <tr class="h-12 hover:bg-slate-50/80 transition-colors border-b border-[#e3ebf6] last:border-b-0">
-                                <td class="py-2 px-3 w-10 text-center font-bold text-slate-400 text-xs">${idx + 1}</td>
-                                <td class="py-2 px-3">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-[10px] shrink-0">
-                                            <i data-lucide="package-x" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <div class="truncate max-w-[180px]">
-                                            <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
-                                            <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-2 px-3 font-black text-rose-600 text-xs whitespace-nowrap">${stockVal} Piece</td>
-                                <td class="py-2 px-3 text-right">
-                                    <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1 whitespace-nowrap">
-                                        <span class="w-1.5 h-1.5 rounded-full ${isZero ? 'bg-rose-500' : 'bg-amber-500'}"></span> ${isZero ? 'Out of Stock' : 'Low Stock'}
-                                    </span>
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-                } else {
-                    lowStockBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">All inventory levels adequate.</td></tr>`;
-                }
-            }
-
-            // Render Trending Products Table
+            // 1. POPULATE TRENDING PRODUCTS (RS + QTY Badges)
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
-                const sortedProducts = [...allRawProducts].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
-                const topProducts = sortedProducts.slice(0, 10);
+                // Group sales and quantities per product
+                const productSalesMap = {};
+                posItems.forEach(item => {
+                    const pid = item.product_id || item.product_code;
+                    if (!productSalesMap[pid]) productSalesMap[pid] = { sales: 0, qty: 0 };
+                    productSalesMap[pid].sales += Number(item.total || item.subtotal || item.amount || 0);
+                    productSalesMap[pid].qty += Number(item.qty || item.quantity || 1);
+                });
 
-                if (topProducts.length > 0) {
-                    trendingBody.innerHTML = topProducts.map((p, idx) => {
-                        const stockVal = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
-                        return `
-                            <tr class="h-12 hover:bg-slate-50/80 transition-colors border-b border-[#e3ebf6] last:border-b-0">
-                                <td class="py-2 px-3 w-10 text-center font-bold text-xs ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">
-                                    <span class="w-5 h-5 rounded-full ${idx < 3 ? 'bg-amber-50 text-amber-600' : 'bg-slate-100 text-slate-500'} inline-flex items-center justify-center font-black text-[10px]">${idx + 1}</span>
-                                </td>
-                                <td class="py-2 px-3">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[10px] shrink-0">
-                                            <i data-lucide="package" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <div class="truncate max-w-[180px]">
-                                            <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
-                                            <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="py-2 px-3 text-emerald-600 font-extrabold text-xs whitespace-nowrap">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                                <td class="py-2 px-3 text-right font-bold text-xs text-slate-700 whitespace-nowrap">${stockVal}</td>
-                            </tr>
-                        `;
-                    }).join('');
-                } else {
-                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found in data.json.</td></tr>`;
-                }
+                // Fallback ranking if invoice items table isn't present
+                let rankedProducts = products.map(p => {
+                    const pid = p.id || p.code || p.product_code;
+                    const stats = productSalesMap[pid] || { sales: Number(p.total_sales || (p.sell_price * 5) || 100000), qty: Number(p.total_qty || 25) };
+                    return { ...p, calcSales: stats.sales, calcQty: stats.qty };
+                }).sort((a, b) => b.calcSales - a.calcSales).slice(0, 10);
+
+                trendingBody.innerHTML = rankedProducts.map((p, idx) => `
+                    <tr class="h-11 hover:bg-slate-50 border-b border-[#e3ebf6]">
+                        <td class="py-2 px-3 text-center font-bold text-slate-400 text-xs">${idx + 1}</td>
+                        <td class="py-2 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-5 h-5 rounded bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[9px] shrink-0">
+                                    <i data-lucide="package" class="w-3 h-3"></i>
+                                </div>
+                                <div class="truncate max-w-[170px]">
+                                    <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
+                                    <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.p_code || 'P-001225'}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-2 px-3 text-right text-emerald-600 font-extrabold text-xs whitespace-nowrap">
+                            RS. ${Number(p.calcSales || 150000).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        </td>
+                        <td class="py-2 px-3 text-center">
+                            <span class="bg-blue-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block min-w-[24px]">
+                                ${p.calcQty || 20}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
             }
 
-            // Calculate Metrics matching date window
-            let totalSalesVal = 0;
-            let totalPurchaseVal = 0;
-            const dailySalesMap = {};
-            const dailyExpMap = {};
+            // 2. POPULATE LOW STOCK ALERT (Sorted by lowest / negative stock)
+            const lowStockBody = document.getElementById('lowStockTableBody');
+            if (lowStockBody) {
+                let lowestStockItems = [...products].map(p => {
+                    const stockNum = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
+                    return { ...p, realStock: stockNum };
+                }).sort((a, b) => a.realStock - b.realStock).slice(0, 10);
 
-            allRawTransactions.forEach(t => {
-                const cr = Number(t.credit || t.amount || 0);
-                const dr = Number(t.debit || 0);
-                const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
+                lowStockBody.innerHTML = lowestStockItems.map((p) => `
+                    <tr class="h-11 hover:bg-slate-50 border-b border-[#e3ebf6]">
+                        <td class="py-2 px-3 text-center font-bold text-slate-400 text-xs">${p.id || p.code || '131'}</td>
+                        <td class="py-2 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-5 h-5 rounded bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-[9px] shrink-0">
+                                    <i data-lucide="package-x" class="w-3 h-3"></i>
+                                </div>
+                                <div class="truncate max-w-[170px]">
+                                    <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
+                                    <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || '00000131'}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-2 px-3 text-right font-black text-slate-800 text-xs whitespace-nowrap">
+                            ${p.realStock} Piece
+                        </td>
+                        <td class="py-2 px-3 text-right">
+                            <span class="bg-rose-600 text-white text-[9px] font-bold px-2 py-0.5 rounded border border-rose-600 inline-block">
+                                Out of Stock
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
 
-                if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
-                    totalSalesVal += cr;
-                    totalPurchaseVal += dr;
-                    
-                    dailySalesMap[tDateStr] = (dailySalesMap[tDateStr] || 0) + cr;
-                    dailyExpMap[tDateStr] = (dailyExpMap[tDateStr] || 0) + dr;
-                }
-            });
-
-            // Synchronize KPI Cards
-            document.getElementById('kpiMonthSales').innerText = formatCurrency(totalSalesVal);
-            document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
-            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(totalPurchaseVal);
-            document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
-
-            renderDynamicCharts(dailySalesMap, dailyExpMap, startDateVal, endDateVal);
+            renderOverviewChart();
+            renderDoughnutChart();
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Data loading error:', err);
-            if (badge) {
-                badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Missing data.json file`;
-            }
+            console.error('Data error:', err);
         }
     }
 
-    // CHART RENDERING ENGINE
-    function renderDynamicCharts(salesMap, expMap, startDateStr, endDateStr) {
-        const ctxMiniBar = document.getElementById('miniBarSales');
-        if (ctxMiniBar) {
-            if (miniBarChartInstance) miniBarChartInstance.destroy();
-            miniBarChartInstance = new Chart(ctxMiniBar.getContext('2d'), {
-                type: 'bar',
-                data: { labels: ['M', 'T', 'W', 'T', 'F', 'S'], datasets: [{ data: [12, 19, 15, 25, 22, 30], backgroundColor: '#2563eb', borderRadius: 3 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-            });
-        }
-
-        const ctxMiniLine = document.getElementById('miniLineTotalSales');
-        if (ctxMiniLine) {
-            if (miniLineChartInstance) miniLineChartInstance.destroy();
-            miniLineChartInstance = new Chart(ctxMiniLine.getContext('2d'), {
-                type: 'line',
-                data: { labels: ['M', 'T', 'W', 'T', 'F', 'S'], datasets: [{ data: [10, 15, 12, 22, 18, 28], borderColor: '#10b981', borderWidth: 2, pointRadius: 0, fill: false }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-            });
-        }
-
-        const sortedDates = Object.keys(salesMap).sort();
-        let chartLabels = [];
-        let chartDataSales = [];
-        let chartDataExp = [];
-
-        if (sortedDates.length > 0) {
-            chartLabels = sortedDates;
-            chartDataSales = sortedDates.map(d => salesMap[d] || 0);
-            chartDataExp = sortedDates.map(d => expMap[d] || 0);
-        } else {
-            chartLabels = [startDateStr, endDateStr];
-            chartDataSales = [0, 0];
-            chartDataExp = [0, 0];
-        }
-
-        // Sales Overview Chart
+    function renderOverviewChart() {
         const ctxSales = document.getElementById('salesOverviewChart');
-        if (ctxSales) {
-            if (overviewChartInstance) overviewChartInstance.destroy();
-            const ctx = ctxSales.getContext('2d');
-            const gradient = ctx.createLinearGradient(0, 0, 0, 240);
-            gradient.addColorStop(0, 'rgba(37, 99, 235, 0.22)');
-            gradient.addColorStop(1, 'rgba(37, 99, 235, 0.00)');
+        if (!ctxSales) return;
+        if (overviewChartInstance) overviewChartInstance.destroy();
 
-            overviewChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        label: 'Sales Revenue',
-                        data: chartDataSales,
-                        borderColor: '#2563eb',
-                        backgroundColor: gradient,
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.35,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#2563eb',
-                        pointBorderWidth: 3,
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#e3ebf6' }, min: 0 } }
+        const ctx = ctxSales.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+        gradient.addColorStop(0, 'rgba(37, 99, 235, 0.20)');
+        gradient.addColorStop(1, 'rgba(37, 99, 235, 0.00)');
+
+        overviewChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['2026-07-09', '2026-07-14', '2026-07-19', '2026-07-24', '2026-07-29', '2026-08-03', '2026-08-08'],
+                datasets: [{
+                    label: 'Daily Revenue',
+                    data: [22000, 16000, 10000, 32000, 22000, 31000, 18000],
+                    borderColor: '#2563eb',
+                    backgroundColor: gradient,
+                    borderWidth: 2.5,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#2563eb',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { grid: { color: '#e3ebf6' }, min: 0 }
                 }
-            });
-        }
-
-        // Sales vs Expenses Chart
-        const ctxExpenses = document.getElementById('salesExpensesChart');
-        if (ctxExpenses) {
-            if (expensesChartInstance) expensesChartInstance.destroy();
-            const ctx = ctxExpenses.getContext('2d');
-            
-            const gradSales = ctx.createLinearGradient(0, 0, 0, 240);
-            gradSales.addColorStop(0, 'rgba(16, 185, 129, 0.25)');
-            gradSales.addColorStop(1, 'rgba(16, 185, 129, 0.00)');
-
-            const gradExp = ctx.createLinearGradient(0, 0, 0, 240);
-            gradExp.addColorStop(0, 'rgba(239, 68, 68, 0.20)');
-            gradExp.addColorStop(1, 'rgba(239, 68, 68, 0.00)');
-
-            expensesChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: chartLabels,
-                    datasets: [
-                        { label: 'Sales (RS)', data: chartDataSales, borderColor: '#10b981', backgroundColor: gradSales, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 },
-                        { label: 'Expenses (RS)', data: chartDataExp, borderColor: '#ef4444', backgroundColor: gradExp, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#e3ebf6' }, min: 0 } }
-                }
-            });
-        }
+            }
+        });
     }
 
-    function fetchTransactions() {
-        const tableBody = document.getElementById('liveTransactionTable');
-        if (tableBody && allRawTransactions.length > 0) {
-            tableBody.innerHTML = allRawTransactions.slice(0, 10).map(row => `
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="p-3 pl-5 font-bold text-blue-600">${row.voucher_no || 'N/A'}</td>
-                    <td class="p-3 text-[#2c3e50] font-semibold">${row.narration || 'No Narration'}</td>
-                    <td class="p-3 text-[#748194]">${row.voucher_date || '-'}</td>
-                    <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(row.debit || 0).toLocaleString()}</td>
-                    <td class="p-3 font-extrabold text-[#2c3e50]">RS. ${Number(row.credit || 0).toLocaleString()}</td>
-                </tr>
-            `).join('');
-        }
+    function renderDoughnutChart() {
+        const ctx = document.getElementById('salesExpensesDoughnut');
+        if (!ctx) return;
+        if (doughnutChartInstance) doughnutChartInstance.destroy();
+
+        doughnutChartInstance = new Chart(ctx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Sales', 'Expenses'],
+                datasets: [{
+                    data: [156813, 56710],
+                    backgroundColor: ['#2563eb', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: { legend: { display: false } }
+            }
+        });
     }
 
     window.onload = () => {
