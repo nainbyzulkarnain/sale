@@ -24,12 +24,12 @@
             background: #ffffff;
             border: 1px solid #e3ebf6;
             box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             transition: all 0.2s ease;
         }
         .falcon-card:hover {
             box-shadow: 0 1rem 2rem rgba(18, 38, 63, 0.06);
-            border-color: #ccd9e8;
+            border-color: #cbd5e1;
         }
 
         .btn-falcon-action {
@@ -366,7 +366,7 @@
         </header>
 
         <!-- ========================================================= -->
-        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW                -->
+        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW (#view-dashboard) -->
         <!-- ========================================================= -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
@@ -378,24 +378,25 @@
                     </div>
                     <div>
                         <h2 class="text-lg sm:text-xl font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
-                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
+                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Dynamic database telemetry dashboard.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                     <div class="flex items-center gap-1.5 sm:gap-2 bg-white px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#e3ebf6] text-xs font-semibold shadow-sm w-full sm:w-auto justify-between sm:justify-start">
                         <i data-lucide="calendar" class="w-3.5 h-3.5 text-blue-600 shrink-0"></i>
-                        <input type="date" id="dashStartDate" value="2026-07-08" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <input type="date" id="dashStartDate" value="2026-01-01" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
                         <span class="text-slate-300">to</span>
-                        <input type="date" id="dashEndDate" value="2026-08-07" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
+                        <input type="date" id="dashEndDate" value="2026-08-08" class="bg-transparent text-slate-700 focus:outline-none text-[11px] sm:text-xs">
                     </div>
                     <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
-                        <button onclick="setDashboardPresetDays(7)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
-                        <button onclick="setDashboardPresetDays(30)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
-                        <button onclick="setDashboardPresetDays(30)" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">This Month</button>
+                        <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
+                        <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
+                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">This Month</button>
+                        <button onclick="setDashboardPreset('all')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors font-bold">All Time</button>
                     </div>
                     <div class="flex gap-2 w-full sm:w-auto">
                         <button onclick="loadDashboardTelemetry()" class="btn-falcon-primary flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
-                            <i data-lucide="filter" class="w-3.5 h-3.5"></i> Apply
+                            <i data-lucide="filter" class="w-3.5 h-3.5"></i> Apply Filter
                         </button>
                         <button onclick="resetDashboardFilters()" class="btn-falcon-success flex-1 sm:flex-initial px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
                             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Clear
@@ -406,35 +407,55 @@
 
             <!-- KPI METRIC CARDS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                
+                <!-- Card 1: Month Sales -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
+                        <div class="flex items-center gap-1.5">
+                            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-blue-600"></i>
+                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
+                        </div>
                         <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold">Current Month</p>
+                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthSalesLabel">Current Month</p>
                     </div>
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
+
+                <!-- Card 2: Total Sales (Filtered Window) -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
+                        <div class="flex items-center gap-1.5">
+                            <i data-lucide="dollar-sign" class="w-3.5 h-3.5 text-emerald-500"></i>
+                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
+                        </div>
                         <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
                         <p id="kpiTotalSalesSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
                     </div>
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniLineTotalSales"></canvas></div>
                 </div>
+
+                <!-- Card 3: Month Purchase -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
+                        <div class="flex items-center gap-1.5">
+                            <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-amber-500"></i>
+                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
+                        </div>
                         <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
-                        <p class="text-[10px] text-[#748194] font-bold">Current Month</p>
+                        <p class="text-[10px] text-[#748194] font-bold" id="kpiMonthPurchaseLabel">Current Month</p>
                     </div>
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold shrink-0">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i>
                     </div>
                 </div>
+
+                <!-- Card 4: Total Purchase (Filtered Window) -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
+                        <div class="flex items-center gap-1.5">
+                            <i data-lucide="boxes" class="w-3.5 h-3.5 text-purple-600"></i>
+                            <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
+                        </div>
                         <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
                         <p id="kpiTotalPurchaseSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
                     </div>
@@ -442,57 +463,108 @@
                         <i data-lucide="boxes" class="w-4 h-4"></i>
                     </div>
                 </div>
+
             </div>
 
-            <!-- CHARTS -->
+            <!-- DYNAMIC CHARTS -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
                 <div class="falcon-card p-4 sm:p-5">
                     <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales Overview</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="line-chart" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales Overview</h3>
+                        </div>
+                        <span id="chartSalesRangeLabel" class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-100">Filtered Timeline</span>
                     </div>
                     <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesOverviewChart"></canvas></div>
                 </div>
+
                 <div class="falcon-card p-4 sm:p-5">
                     <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales vs Expenses</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                                <i data-lucide="activity" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Sales vs Expenses</h3>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] font-extrabold">
+                            <span class="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Sales
+                            </span>
+                            <span class="inline-flex items-center gap-1 text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-100">
+                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Expenses
+                            </span>
+                        </div>
                     </div>
                     <div class="relative h-56 sm:h-64 w-full mt-3"><canvas id="salesExpensesChart"></canvas></div>
                 </div>
             </div>
 
-            <!-- TABLES -->
+            <!-- TRENDING PRODUCTS & LOW STOCK TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
+                
+                <!-- Trending Products -->
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Trending Products</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
+                                <i data-lucide="flame" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Trending Products</h3>
+                        </div>
+                        <span class="text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                            <i data-lucide="award" class="w-3 h-3"></i> Top Performers
+                        </span>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">PRICE</th><th class="p-2">STOCK</th></tr>
+                                <tr>
+                                    <th class="p-2 sm:p-2.5">#</th>
+                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
+                                    <th class="p-2 sm:p-2.5">PRICE</th>
+                                    <th class="p-2 sm:p-2.5">STOCK</th>
+                                </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading products from Supabase...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Fetching live catalog from Supabase...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <!-- Low Stock Alert -->
                 <div class="falcon-card p-3.5 sm:p-4">
                     <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Low Stock Alert</h3>
-                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md">Checking...</span>
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                            </div>
+                            <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Low Stock Alert</h3>
+                        </div>
+                        <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                            <i data-lucide="alert-circle" class="w-3 h-3"></i> Checking...
+                        </span>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">STOCK</th><th class="p-2">STATUS</th></tr>
+                                <tr>
+                                    <th class="p-2 sm:p-2.5">#</th>
+                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
+                                    <th class="p-2 sm:p-2.5">STOCK</th>
+                                    <th class="p-2 sm:p-2.5">STATUS</th>
+                                </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading alerts...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Fetching stock telemetry...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
         </main>
 
@@ -534,11 +606,14 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // GLOBAL CHART INSTANCE TRACKERS TO PREVENT CANVAS CANVAS CRASHES
+    // GLOBAL CHART INSTANCES (Prevents "Canvas is already in use" errors)
     let miniBarChartInstance = null;
     let miniLineChartInstance = null;
     let overviewChartInstance = null;
     let expensesChartInstance = null;
+
+    let allRawTransactions = [];
+    let allRawProducts = [];
 
     function navigateTo(viewId, element) {
         document.querySelectorAll('.app-view').forEach(v => v.classList.add('hidden'));
@@ -575,19 +650,35 @@
         if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    function setDashboardPresetDays(days) {
-        const end = new Date();
-        const start = new Date();
-        start.setDate(end.getDate() - days);
+    // ACCURATE PRESET DATE FILTER ENGINE
+    function setDashboardPreset(presetType) {
+        const today = new Date('2026-08-08');
+        let start = new Date(today);
+        let end = new Date(today);
+
+        if (presetType === '7_days') {
+            start.setDate(today.getDate() - 7);
+        } else if (presetType === '30_days') {
+            start.setDate(today.getDate() - 30);
+        } else if (presetType === 'this_month') {
+            start = new Date(today.getFullYear(), today.getMonth(), 1);
+        } else if (presetType === 'all') {
+            // Find earliest date from transactions
+            if (allRawTransactions.length > 0) {
+                const dates = allRawTransactions.map(t => new Date(t.voucher_date || t.created_at || t.date).getTime()).filter(d => !isNaN(d));
+                if (dates.length > 0) start = new Date(Math.min(...dates));
+            } else {
+                start = new Date('2026-01-01');
+            }
+        }
+
         document.getElementById('dashStartDate').value = start.toISOString().split('T')[0];
         document.getElementById('dashEndDate').value = end.toISOString().split('T')[0];
         loadDashboardTelemetry();
     }
 
     function resetDashboardFilters() {
-        document.getElementById('dashStartDate').value = '2026-07-08';
-        document.getElementById('dashEndDate').value = '2026-08-07';
-        loadDashboardTelemetry();
+        setDashboardPreset('all');
     }
 
     function formatCurrency(val) {
@@ -595,50 +686,62 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // REAL SUPABASE DATABASE TELEMETRY & FLEXIBLE DATE PARSING ENGINE
+    // DYNAMIC REAL-TIME TELEMETRY & ACCURATE DATE RE-CALCULATION
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
         const endDateVal = document.getElementById('dashEndDate').value;
 
-        const startTimestamp = startDateVal ? new Date(startDateVal + 'T00:00:00').getTime() : 0;
-        const endTimestamp = endDateVal ? new Date(endDateVal + 'T23:59:59').getTime() : Date.now();
+        const startTimestamp = new Date(startDateVal + 'T00:00:00').getTime();
+        const endTimestamp = new Date(endDateVal + 'T23:59:59').getTime();
 
         document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
-        let products = [];
-        let transactions = [];
-
         try {
-            // Fetch live products
-            const prodRes = await supabaseClient.from('products').select('*');
-            if (prodRes.error) throw prodRes.error;
-            products = prodRes.data || [];
+            // 1. Fetch live products catalog from Supabase
+            if (allRawProducts.length === 0) {
+                const prodRes = await supabaseClient.from('products').select('*');
+                if (prodRes.error) throw prodRes.error;
+                allRawProducts = prodRes.data || [];
+            }
 
-            // Update badge status
+            // Connection Badge Update
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            // Low stock calculation
+            // Render Low Stock Table (Stock <= 5) with Falcon Badges & Icons
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
-                const lowItems = products.filter(p => Number(p.opening_stock ?? p.stock ?? 0) <= 5);
-                if (lowCountBadge) lowCountBadge.innerText = `${lowItems.length} Items`;
+                const lowItems = allRawProducts.filter(p => Number(p.opening_stock ?? p.stock ?? 0) <= 5);
+                if (lowCountBadge) {
+                    lowCountBadge.innerHTML = `<i data-lucide="alert-circle" class="w-3 h-3"></i> ${lowItems.length} Items Critical`;
+                }
 
                 if (lowItems.length > 0) {
                     lowStockBody.innerHTML = lowItems.slice(0, 10).map((p, idx) => `
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="p-2 font-bold text-slate-400">${idx + 1}</td>
-                            <td class="p-2">
-                                <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                <span class="text-[10px] text-[#748194]">${p.code || p.sku || 'SKU'}</span>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 font-bold text-slate-400 text-xs">${idx + 1}</td>
+                            <td class="p-2.5">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-[10px] shrink-0">
+                                        <i data-lucide="package-x" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-[#748194] font-medium">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="p-2 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
-                            <td class="p-2"><span class="bg-rose-50 text-rose-600 text-[9px] font-bold px-1.5 py-0.5 rounded border border-rose-200">Low Stock</span></td>
+                            <td class="p-2.5 font-black text-rose-600 text-xs">${p.opening_stock ?? p.stock ?? 0} Piece</td>
+                            <td class="p-2.5">
+                                <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Out of Stock
+                                </span>
+                            </td>
                         </tr>
                     `).join('');
                 } else {
@@ -646,22 +749,31 @@
                 }
             }
 
-            // Trending products table
+            // Render Trending Products Table
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
-                const sortedProducts = [...products].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
+                const sortedProducts = [...allRawProducts].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
                 const topProducts = sortedProducts.slice(0, 10);
 
                 if (topProducts.length > 0) {
                     trendingBody.innerHTML = topProducts.map((p, idx) => `
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="p-2 font-bold text-slate-400">${idx + 1}</td>
-                            <td class="p-2">
-                                <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                <span class="text-[10px] text-[#748194]">${p.code || p.sku || 'SKU'}</span>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-2.5 font-bold text-xs ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">
+                                ${idx < 3 ? `<span class="w-5 h-5 rounded-full bg-amber-50 text-amber-600 inline-flex items-center justify-center font-black text-[10px]">${idx + 1}</span>` : idx + 1}
                             </td>
-                            <td class="p-2 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                            <td class="p-2 font-bold text-xs">${p.opening_stock ?? p.stock ?? 0}</td>
+                            <td class="p-2.5">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[10px] shrink-0">
+                                        <i data-lucide="package" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-[#748194] font-medium">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
+                            <td class="p-2.5 font-bold text-xs text-slate-700">${p.opening_stock ?? p.stock ?? 0}</td>
                         </tr>
                     `).join('');
                 } else {
@@ -669,19 +781,22 @@
                 }
             }
 
-            // Fetch live account transactions
-            const txRes = await supabaseClient.from('account_transactions').select('*');
-            if (txRes.data) transactions = txRes.data;
+            // 2. Fetch live account transactions from Supabase
+            if (allRawTransactions.length === 0) {
+                const txRes = await supabaseClient.from('account_transactions').select('*');
+                if (txRes.data) allRawTransactions = txRes.data;
+            }
 
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
-            const now = new Date();
+            const now = new Date('2026-08-08');
             const currMonth = now.getMonth();
             const currYear = now.getFullYear();
 
             const dailySalesMap = {};
             const dailyExpMap = {};
 
-            transactions.forEach(t => {
+            // Calculate Metrics strictly inside user selected date range
+            allRawTransactions.forEach(t => {
                 const cr = Number(t.credit || t.amount || 0);
                 const dr = Number(t.debit || 0);
                 
@@ -690,6 +805,7 @@
                 const tTime = tDate.getTime();
                 const formattedDateKey = tDate.toISOString().split('T')[0];
 
+                // Strict filter for selected start and end date inputs
                 if (tTime >= startTimestamp && tTime <= endTimestamp) {
                     totalSalesVal += cr;
                     totalPurchaseVal += dr;
@@ -698,37 +814,24 @@
                     dailyExpMap[formattedDateKey] = (dailyExpMap[formattedDateKey] || 0) + dr;
                 }
 
+                // Month Sales / Purchase Calculation
                 if (tDate.getMonth() === currMonth && tDate.getFullYear() === currYear) {
                     monthSalesVal += cr;
                     monthPurchaseVal += dr;
                 }
             });
 
-            // Fallback to lifetime total if date range yields zero matching records
-            if (totalSalesVal === 0 && transactions.length > 0) {
-                transactions.forEach(t => {
-                    const cr = Number(t.credit || t.amount || 0);
-                    const dr = Number(t.debit || 0);
-                    const rawDate = t.voucher_date || t.date || t.created_at;
-                    const formattedDateKey = rawDate ? new Date(rawDate).toISOString().split('T')[0] : '2026-08-01';
-
-                    totalSalesVal += cr;
-                    totalPurchaseVal += dr;
-                    dailySalesMap[formattedDateKey] = (dailySalesMap[formattedDateKey] || 0) + cr;
-                    dailyExpMap[formattedDateKey] = (dailyExpMap[formattedDateKey] || 0) + dr;
-                });
-            }
-
-            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal || totalSalesVal);
+            // Update KPI metric values
+            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
-            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal || totalPurchaseVal);
+            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
 
-            renderDynamicCharts(dailySalesMap, dailyExpMap);
+            renderDynamicCharts(dailySalesMap, dailyExpMap, startDateVal, endDateVal);
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Supabase telemetry processing error:', err);
+            console.error('Supabase query error:', err);
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
@@ -736,7 +839,9 @@
         }
     }
 
-    function renderDynamicCharts(salesMap, expMap) {
+    // SAFE & ACCURATE CHART RENDERING ENGINE
+    function renderDynamicCharts(salesMap, expMap, startDateStr, endDateStr) {
+        // Mini Sparklines
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
             if (miniBarChartInstance) miniBarChartInstance.destroy();
@@ -757,11 +862,23 @@
             });
         }
 
-        const dates = Object.keys(salesMap).sort();
-        const salesValues = dates.map(d => salesMap[d]);
-        const chartLabels = dates.length > 0 ? dates : ['Jul 13', 'Jul 18', 'Jul 23', 'Jul 28', 'Aug 02', 'Aug 07'];
-        const chartData = dates.length > 0 ? salesValues : [0, 0, 0, 0, 0, 0];
+        // Generate X-Axis Timeline Labels strictly for selected date window
+        const sortedDates = Object.keys(salesMap).sort();
+        let chartLabels = [];
+        let chartDataSales = [];
+        let chartDataExp = [];
 
+        if (sortedDates.length > 0) {
+            chartLabels = sortedDates;
+            chartDataSales = sortedDates.map(d => salesMap[d] || 0);
+            chartDataExp = sortedDates.map(d => expMap[d] || 0);
+        } else {
+            chartLabels = [startDateStr, endDateStr];
+            chartDataSales = [0, 0];
+            chartDataExp = [0, 0];
+        }
+
+        // Render Sales Overview Chart
         const ctxSales = document.getElementById('salesOverviewChart');
         if (ctxSales) {
             if (overviewChartInstance) overviewChartInstance.destroy();
@@ -776,12 +893,12 @@
                     labels: chartLabels,
                     datasets: [{
                         label: 'Sales Revenue',
-                        data: chartData,
+                        data: chartDataSales,
                         borderColor: '#2563eb',
                         backgroundColor: gradient,
                         borderWidth: 3,
                         fill: true,
-                        tension: 0.4,
+                        tension: 0.35,
                         pointBackgroundColor: '#ffffff',
                         pointBorderColor: '#2563eb',
                         pointBorderWidth: 3,
@@ -796,7 +913,7 @@
             });
         }
 
-        const expValues = chartLabels.map(d => expMap[d] || 0);
+        // Render Sales vs Expenses Chart
         const ctxExpenses = document.getElementById('salesExpensesChart');
         if (ctxExpenses) {
             if (expensesChartInstance) expensesChartInstance.destroy();
@@ -815,8 +932,8 @@
                 data: {
                     labels: chartLabels,
                     datasets: [
-                        { label: 'Sales (RS)', data: chartData, borderColor: '#10b981', backgroundColor: gradSales, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 },
-                        { label: 'Expenses (RS)', data: expValues, borderColor: '#ef4444', backgroundColor: gradExp, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 }
+                        { label: 'Sales (RS)', data: chartDataSales, borderColor: '#10b981', backgroundColor: gradSales, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 },
+                        { label: 'Expenses (RS)', data: chartDataExp, borderColor: '#ef4444', backgroundColor: gradExp, borderWidth: 2.5, fill: true, tension: 0.35, pointRadius: 4 }
                     ]
                 },
                 options: {
@@ -834,7 +951,7 @@
             const { data } = await supabaseClient.from('account_transactions').select('*').order('id', { ascending: false }).limit(10);
             if (tableBody && data) {
                 tableBody.innerHTML = data.map(row => `
-                    <tr class="hover:bg-slate-50">
+                    <tr class="hover:bg-slate-50 transition-colors">
                         <td class="p-3 pl-5 font-bold text-blue-600">${row.voucher_no || 'N/A'}</td>
                         <td class="p-3 text-[#2c3e50] font-semibold">${row.narration || 'No Narration'}</td>
                         <td class="p-3 text-[#748194]">${row.voucher_date || '-'}</td>
@@ -847,7 +964,7 @@
     }
 
     window.onload = () => {
-        loadDashboardTelemetry();
+        setDashboardPreset('all');
     };
 </script>
 </body>
