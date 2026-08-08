@@ -10,8 +10,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Supabase JS Client SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; }
@@ -85,9 +83,7 @@
     <!-- MOBILE OVERLAY BACKDROP -->
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
-    <!-- ========================================================= -->
-    <!-- SIDEBAR NAVIGATION (15 Modules, 38 Submodules)            -->
-    <!-- ========================================================= -->
+    <!-- SIDEBAR NAVIGATION -->
     <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
         <!-- Brand Logo Header -->
@@ -109,7 +105,6 @@
         <!-- SIDEBAR NAVIGATION MENU -->
         <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-xs font-semibold" id="sidebarNav">
             
-            <!-- Dashboard -->
             <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-blue-600 font-bold shadow-sm transition-all">
                 <i data-lucide="pie-chart" class="w-4 h-4 shrink-0 text-blue-600"></i>
                 <span class="sidebar-text truncate">Dashboard</span>
@@ -351,10 +346,10 @@
                 </div>
             </div>
 
-            <!-- Connection Status Badge & Profile Header -->
+            <!-- Connection Status Badge -->
             <div class="flex items-center gap-2 sm:gap-3">
-                <span id="connectionBadge" class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Connecting to Supabase...
+                <span id="connectionBadge" class="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active
                 </span>
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs">
@@ -365,12 +360,10 @@
             </div>
         </header>
 
-        <!-- ========================================================= -->
-        <!-- FALCON DASHBOARD VIEW (#view-dashboard)                    -->
-        <!-- ========================================================= -->
+        <!-- DASHBOARD VIEW -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
-            <!-- Welcome Banner & Quick Date Filters -->
+            <!-- Welcome Banner & Date Filters -->
             <div class="falcon-card p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 sm:gap-4 bg-gradient-to-r from-blue-50/40 via-white to-white">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
@@ -378,7 +371,7 @@
                     </div>
                     <div>
                         <h2 class="text-lg sm:text-xl font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
-                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Dynamic database telemetry dashboard.</p>
+                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Real-time GitHub dataset engine.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -391,7 +384,7 @@
                     <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
                         <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
                         <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
-                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">This Month</button>
+                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Selected Month</button>
                         <button onclick="setDashboardPreset('all')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors font-bold">All Time</button>
                     </div>
                     <div class="flex gap-2 w-full sm:w-auto">
@@ -408,7 +401,7 @@
             <!-- KPI METRIC CARDS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 
-                <!-- Card 1: Sales in Selected Period -->
+                <!-- Card 1 -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
@@ -421,7 +414,7 @@
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
 
-                <!-- Card 2: Total Revenue (Selected Window) -->
+                <!-- Card 2 -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
@@ -434,7 +427,7 @@
                     <div class="w-16 sm:w-20 h-10 sm:h-11 shrink-0"><canvas id="miniLineTotalSales"></canvas></div>
                 </div>
 
-                <!-- Card 3: Purchase in Selected Period -->
+                <!-- Card 3 -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
@@ -449,7 +442,7 @@
                     </div>
                 </div>
 
-                <!-- Card 4: Total Purchase (Selected Window) -->
+                <!-- Card 4 -->
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <div class="flex items-center gap-1.5">
@@ -466,7 +459,7 @@
 
             </div>
 
-            <!-- DYNAMIC CHARTS -->
+            <!-- CHARTS -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
                 <div class="falcon-card p-4 sm:p-5">
                     <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
@@ -502,12 +495,12 @@
                 </div>
             </div>
 
-            <!-- TRENDING PRODUCTS & LOW STOCK TABLES -->
+            <!-- TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-5">
                 
                 <!-- Trending Products -->
                 <div class="falcon-card p-3.5 sm:p-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
                                 <i data-lucide="flame" class="w-4 h-4"></i>
@@ -521,15 +514,15 @@
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr>
-                                    <th class="p-2 sm:p-2.5">#</th>
-                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
-                                    <th class="p-2 sm:p-2.5">PRICE</th>
-                                    <th class="p-2 sm:p-2.5">CURRENT STOCK</th>
+                                <tr class="h-9">
+                                    <th class="py-2 px-3 w-10 text-center">#</th>
+                                    <th class="py-2 px-3">PRODUCT</th>
+                                    <th class="py-2 px-3">PRICE</th>
+                                    <th class="py-2 px-3 text-right">CURRENT STOCK</th>
                                 </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Fetching live catalog from Supabase...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading catalog from data.json...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -537,7 +530,7 @@
 
                 <!-- Low Stock Alert -->
                 <div class="falcon-card p-3.5 sm:p-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
+                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6] h-10">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
                                 <i data-lucide="alert-triangle" class="w-4 h-4"></i>
@@ -551,15 +544,15 @@
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
                         <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr>
-                                    <th class="p-2 sm:p-2.5">#</th>
-                                    <th class="p-2 sm:p-2.5">PRODUCT</th>
-                                    <th class="p-2 sm:p-2.5">STOCK</th>
-                                    <th class="p-2 sm:p-2.5">STATUS</th>
+                                <tr class="h-9">
+                                    <th class="py-2 px-3 w-10 text-center">#</th>
+                                    <th class="py-2 px-3">PRODUCT</th>
+                                    <th class="py-2 px-3">STOCK</th>
+                                    <th class="py-2 px-3 text-right">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Fetching stock telemetry...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading stock alerts...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -601,11 +594,6 @@
 <script>
     lucide.createIcons();
 
-    // SUPABASE CONFIGURATION
-    const SUPABASE_URL = 'https://vkboodwwgqrhkcvwnodf.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     // GLOBAL CHART INSTANCES
     let miniBarChartInstance = null;
     let miniLineChartInstance = null;
@@ -614,23 +602,9 @@
 
     let allRawTransactions = [];
     let allRawProducts = [];
+    let isInitialLoad = true;
 
-    // HELPER FUNCTIONS TO GET TODAY & REAL DATES
-    function getTodayYYYYMMDD() {
-        const d = new Date();
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-
-    function getFirstDayOfCurrentMonthYYYYMMDD() {
-        const d = new Date();
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        return `${year}-${month}-01`;
-    }
-
+    // DATE PARSER
     function parseToYYYYMMDD(raw) {
         if (!raw) return '';
         const s = String(raw).trim();
@@ -680,43 +654,45 @@
         if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    // REAL-TIME PRESET FILTER ENGINE
+    // ACCURATE PRESET DATE FILTER ENGINE
     function setDashboardPreset(presetType) {
-        const todayStr = getTodayYYYYMMDD();
-        const today = new Date();
-        let startStr = getFirstDayOfCurrentMonthYYYYMMDD();
+        if (allRawTransactions.length === 0) return;
+
+        const dateStrs = allRawTransactions
+            .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
+            .filter(d => d.length === 10)
+            .sort();
+
+        if (dateStrs.length === 0) return;
+
+        const minDateStr = dateStrs[0];
+        const maxDateStr = dateStrs[dateStrs.length - 1];
+
+        let start = minDateStr;
+        let end = maxDateStr;
 
         if (presetType === '7_days') {
-            const d = new Date();
-            d.setDate(today.getDate() - 7);
-            startStr = d.toISOString().split('T')[0];
+            const maxD = new Date(maxDateStr + 'T00:00:00');
+            maxD.setDate(maxD.getDate() - 7);
+            start = maxD.toISOString().split('T')[0];
         } else if (presetType === '30_days') {
-            const d = new Date();
-            d.setDate(today.getDate() - 30);
-            startStr = d.toISOString().split('T')[0];
+            const maxD = new Date(maxDateStr + 'T00:00:00');
+            maxD.setDate(maxD.getDate() - 30);
+            start = maxD.toISOString().split('T')[0];
         } else if (presetType === 'this_month') {
-            startStr = getFirstDayOfCurrentMonthYYYYMMDD();
+            start = maxDateStr.substring(0, 7) + '-01';
         } else if (presetType === 'all') {
-            if (allRawTransactions.length > 0) {
-                const dateStrs = allRawTransactions
-                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-                    .filter(d => d.length === 10)
-                    .sort();
-                if (dateStrs.length > 0) {
-                    startStr = dateStrs[0];
-                }
-            } else {
-                startStr = '2026-01-01';
-            }
+            start = minDateStr;
+            end = maxDateStr;
         }
 
-        document.getElementById('dashStartDate').value = startStr;
-        document.getElementById('dashEndDate').value = todayStr;
+        document.getElementById('dashStartDate').value = start;
+        document.getElementById('dashEndDate').value = end;
         loadDashboardTelemetry();
     }
 
     function resetDashboardFilters() {
-        setDashboardPreset('this_month');
+        setDashboardPreset('all');
     }
 
     function formatCurrency(val) {
@@ -724,39 +700,51 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // TELEMETRY ENGINE CONNECTED TO SUPABASE
+    // FETCHES DATA DIRECTLY FROM GITHUB REPOSITORY WITH CACHE-BUSTING
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
 
         try {
-            // Fetch Products
-            if (allRawProducts.length === 0) {
-                const prodRes = await supabaseClient.from('products').select('*');
-                if (prodRes.error) throw prodRes.error;
-                allRawProducts = prodRes.data || [];
-            }
-
-            // Fetch Transactions
-            if (allRawTransactions.length === 0) {
-                const txRes = await supabaseClient.from('account_transactions').select('*');
-                if (txRes.data) allRawTransactions = txRes.data;
+            // Fetch local data.json file with a cache-busting timestamp
+            if (allRawProducts.length === 0 || allRawTransactions.length === 0) {
+                const cacheBuster = './data.json?v=' + Date.now();
+                const response = await fetch(cacheBuster);
+                if (!response.ok) throw new Error('data.json file not found in repository root');
+                const db = await response.json();
+                
+                allRawProducts = db.products || [];
+                allRawTransactions = db.account_transactions || [];
             }
 
             // Connection Badge Update
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active (${allRawTransactions.length} records)`;
             }
 
-            const startDateVal = document.getElementById('dashStartDate').value || getFirstDayOfCurrentMonthYYYYMMDD();
-            const endDateVal = document.getElementById('dashEndDate').value || getTodayYYYYMMDD();
+            // Auto-sync date inputs on first load to match dataset bounds
+            if (isInitialLoad && allRawTransactions.length > 0) {
+                const dateStrs = allRawTransactions
+                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
+                    .filter(d => d.length === 10)
+                    .sort();
+
+                if (dateStrs.length > 0) {
+                    document.getElementById('dashStartDate').value = dateStrs[0];
+                    document.getElementById('dashEndDate').value = dateStrs[dateStrs.length - 1];
+                }
+                isInitialLoad = false;
+            }
+
+            const startDateVal = document.getElementById('dashStartDate').value || '2026-01-01';
+            const endDateVal = document.getElementById('dashEndDate').value || '2026-12-31';
 
             document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiMonthSalesLabel').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiMonthPurchaseLabel').innerText = `${startDateVal} to ${endDateVal}`;
 
-            // Low Stock Table
+            // Render Low Stock Table
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
@@ -770,22 +758,22 @@
                         const stockVal = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
                         const isZero = stockVal <= 0;
                         return `
-                            <tr class="hover:bg-slate-50/80 transition-colors">
-                                <td class="p-2.5 font-bold text-slate-400 text-xs">${idx + 1}</td>
-                                <td class="p-2.5">
+                            <tr class="h-12 hover:bg-slate-50/80 transition-colors border-b border-[#e3ebf6] last:border-b-0">
+                                <td class="py-2 px-3 w-10 text-center font-bold text-slate-400 text-xs">${idx + 1}</td>
+                                <td class="py-2 px-3">
                                     <div class="flex items-center gap-2">
                                         <div class="w-6 h-6 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-[10px] shrink-0">
                                             <i data-lucide="package-x" class="w-3.5 h-3.5"></i>
                                         </div>
-                                        <div>
-                                            <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                            <span class="text-[10px] text-[#748194] font-medium">${p.code || p.sku || 'SKU'}</span>
+                                        <div class="truncate max-w-[180px]">
+                                            <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
+                                            <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="p-2.5 font-black text-rose-600 text-xs">${stockVal} Piece</td>
-                                <td class="p-2.5">
-                                    <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1">
+                                <td class="py-2 px-3 font-black text-rose-600 text-xs whitespace-nowrap">${stockVal} Piece</td>
+                                <td class="py-2 px-3 text-right">
+                                    <span class="bg-rose-50 text-rose-600 text-[10px] font-bold px-2 py-0.5 rounded-md border border-rose-200 inline-flex items-center gap-1 whitespace-nowrap">
                                         <span class="w-1.5 h-1.5 rounded-full ${isZero ? 'bg-rose-500' : 'bg-amber-500'}"></span> ${isZero ? 'Out of Stock' : 'Low Stock'}
                                     </span>
                                 </td>
@@ -797,7 +785,7 @@
                 }
             }
 
-            // Trending Products Table
+            // Render Trending Products Table
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 const sortedProducts = [...allRawProducts].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
@@ -807,32 +795,32 @@
                     trendingBody.innerHTML = topProducts.map((p, idx) => {
                         const stockVal = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
                         return `
-                            <tr class="hover:bg-slate-50/80 transition-colors">
-                                <td class="p-2.5 font-bold text-xs ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">
-                                    ${idx < 3 ? `<span class="w-5 h-5 rounded-full bg-amber-50 text-amber-600 inline-flex items-center justify-center font-black text-[10px]">${idx + 1}</span>` : idx + 1}
+                            <tr class="h-12 hover:bg-slate-50/80 transition-colors border-b border-[#e3ebf6] last:border-b-0">
+                                <td class="py-2 px-3 w-10 text-center font-bold text-xs ${idx < 3 ? 'text-amber-500' : 'text-slate-400'}">
+                                    <span class="w-5 h-5 rounded-full ${idx < 3 ? 'bg-amber-50 text-amber-600' : 'bg-slate-100 text-slate-500'} inline-flex items-center justify-center font-black text-[10px]">${idx + 1}</span>
                                 </td>
-                                <td class="p-2.5">
+                                <td class="py-2 px-3">
                                     <div class="flex items-center gap-2">
                                         <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[10px] shrink-0">
                                             <i data-lucide="package" class="w-3.5 h-3.5"></i>
                                         </div>
-                                        <div>
-                                            <span class="font-bold text-[#2c3e50] block text-xs">${p.title || p.product_name || p.name || 'Item'}</span>
-                                            <span class="text-[10px] text-[#748194] font-medium">${p.code || p.sku || 'SKU'}</span>
+                                        <div class="truncate max-w-[180px]">
+                                            <span class="font-bold text-[#2c3e50] block text-xs truncate">${p.title || p.product_name || p.name || 'Item'}</span>
+                                            <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="p-2.5 text-emerald-600 font-extrabold text-xs">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                                <td class="p-2.5 font-bold text-xs text-slate-700">${stockVal}</td>
+                                <td class="py-2 px-3 text-emerald-600 font-extrabold text-xs whitespace-nowrap">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
+                                <td class="py-2 px-3 text-right font-bold text-xs text-slate-700 whitespace-nowrap">${stockVal}</td>
                             </tr>
                         `;
                     }).join('');
                 } else {
-                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found in catalog.</td></tr>`;
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No products found in data.json.</td></tr>`;
                 }
             }
 
-            // Calculate Metrics strictly matching date range using YYYY-MM-DD string matching
+            // Calculate Metrics matching date window
             let totalSalesVal = 0;
             let totalPurchaseVal = 0;
             const dailySalesMap = {};
@@ -841,7 +829,6 @@
             allRawTransactions.forEach(t => {
                 const cr = Number(t.credit || t.amount || 0);
                 const dr = Number(t.debit || 0);
-                
                 const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
 
                 if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
@@ -853,7 +840,7 @@
                 }
             });
 
-            // Update KPI Cards
+            // Synchronize KPI Cards
             document.getElementById('kpiMonthSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(totalPurchaseVal);
@@ -863,10 +850,10 @@
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Supabase query error:', err);
+            console.error('Data loading error:', err);
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
+                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Missing data.json file`;
             }
         }
     }
@@ -975,27 +962,22 @@
         }
     }
 
-    async function fetchTransactions() {
+    function fetchTransactions() {
         const tableBody = document.getElementById('liveTransactionTable');
-        try {
-            const { data } = await supabaseClient.from('account_transactions').select('*').order('id', { ascending: false }).limit(10);
-            if (tableBody && data) {
-                tableBody.innerHTML = data.map(row => `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="p-3 pl-5 font-bold text-blue-600">${row.voucher_no || 'N/A'}</td>
-                        <td class="p-3 text-[#2c3e50] font-semibold">${row.narration || 'No Narration'}</td>
-                        <td class="p-3 text-[#748194]">${row.voucher_date || '-'}</td>
-                        <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(row.debit || 0).toLocaleString()}</td>
-                        <td class="p-3 font-extrabold text-[#2c3e50]">RS. ${Number(row.credit || 0).toLocaleString()}</td>
-                    </tr>
-                `).join('') || `<tr><td colspan="5" class="p-4 text-center text-slate-400">No audit transactions found in Supabase.</td></tr>`;
-            }
-        } catch (err) {}
+        if (tableBody && allRawTransactions.length > 0) {
+            tableBody.innerHTML = allRawTransactions.slice(0, 10).map(row => `
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="p-3 pl-5 font-bold text-blue-600">${row.voucher_no || 'N/A'}</td>
+                    <td class="p-3 text-[#2c3e50] font-semibold">${row.narration || 'No Narration'}</td>
+                    <td class="p-3 text-[#748194]">${row.voucher_date || '-'}</td>
+                    <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(row.debit || 0).toLocaleString()}</td>
+                    <td class="p-3 font-extrabold text-[#2c3e50]">RS. ${Number(row.credit || 0).toLocaleString()}</td>
+                </tr>
+            `).join('');
+        }
     }
 
     window.onload = () => {
-        document.getElementById('dashStartDate').value = getFirstDayOfCurrentMonthYYYYMMDD();
-        document.getElementById('dashEndDate').value = getTodayYYYYMMDD();
         loadDashboardTelemetry();
     };
 </script>
