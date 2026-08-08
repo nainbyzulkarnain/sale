@@ -391,7 +391,7 @@
                     <div class="hidden lg:flex items-center gap-1 text-[11px] font-semibold text-[#748194]">
                         <button onclick="setDashboardPreset('7_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">7 Days</button>
                         <button onclick="setDashboardPreset('30_days')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">30 Days</button>
-                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Selected Month</button>
+                        <button onclick="setDashboardPreset('this_month')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">This Month</button>
                         <button onclick="setDashboardPreset('all')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors font-bold">All Time</button>
                     </div>
                     <div class="flex gap-2 w-full sm:w-auto">
@@ -614,9 +614,23 @@
 
     let allRawTransactions = [];
     let allRawProducts = [];
-    let isInitialLoad = true;
 
-    // PURE YYYY-MM-DD DATE PARSER (IMMUNE TO TIMEZONE SHIFTS)
+    // HELPER FUNCTIONS TO GET TODAY & REAL DATES
+    function getTodayYYYYMMDD() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function getFirstDayOfCurrentMonthYYYYMMDD() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        return `${year}-${month}-01`;
+    }
+
     function parseToYYYYMMDD(raw) {
         if (!raw) return '';
         const s = String(raw).trim();
@@ -666,45 +680,43 @@
         if (arrow) arrow.classList.toggle('rotate-180');
     }
 
-    // ACCURATE PRESET DATE FILTER ENGINE
+    // REAL-TIME PRESET FILTER ENGINE
     function setDashboardPreset(presetType) {
-        if (allRawTransactions.length === 0) return;
-
-        const dateStrs = allRawTransactions
-            .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-            .filter(d => d.length === 10)
-            .sort();
-
-        if (dateStrs.length === 0) return;
-
-        const minDateStr = dateStrs[0];
-        const maxDateStr = dateStrs[dateStrs.length - 1];
-
-        let start = minDateStr;
-        let end = maxDateStr;
+        const todayStr = getTodayYYYYMMDD();
+        const today = new Date();
+        let startStr = getFirstDayOfCurrentMonthYYYYMMDD();
 
         if (presetType === '7_days') {
-            const maxD = new Date(maxDateStr + 'T00:00:00');
-            maxD.setDate(maxD.getDate() - 7);
-            start = maxD.toISOString().split('T')[0];
+            const d = new Date();
+            d.setDate(today.getDate() - 7);
+            startStr = d.toISOString().split('T')[0];
         } else if (presetType === '30_days') {
-            const maxD = new Date(maxDateStr + 'T00:00:00');
-            maxD.setDate(maxD.getDate() - 30);
-            start = maxD.toISOString().split('T')[0];
+            const d = new Date();
+            d.setDate(today.getDate() - 30);
+            startStr = d.toISOString().split('T')[0];
         } else if (presetType === 'this_month') {
-            start = maxDateStr.substring(0, 7) + '-01';
+            startStr = getFirstDayOfCurrentMonthYYYYMMDD();
         } else if (presetType === 'all') {
-            start = minDateStr;
-            end = maxDateStr;
+            if (allRawTransactions.length > 0) {
+                const dateStrs = allRawTransactions
+                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
+                    .filter(d => d.length === 10)
+                    .sort();
+                if (dateStrs.length > 0) {
+                    startStr = dateStrs[0];
+                }
+            } else {
+                startStr = '2026-01-01';
+            }
         }
 
-        document.getElementById('dashStartDate').value = start;
-        document.getElementById('dashEndDate').value = end;
+        document.getElementById('dashStartDate').value = startStr;
+        document.getElementById('dashEndDate').value = todayStr;
         loadDashboardTelemetry();
     }
 
     function resetDashboardFilters() {
-        setDashboardPreset('all');
+        setDashboardPreset('this_month');
     }
 
     function formatCurrency(val) {
@@ -712,19 +724,19 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // REAL DYNAMIC TELEMETRY ENGINE WITH PURE STRING DATE MATCHING
+    // TELEMETRY ENGINE CONNECTED TO SUPABASE
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
 
         try {
-            // 1. Fetch products
+            // Fetch Products
             if (allRawProducts.length === 0) {
                 const prodRes = await supabaseClient.from('products').select('*');
                 if (prodRes.error) throw prodRes.error;
                 allRawProducts = prodRes.data || [];
             }
 
-            // 2. Fetch transactions
+            // Fetch Transactions
             if (allRawTransactions.length === 0) {
                 const txRes = await supabaseClient.from('account_transactions').select('*');
                 if (txRes.data) allRawTransactions = txRes.data;
@@ -736,22 +748,8 @@
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            // Auto-sync initial date picker inputs to match actual dataset range on first load
-            if (isInitialLoad && allRawTransactions.length > 0) {
-                const dateStrs = allRawTransactions
-                    .map(t => parseToYYYYMMDD(t.voucher_date || t.date || t.created_at))
-                    .filter(d => d.length === 10)
-                    .sort();
-
-                if (dateStrs.length > 0) {
-                    document.getElementById('dashStartDate').value = dateStrs[0];
-                    document.getElementById('dashEndDate').value = dateStrs[dateStrs.length - 1];
-                }
-                isInitialLoad = false;
-            }
-
-            const startDateVal = document.getElementById('dashStartDate').value;
-            const endDateVal = document.getElementById('dashEndDate').value;
+            const startDateVal = document.getElementById('dashStartDate').value || getFirstDayOfCurrentMonthYYYYMMDD();
+            const endDateVal = document.getElementById('dashEndDate').value || getTodayYYYYMMDD();
 
             document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
             document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
@@ -834,7 +832,7 @@
                 }
             }
 
-            // Calculate Sales & Purchases strictly matching selected date window using YYYY-MM-DD string comparison
+            // Calculate Metrics strictly matching date range using YYYY-MM-DD string matching
             let totalSalesVal = 0;
             let totalPurchaseVal = 0;
             const dailySalesMap = {};
@@ -846,7 +844,6 @@
                 
                 const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
 
-                // Pure string comparison (100% immune to JS timezone offsets!)
                 if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
                     totalSalesVal += cr;
                     totalPurchaseVal += dr;
@@ -856,7 +853,7 @@
                 }
             });
 
-            // Synchronize ALL FOUR KPI Cards to the selected date range
+            // Update KPI Cards
             document.getElementById('kpiMonthSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(totalPurchaseVal);
@@ -874,9 +871,8 @@
         }
     }
 
-    // SAFE & ACCURATE CHART RENDERING ENGINE
+    // CHART RENDERING ENGINE
     function renderDynamicCharts(salesMap, expMap, startDateStr, endDateStr) {
-        // Mini Sparklines
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
             if (miniBarChartInstance) miniBarChartInstance.destroy();
@@ -912,7 +908,7 @@
             chartDataExp = [0, 0];
         }
 
-        // Render Sales Overview Chart
+        // Sales Overview Chart
         const ctxSales = document.getElementById('salesOverviewChart');
         if (ctxSales) {
             if (overviewChartInstance) overviewChartInstance.destroy();
@@ -947,7 +943,7 @@
             });
         }
 
-        // Render Sales vs Expenses Chart
+        // Sales vs Expenses Chart
         const ctxExpenses = document.getElementById('salesExpensesChart');
         if (ctxExpenses) {
             if (expensesChartInstance) expensesChartInstance.destroy();
@@ -998,6 +994,8 @@
     }
 
     window.onload = () => {
+        document.getElementById('dashStartDate').value = getFirstDayOfCurrentMonthYYYYMMDD();
+        document.getElementById('dashEndDate').value = getTodayYYYYMMDD();
         loadDashboardTelemetry();
     };
 </script>
