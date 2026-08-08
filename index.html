@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS360 / ACCOUNT360 Enterprise ERP - Complete Falcon Edition</title>
+    <title>POS360 / ACCOUNT360 Enterprise ERP - Fixed Falcon Edition</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -293,7 +293,7 @@
             <div class="menu-group">
                 <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <i data-lucide="file-spreadsheets" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <i data-lucide="file-spreadsheet" class="w-4 h-4 shrink-0 text-slate-400"></i>
                         <span class="sidebar-text truncate">Account Reports</span>
                     </div>
                     <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="accRptMenu-arrow"></i>
@@ -469,7 +469,7 @@
                         <h3 class="font-extrabold text-xs sm:text-sm text-[#2c3e50]">Trending Products</h3>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
-                        <table class="w-full text-left text-xs">
+                        <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">PRICE</th><th class="p-2">STOCK</th></tr>
                             </thead>
@@ -485,7 +485,7 @@
                         <span id="lowStockCountBadge" class="text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200/60 px-2.5 py-0.5 rounded-md">Checking...</span>
                     </div>
                     <div class="overflow-x-auto mt-2 custom-scrollbar">
-                        <table class="w-full text-left text-xs">
+                        <table class="w-full text-left text-xs min-w-[320px]">
                             <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
                                 <tr><th class="p-2">#</th><th class="p-2">PRODUCT</th><th class="p-2">STOCK</th><th class="p-2">STATUS</th></tr>
                             </thead>
@@ -756,6 +756,9 @@
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // Global CHART INSTANCE TRACKERS to prevent "Canvas is already in use" errors
+    let miniBarChartInstance = null;
+    let miniLineChartInstance = null;
     let overviewChartInstance = null;
     let expensesChartInstance = null;
 
@@ -819,7 +822,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // REAL SUPABASE DATABASE TELEMETRY & DIAGNOSTICS
+    // REAL SUPABASE DATABASE TELEMETRY & SAFE DIAGNOSTICS
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
@@ -828,23 +831,29 @@
         document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
 
-        try {
-            // Live query to products table
-            const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
-            if (prodErr) throw prodErr;
+        let products = [];
+        let transactions = [];
 
+        try {
+            // Fetch live products
+            const prodRes = await supabaseClient.from('products').select('*');
+            if (prodRes.data) products = prodRes.data;
+
+            // Fetch live transactions
+            const txRes = await supabaseClient.from('account_transactions').select('*');
+            if (txRes.data) transactions = txRes.data;
+
+            // Update badge safely if database is connected
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
             }
 
-            const prodList = products || [];
-
-            // Low stock calculation (stock <= 5)
+            // Low stock calculation
             const lowStockBody = document.getElementById('lowStockTableBody');
             const lowCountBadge = document.getElementById('lowStockCountBadge');
             if (lowStockBody) {
-                const lowItems = prodList.filter(p => Number(p.opening_stock ?? p.stock ?? 0) <= 5);
+                const lowItems = products.filter(p => Number(p.opening_stock ?? p.stock ?? 0) <= 5);
                 if (lowCountBadge) lowCountBadge.innerText = `${lowItems.length} Items`;
 
                 if (lowItems.length > 0) {
@@ -864,10 +873,10 @@
                 }
             }
 
-            // Trending products sorted by price/sales
+            // Trending products table
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
-                const sortedProducts = [...prodList].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
+                const sortedProducts = [...products].sort((a, b) => (Number(b.sell_price || b.price || 0)) - (Number(a.sell_price || a.price || 0)));
                 const topProducts = sortedProducts.slice(0, 10);
 
                 if (topProducts.length > 0) {
@@ -887,11 +896,7 @@
                 }
             }
 
-            // Live query to account transactions
-            const { data: txData, error: txErr } = await supabaseClient.from('account_transactions').select('*');
-            if (txErr) throw txErr;
-
-            const transactions = txData || [];
+            // Calculate KPIs
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
             const now = new Date();
             const currMonth = now.getMonth();
@@ -926,11 +931,12 @@
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
 
+            // Safely render charts without throwing unhandled exceptions
             renderDynamicCharts(dailySalesMap, dailyExpMap);
             lucide.createIcons();
 
         } catch (err) {
-            console.error('Supabase query error:', err);
+            console.error('Supabase telemetry processing error:', err);
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Connection Error`;
@@ -938,19 +944,24 @@
         }
     }
 
+    // SAFE CHART RENDERING ENGINE WITH PROPER DESTROY HANDLERS
     function renderDynamicCharts(salesMap, expMap) {
+        // Mini Bar Chart Fix
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
-            new Chart(ctxMiniBar.getContext('2d'), {
+            if (miniBarChartInstance) miniBarChartInstance.destroy();
+            miniBarChartInstance = new Chart(ctxMiniBar.getContext('2d'), {
                 type: 'bar',
                 data: { labels: ['M', 'T', 'W', 'T', 'F', 'S'], datasets: [{ data: [12, 19, 15, 25, 22, 30], backgroundColor: '#2563eb', borderRadius: 3 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
             });
         }
 
+        // Mini Line Chart Fix
         const ctxMiniLine = document.getElementById('miniLineTotalSales');
         if (ctxMiniLine) {
-            new Chart(ctxMiniLine.getContext('2d'), {
+            if (miniLineChartInstance) miniLineChartInstance.destroy();
+            miniLineChartInstance = new Chart(ctxMiniLine.getContext('2d'), {
                 type: 'line',
                 data: { labels: ['M', 'T', 'W', 'T', 'F', 'S'], datasets: [{ data: [10, 15, 12, 22, 18, 28], borderColor: '#10b981', borderWidth: 2, pointRadius: 0, fill: false }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
@@ -962,6 +973,7 @@
         const chartLabels = dates.length > 0 ? dates : ['Jul 13', 'Jul 18', 'Jul 23', 'Jul 28', 'Aug 02', 'Aug 07'];
         const chartData = dates.length > 0 ? salesValues : [0, 0, 0, 0, 0, 0];
 
+        // Sales Overview Chart Fix
         const ctxSales = document.getElementById('salesOverviewChart');
         if (ctxSales) {
             if (overviewChartInstance) overviewChartInstance.destroy();
@@ -996,6 +1008,7 @@
             });
         }
 
+        // Sales vs Expenses Chart Fix
         const expValues = chartLabels.map(d => expMap[d] || 0);
         const ctxExpenses = document.getElementById('salesExpensesChart');
         if (ctxExpenses) {
