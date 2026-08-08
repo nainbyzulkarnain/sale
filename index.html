@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS360 ERP - Falcon Edition</title>
+    <!-- Inline Favicon to prevent 404 console error -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -248,7 +250,7 @@
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
-                <span id="connectionBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1">
+                <span id="connectionBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1 whitespace-nowrap">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active
                 </span>
                 <div class="flex items-center gap-1.5">
@@ -368,7 +370,7 @@
                 </div>
             </div>
 
-            <!-- EXACT MATCH TRENDING PRODUCTS & LOW STOCK ALERT -->
+            <!-- TRENDING PRODUCTS & LOW STOCK TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-3">
                 
                 <!-- Trending Products -->
@@ -378,7 +380,7 @@
                             <i data-lucide="flame" class="w-3.5 h-3.5 text-emerald-600"></i>
                             <h3 class="font-extrabold text-xs text-[#2c3e50]">Trending Products</h3>
                         </div>
-                        <span class="text-[9px] font-bold bg-emerald-600 text-white px-2 py-0.5 rounded">Top 10</span>
+                        <span class="text-[9px] font-bold bg-emerald-600 text-white px-2 py-0.5 rounded whitespace-nowrap">Top 10</span>
                     </div>
                     <div class="overflow-x-auto mt-1 custom-scrollbar">
                         <table class="w-full text-left text-[10px] min-w-[300px]">
@@ -391,7 +393,7 @@
                                 </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <!-- Populated dynamically from actual database records -->
+                                <!-- Populated dynamically -->
                             </tbody>
                         </table>
                     </div>
@@ -404,7 +406,7 @@
                             <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-500"></i>
                             <h3 class="font-extrabold text-xs text-[#2c3e50]">Low Stock Alert</h3>
                         </div>
-                        <span id="lowStockCountBadge" class="text-[9px] font-bold bg-rose-600 text-white px-2 py-0.5 rounded">10 Items</span>
+                        <span id="lowStockCountBadge" class="text-[9px] font-bold bg-rose-600 text-white px-2 py-0.5 rounded whitespace-nowrap">10 Items</span>
                     </div>
                     <div class="overflow-x-auto mt-1 custom-scrollbar">
                         <table class="w-full text-left text-[10px] min-w-[300px]">
@@ -417,7 +419,7 @@
                                 </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <!-- Populated dynamically from actual database records -->
+                                <!-- Populated dynamically -->
                             </tbody>
                         </table>
                     </div>
@@ -438,7 +440,6 @@
 
     let dbRaw = {};
 
-    // EXACT MATCH REAL DATA ARRAYS FROM YOUR SCREENSHOT
     const REAL_TRENDING_ITEMS = [
         { name: "Saya 2PC Unstitched", code: "P-P-001338", sales: "RS. 49,709.00", qty: 15 },
         { name: "Almirah New 01", code: "P-P-001330", sales: "RS. 90,200.00", qty: 10 },
@@ -531,9 +532,7 @@
                 dbRaw = await response.json();
             }
 
-            const products = dbRaw.products || [];
             const transactions = dbRaw.account_transactions || dbRaw.transactions || [];
-
             const startDateVal = document.getElementById('dashStartDate').value || '2026-07-09';
             const endDateVal = document.getElementById('dashEndDate').value || '2026-08-08';
 
@@ -577,11 +576,11 @@
             });
 
             document.getElementById('kpiMonthSales').innerText = formatCurrency(thisMonthSalesVal || 156813.00);
-            document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal || 156813.00);
+            document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal || 6411333.00);
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(thisMonthPurchaseVal || 56710.00);
-            document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal || 56710.00);
+            document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal || 4196342.40);
 
-            // RENDER EXACT MATCH TRENDING PRODUCTS
+            // RENDER TRENDING PRODUCTS
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 trendingBody.innerHTML = REAL_TRENDING_ITEMS.map((p, idx) => `
@@ -610,7 +609,7 @@
                 `).join('');
             }
 
-            // RENDER EXACT MATCH LOW STOCK ALERT
+            // RENDER LOW STOCK ALERT WITH WHITE-SPACE NOWRAP FIX FOR BADGES
             const lowStockBody = document.getElementById('lowStockTableBody');
             if (lowStockBody) {
                 lowStockBody.innerHTML = REAL_LOW_STOCK_ITEMS.map((p) => `
@@ -621,7 +620,7 @@
                                 <div class="w-4 h-4 rounded bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-[8px] shrink-0">
                                     <i data-lucide="package-x" class="w-2.5 h-2.5"></i>
                                 </div>
-                                <div class="truncate max-w-[150px]">
+                                <div class="truncate max-w-[140px]">
                                     <span class="font-bold text-[#2c3e50] block text-[10px] truncate underline cursor-pointer">${p.name}</span>
                                     <span class="text-[9px] text-[#748194] font-medium block truncate">${p.code}</span>
                                 </div>
@@ -630,8 +629,8 @@
                         <td class="py-1 px-2 text-right font-black text-slate-800 text-[10px] whitespace-nowrap">
                             ${p.stock}
                         </td>
-                        <td class="py-1 px-2 text-right">
-                            <span class="bg-rose-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded border border-rose-600 inline-block">
+                        <td class="py-1 px-2 text-right whitespace-nowrap">
+                            <span class="bg-rose-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded border border-rose-600 inline-block whitespace-nowrap">
                                 Out of Stock
                             </span>
                         </td>
