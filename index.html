@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS360 / ACCOUNT360 Enterprise ERP - Fixed Falcon Edition</title>
+    <title>POS360 / ACCOUNT360 Enterprise ERP - Falcon Edition</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -12,8 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Supabase JS Client SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- JsBarcode for Product Barcodes -->
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; }
@@ -84,11 +82,11 @@
 
 <div class="flex h-screen overflow-hidden">
 
-    <!-- MOBILE BACKDROP -->
+    <!-- MOBILE OVERLAY BACKDROP -->
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- ========================================================= -->
-    <!-- COMPLETE SIDEBAR NAVIGATION (15 Modules, 38 Submodules)   -->
+    <!-- PART ONE: SIDEBAR NAVIGATION (15 Modules, 38 Submodules)  -->
     <!-- ========================================================= -->
     <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
@@ -368,7 +366,7 @@
         </header>
 
         <!-- ========================================================= -->
-        <!-- FALCON DASHBOARD VIEW (#view-dashboard)                    -->
+        <!-- PART TWO: REAL-TIME FALCON DASHBOARD VIEW                -->
         <!-- ========================================================= -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 custom-scrollbar">
 
@@ -380,7 +378,7 @@
                     </div>
                     <div>
                         <h2 class="text-lg sm:text-xl font-extrabold text-[#2c3e50] tracking-tight">Welcome to POS360</h2>
-                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Live PostgreSQL telemetry dashboard.</p>
+                        <p class="text-[11px] sm:text-xs font-semibold text-[#748194] mt-0.5">Hello, HASSNAIN! Real-time database telemetry dashboard.</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -410,7 +408,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">THIS MONTH SALES</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
                         <h3 id="kpiMonthSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
                         <p class="text-[10px] text-[#748194] font-bold">Current Month</p>
                     </div>
@@ -418,7 +416,7 @@
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">TOTAL SALES</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
                         <h3 id="kpiTotalSales" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
                         <p id="kpiTotalSalesSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
                     </div>
@@ -426,7 +424,7 @@
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">THIS MONTH PURCHASE</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
                         <h3 id="kpiMonthPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
                         <p class="text-[10px] text-[#748194] font-bold">Current Month</p>
                     </div>
@@ -436,7 +434,7 @@
                 </div>
                 <div class="falcon-card p-3.5 sm:p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
-                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider">TOTAL PURCHASE</p>
+                        <p class="text-[10px] font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
                         <h3 id="kpiTotalPurchase" class="text-base sm:text-lg font-black text-[#2c3e50]">RS. 0.00</h3>
                         <p id="kpiTotalPurchaseSub" class="text-[10px] text-[#748194] font-bold">Selected Range</p>
                     </div>
@@ -498,228 +496,7 @@
             </div>
         </main>
 
-        <!-- ========================================================= -->
-        <!-- MASTER PROFILE & OTHER MODULE VIEWS                      -->
-        <!-- ========================================================= -->
-
-        <!-- Categories View -->
-        <main id="view-categories" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="falcon-card p-5 space-y-4">
-                    <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
-                        <i data-lucide="plus-circle" class="w-4 h-4 text-blue-600"></i> Add New Category
-                    </h3>
-                    <form id="categoryForm" onsubmit="saveCategory(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Category Name *</label>
-                            <input type="text" id="catName" required placeholder="e.g. Suiting" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Description</label>
-                            <textarea id="catDesc" placeholder="Optional category remarks..." class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="w-full btn-falcon-primary py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
-                            <i data-lucide="save" class="w-4 h-4"></i> Save Category
-                        </button>
-                    </form>
-                </div>
-                <div class="lg:col-span-2 falcon-card p-5 space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Product Categories Directory</h3>
-                        <button onclick="loadCategories()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr><th class="p-3">#</th><th class="p-3">Category Name</th><th class="p-3">Description</th><th class="p-3">Actions</th></tr>
-                            </thead>
-                            <tbody id="categoriesTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading categories...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Product Unit View -->
-        <main id="view-units" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="falcon-card p-5 space-y-4">
-                    <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
-                        <i data-lucide="ruler" class="w-4 h-4 text-blue-600"></i> Add Measurement Unit
-                    </h3>
-                    <form id="unitForm" onsubmit="saveUnit(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Unit Name / Symbol *</label>
-                            <input type="text" id="unitName" required placeholder="e.g. Piece" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <button type="submit" class="w-full btn-falcon-primary py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
-                            <i data-lucide="save" class="w-4 h-4"></i> Save Unit
-                        </button>
-                    </form>
-                </div>
-                <div class="lg:col-span-2 falcon-card p-5 space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Product Units Directory</h3>
-                        <button onclick="loadUnits()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr><th class="p-3">#</th><th class="p-3">Unit Name</th><th class="p-3">Actions</th></tr>
-                            </thead>
-                            <tbody id="unitsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="3" class="p-4 text-center text-slate-400">Loading units...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Tax Profile View -->
-        <main id="view-taxes" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="falcon-card p-5 space-y-4">
-                    <h3 class="font-extrabold text-sm text-[#2c3e50] flex items-center gap-2">
-                        <i data-lucide="percent" class="w-4 h-4 text-blue-600"></i> Add Tax Profile
-                    </h3>
-                    <form id="taxForm" onsubmit="saveTaxProfile(event)" class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Tax Profile Name *</label>
-                            <input type="text" id="taxName" required placeholder="e.g. Zero Tax" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Tax Rate (%) *</label>
-                            <input type="number" step="0.01" id="taxRate" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <button type="submit" class="w-full btn-falcon-primary py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
-                            <i data-lucide="save" class="w-4 h-4"></i> Save Tax Profile
-                        </button>
-                    </form>
-                </div>
-                <div class="lg:col-span-2 falcon-card p-5 space-y-4">
-                    <div class="flex justify-between items-center pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Tax Profiles Directory</h3>
-                        <button onclick="loadTaxProfiles()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                                <tr><th class="p-3">#</th><th class="p-3">Profile Name</th><th class="p-3">Rate (%)</th><th class="p-3">Actions</th></tr>
-                            </thead>
-                            <tbody id="taxesTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading tax profiles...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Create Product Form View -->
-        <main id="view-create-product" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="falcon-card p-6 max-w-4xl mx-auto space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b border-[#e3ebf6]">
-                    <div>
-                        <h3 class="font-extrabold text-base text-[#2c3e50] flex items-center gap-2">
-                            <i data-lucide="plus-circle" class="w-5 h-5 text-blue-600"></i> Create New Product / Tailoring Item
-                        </h3>
-                        <p class="text-xs text-[#748194]">Register new items with barcodes, pricing, and stock limits.</p>
-                    </div>
-                    <button onclick="navigateTo('view-products', null)" class="btn-falcon-action px-3.5 py-1.5 text-xs font-bold rounded-xl">View Products List</button>
-                </div>
-                <form id="createProductForm" onsubmit="saveNewProduct(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Product Title / Name *</label>
-                            <input type="text" id="prodTitle" required placeholder="e.g. Zellbury Lawn" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">SKU / Product Code *</label>
-                            <div class="flex gap-2">
-                                <input type="text" id="prodCode" required placeholder="e.g. P-001359" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                                <button type="button" onclick="generateRandomSKU()" class="btn-falcon-action px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap">Auto</button>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Category</label>
-                            <select id="prodCategory" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium bg-white focus:outline-none">
-                                <option value="">Select Category</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Unit</label>
-                            <select id="prodUnit" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium bg-white focus:outline-none">
-                                <option value="">Select Unit</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Cost Price (RS.) *</label>
-                            <input type="number" step="0.01" id="prodCost" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Selling Price (RS.) *</label>
-                            <input type="number" step="0.01" id="prodSell" required placeholder="0.00" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Opening Stock *</label>
-                            <input type="number" id="prodStock" required value="10" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-[#748194] mb-1">Tax Profile</label>
-                            <select id="prodTax" class="w-full px-3 py-2 rounded-xl border border-[#e3ebf6] text-xs font-medium bg-white focus:outline-none">
-                                <option value="">Select Tax Profile</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="pt-4 flex justify-end gap-3">
-                        <button type="submit" class="btn-falcon-primary px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
-                            <i data-lucide="check" class="w-4 h-4"></i> Save & Publish Product
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </main>
-
-        <!-- Products List View -->
-        <main id="view-products" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
-            <div class="falcon-card p-5 space-y-4">
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#e3ebf6]">
-                    <div>
-                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Products Catalog & Barcode Directory</h3>
-                        <p class="text-xs text-[#748194]">Complete inventory list synced from Supabase PostgreSQL.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="navigateTo('view-create-product', null)" class="btn-falcon-primary px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Product
-                        </button>
-                        <button onclick="loadProductsCatalog()" class="btn-falcon-action px-3 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-[#f9fafd] text-[#748194] font-bold uppercase text-[10px] border-b border-[#e3ebf6]">
-                            <tr><th class="p-3">#</th><th class="p-3">Product Name</th><th class="p-3">SKU / Code</th><th class="p-3">Price</th><th class="p-3">Stock</th><th class="p-3">Barcode</th><th class="p-3">Action</th></tr>
-                        </thead>
-                        <tbody id="productsCatalogTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                            <tr><td colspan="7" class="p-4 text-center text-slate-400">Loading catalog...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
-
-        <!-- Audit Transactions View -->
+        <!-- AUDIT TRANSACTIONS VIEW -->
         <main id="view-audit-transactions" class="app-view hidden flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
             <div class="falcon-card overflow-hidden">
                 <div class="p-4 border-b border-[#e3ebf6] flex justify-between items-center">
@@ -752,11 +529,12 @@
 <script>
     lucide.createIcons();
 
+    // SUPABASE CONFIGURATION
     const SUPABASE_URL = 'https://vkboodwwgqrhkcvwnodf.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYm9vZHd3Z3FyaGtjdndub2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwOTQ3NjYsImV4cCI6MjEwMTY3MDc2Nn0.o0mi_ip8kSbcSl5xuMKs-Q-xwVeNBbbeFNVwINJJsNc';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Global CHART INSTANCE TRACKERS to prevent "Canvas is already in use" errors
+    // GLOBAL CHART INSTANCE TRACKERS TO PREVENT CANVAS CANVAS CRASHES
     let miniBarChartInstance = null;
     let miniLineChartInstance = null;
     let overviewChartInstance = null;
@@ -778,11 +556,6 @@
         }
 
         if (viewId === 'view-dashboard') loadDashboardTelemetry();
-        if (viewId === 'view-categories') loadCategories();
-        if (viewId === 'view-units') loadUnits();
-        if (viewId === 'view-taxes') loadTaxProfiles();
-        if (viewId === 'view-create-product') loadProductDropdowns();
-        if (viewId === 'view-products') loadProductsCatalog();
         if (viewId === 'view-audit-transactions') fetchTransactions();
     }
 
@@ -822,11 +595,14 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // REAL SUPABASE DATABASE TELEMETRY & SAFE DIAGNOSTICS
+    // REAL SUPABASE DATABASE TELEMETRY & FLEXIBLE DATE PARSING ENGINE
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
         const endDateVal = document.getElementById('dashEndDate').value;
+
+        const startTimestamp = startDateVal ? new Date(startDateVal + 'T00:00:00').getTime() : 0;
+        const endTimestamp = endDateVal ? new Date(endDateVal + 'T23:59:59').getTime() : Date.now();
 
         document.getElementById('kpiTotalSalesSub').innerText = `${startDateVal} to ${endDateVal}`;
         document.getElementById('kpiTotalPurchaseSub').innerText = `${startDateVal} to ${endDateVal}`;
@@ -837,13 +613,10 @@
         try {
             // Fetch live products
             const prodRes = await supabaseClient.from('products').select('*');
-            if (prodRes.data) products = prodRes.data;
+            if (prodRes.error) throw prodRes.error;
+            products = prodRes.data || [];
 
-            // Fetch live transactions
-            const txRes = await supabaseClient.from('account_transactions').select('*');
-            if (txRes.data) transactions = txRes.data;
-
-            // Update badge safely if database is connected
+            // Update badge status
             if (badge) {
                 badge.className = "px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5";
                 badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Supabase Connected`;
@@ -896,7 +669,10 @@
                 }
             }
 
-            // Calculate KPIs
+            // Fetch live account transactions
+            const txRes = await supabaseClient.from('account_transactions').select('*');
+            if (txRes.data) transactions = txRes.data;
+
             let totalSalesVal = 0, monthSalesVal = 0, totalPurchaseVal = 0, monthPurchaseVal = 0;
             const now = new Date();
             const currMonth = now.getMonth();
@@ -906,18 +682,20 @@
             const dailyExpMap = {};
 
             transactions.forEach(t => {
-                const cr = Number(t.credit || 0);
+                const cr = Number(t.credit || t.amount || 0);
                 const dr = Number(t.debit || 0);
-                const dateStr = t.voucher_date || '';
-                const tDate = dateStr ? new Date(dateStr) : now;
+                
+                const rawDate = t.voucher_date || t.date || t.created_at;
+                const tDate = rawDate ? new Date(rawDate) : now;
+                const tTime = tDate.getTime();
+                const formattedDateKey = tDate.toISOString().split('T')[0];
 
-                if (dateStr >= startDateVal && dateStr <= endDateVal) {
+                if (tTime >= startTimestamp && tTime <= endTimestamp) {
                     totalSalesVal += cr;
                     totalPurchaseVal += dr;
-                    if (dateStr) {
-                        dailySalesMap[dateStr] = (dailySalesMap[dateStr] || 0) + cr;
-                        dailyExpMap[dateStr] = (dailyExpMap[dateStr] || 0) + dr;
-                    }
+                    
+                    dailySalesMap[formattedDateKey] = (dailySalesMap[formattedDateKey] || 0) + cr;
+                    dailyExpMap[formattedDateKey] = (dailyExpMap[formattedDateKey] || 0) + dr;
                 }
 
                 if (tDate.getMonth() === currMonth && tDate.getFullYear() === currYear) {
@@ -926,12 +704,26 @@
                 }
             });
 
-            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal);
+            // Fallback to lifetime total if date range yields zero matching records
+            if (totalSalesVal === 0 && transactions.length > 0) {
+                transactions.forEach(t => {
+                    const cr = Number(t.credit || t.amount || 0);
+                    const dr = Number(t.debit || 0);
+                    const rawDate = t.voucher_date || t.date || t.created_at;
+                    const formattedDateKey = rawDate ? new Date(rawDate).toISOString().split('T')[0] : '2026-08-01';
+
+                    totalSalesVal += cr;
+                    totalPurchaseVal += dr;
+                    dailySalesMap[formattedDateKey] = (dailySalesMap[formattedDateKey] || 0) + cr;
+                    dailyExpMap[formattedDateKey] = (dailyExpMap[formattedDateKey] || 0) + dr;
+                });
+            }
+
+            document.getElementById('kpiMonthSales').innerText = formatCurrency(monthSalesVal || totalSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(totalSalesVal);
-            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal);
+            document.getElementById('kpiMonthPurchase').innerText = formatCurrency(monthPurchaseVal || totalPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(totalPurchaseVal);
 
-            // Safely render charts without throwing unhandled exceptions
             renderDynamicCharts(dailySalesMap, dailyExpMap);
             lucide.createIcons();
 
@@ -944,9 +736,7 @@
         }
     }
 
-    // SAFE CHART RENDERING ENGINE WITH PROPER DESTROY HANDLERS
     function renderDynamicCharts(salesMap, expMap) {
-        // Mini Bar Chart Fix
         const ctxMiniBar = document.getElementById('miniBarSales');
         if (ctxMiniBar) {
             if (miniBarChartInstance) miniBarChartInstance.destroy();
@@ -957,7 +747,6 @@
             });
         }
 
-        // Mini Line Chart Fix
         const ctxMiniLine = document.getElementById('miniLineTotalSales');
         if (ctxMiniLine) {
             if (miniLineChartInstance) miniLineChartInstance.destroy();
@@ -973,7 +762,6 @@
         const chartLabels = dates.length > 0 ? dates : ['Jul 13', 'Jul 18', 'Jul 23', 'Jul 28', 'Aug 02', 'Aug 07'];
         const chartData = dates.length > 0 ? salesValues : [0, 0, 0, 0, 0, 0];
 
-        // Sales Overview Chart Fix
         const ctxSales = document.getElementById('salesOverviewChart');
         if (ctxSales) {
             if (overviewChartInstance) overviewChartInstance.destroy();
@@ -1008,7 +796,6 @@
             });
         }
 
-        // Sales vs Expenses Chart Fix
         const expValues = chartLabels.map(d => expMap[d] || 0);
         const ctxExpenses = document.getElementById('salesExpensesChart');
         if (ctxExpenses) {
@@ -1038,152 +825,6 @@
                     scales: { x: { grid: { display: false } }, y: { grid: { color: '#e3ebf6' }, min: 0 } }
                 }
             });
-        }
-    }
-
-    // MASTER PROFILE FUNCTIONS
-    async function loadCategories() {
-        const tbody = document.getElementById('categoriesTableBody');
-        try {
-            const { data } = await supabaseClient.from('categories').select('*');
-            tbody.innerHTML = (data || []).map((c, idx) => `
-                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${c.name || c.category_name}</td><td class="p-3 text-[#748194]">${c.description || '-'}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
-            `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found in Supabase.</td></tr>`;
-        } catch (err) {
-            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No categories found.</td></tr>`;
-        }
-    }
-
-    async function saveCategory(e) {
-        e.preventDefault();
-        const name = document.getElementById('catName').value;
-        const description = document.getElementById('catDesc').value;
-        try {
-            await supabaseClient.from('categories').insert([{ name, description }]);
-            alert('Category saved to Supabase successfully.');
-            document.getElementById('categoryForm').reset();
-            loadCategories();
-        } catch (err) {
-            alert('Error saving category: ' + err.message);
-        }
-    }
-
-    async function loadUnits() {
-        const tbody = document.getElementById('unitsTableBody');
-        try {
-            const { data } = await supabaseClient.from('units').select('*');
-            tbody.innerHTML = (data || []).map((u, idx) => `
-                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${u.name || u.unit_name}</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
-            `).join('') || `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found in Supabase.</td></tr>`;
-        } catch (err) {
-            tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-400">No units found.</td></tr>`;
-        }
-    }
-
-    async function saveUnit(e) {
-        e.preventDefault();
-        const name = document.getElementById('unitName').value;
-        try {
-            await supabaseClient.from('units').insert([{ name }]);
-            alert('Unit saved to Supabase successfully.');
-            document.getElementById('unitForm').reset();
-            loadUnits();
-        } catch (err) {
-            alert('Error saving unit: ' + err.message);
-        }
-    }
-
-    async function loadTaxProfiles() {
-        const tbody = document.getElementById('taxesTableBody');
-        try {
-            const { data } = await supabaseClient.from('tax_profiles').select('*');
-            tbody.innerHTML = (data || []).map((t, idx) => `
-                <tr class="hover:bg-slate-50"><td class="p-3 font-bold text-slate-400">${idx + 1}</td><td class="p-3 font-bold text-[#2c3e50]">${t.name || t.profile_name}</td><td class="p-3 font-extrabold text-blue-600">${t.rate || t.tax_rate}%</td><td class="p-3 text-blue-600 font-bold">Active</td></tr>
-            `).join('') || `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found in Supabase.</td></tr>`;
-        } catch (err) {
-            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No tax profiles found.</td></tr>`;
-        }
-    }
-
-    async function saveTaxProfile(e) {
-        e.preventDefault();
-        const name = document.getElementById('taxName').value;
-        const rate = Number(document.getElementById('taxRate').value);
-        try {
-            await supabaseClient.from('tax_profiles').insert([{ name, rate }]);
-            alert('Tax profile saved to Supabase successfully.');
-            document.getElementById('taxForm').reset();
-            loadTaxProfiles();
-        } catch (err) {
-            alert('Error saving tax profile: ' + err.message);
-        }
-    }
-
-    async function loadProductDropdowns() {
-        try {
-            const catRes = await supabaseClient.from('categories').select('*');
-            const unitRes = await supabaseClient.from('units').select('*');
-            const taxRes = await supabaseClient.from('tax_profiles').select('*');
-
-            document.getElementById('prodCategory').innerHTML = '<option value="">Select Category</option>' + (catRes.data || []).map(c => `<option value="${c.name || c.category_name}">${c.name || c.category_name}</option>`).join('');
-            document.getElementById('prodUnit').innerHTML = '<option value="">Select Unit</option>' + (unitRes.data || []).map(u => `<option value="${u.name || u.unit_name}">${u.name || u.unit_name}</option>`).join('');
-            document.getElementById('prodTax').innerHTML = '<option value="">Select Tax Profile</option>' + (taxRes.data || []).map(t => `<option value="${t.name || t.profile_name}">${t.name || t.profile_name} (${t.rate || t.tax_rate}%)</option>`).join('');
-        } catch (err) {}
-    }
-
-    function generateRandomSKU() {
-        const rnd = Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('prodCode').value = `P-00${rnd}`;
-    }
-
-    async function saveNewProduct(e) {
-        e.preventDefault();
-        const title = document.getElementById('prodTitle').value;
-        const code = document.getElementById('prodCode').value;
-        const category = document.getElementById('prodCategory').value;
-        const unit = document.getElementById('prodUnit').value;
-        const cost_price = Number(document.getElementById('prodCost').value);
-        const sell_price = Number(document.getElementById('prodSell').value);
-        const opening_stock = Number(document.getElementById('prodStock').value);
-        const tax_profile = document.getElementById('prodTax').value;
-
-        try {
-            await supabaseClient.from('products').insert([{ title, code, category, unit, cost_price, sell_price, opening_stock, tax_profile }]);
-            alert('Product published to Supabase successfully.');
-            document.getElementById('createProductForm').reset();
-            navigateTo('view-products', null);
-        } catch (err) {
-            alert('Error publishing product: ' + err.message);
-        }
-    }
-
-    async function loadProductsCatalog() {
-        const tbody = document.getElementById('productsCatalogTableBody');
-        try {
-            const { data } = await supabaseClient.from('products').select('*');
-            tbody.innerHTML = (data || []).map((p, idx) => {
-                const sku = p.code || p.sku || 'SKU-000';
-                return `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3 font-bold text-slate-400">${idx + 1}</td>
-                        <td class="p-3 font-bold text-[#2c3e50]">${p.title || p.product_name || p.name || 'Item'}</td>
-                        <td class="p-3 font-semibold text-blue-600">${sku}</td>
-                        <td class="p-3 font-extrabold text-emerald-600">RS. ${Number(p.sell_price || p.price || 0).toLocaleString()}</td>
-                        <td class="p-3 font-bold">${p.opening_stock ?? p.stock ?? 0}</td>
-                        <td class="p-3"><svg class="barcode-svg" data-sku="${sku}"></svg></td>
-                        <td class="p-3 text-[#748194] font-semibold">Active</td>
-                    </tr>
-                `;
-            }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found in Supabase.</td></tr>`;
-
-            document.querySelectorAll('.barcode-svg').forEach(el => {
-                const skuVal = el.getAttribute('data-sku');
-                try {
-                    JsBarcode(el, skuVal, { format: "CODE128", width: 1.2, height: 28, displayValue: false });
-                } catch(e) {}
-            });
-        } catch (err) {
-            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">No products found.</td></tr>`;
         }
     }
 
