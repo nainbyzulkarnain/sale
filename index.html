@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS360 / ACCOUNT360 Enterprise ERP - Falcon Edition</title>
+    <title>POS360 / ACCOUNT360 Enterprise ERP - Complete Falcon Edition</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -30,7 +30,7 @@
             transition: all 0.2s ease;
         }
         .falcon-card:hover {
-            box-shadow: 1rem 2rem rgba(18, 38, 63, 0.06);
+            box-shadow: 0 1rem 2rem rgba(18, 38, 63, 0.06);
             border-color: #ccd9e8;
         }
 
@@ -88,7 +88,7 @@
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- ========================================================= -->
-    <!-- SIDEBAR NAVIGATION (Authentic Falcon Admin Light Theme)     -->
+    <!-- COMPLETE SIDEBAR NAVIGATION (15 Modules, 38 Submodules)   -->
     <!-- ========================================================= -->
     <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
@@ -166,7 +166,149 @@
                 </div>
             </div>
 
-            <!-- 4. Administrative Audit Logs -->
+            <!-- 4. Purchase Invoice -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="file-text" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Purchase Invoice</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="purchaseMenu-arrow"></i>
+                </button>
+                <div id="purchaseMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-create-purchase', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Purchase</a>
+                    <a href="#" onclick="navigateTo('view-purchase-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase List</a>
+                    <a href="#" onclick="navigateTo('view-purchase-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase Return</a>
+                </div>
+            </div>
+
+            <!-- 5. POS Invoice -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="shopping-cart" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">POS Invoice</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="posMenu-arrow"></i>
+                </button>
+                <div id="posMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-pos-create', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Invoice</a>
+                    <a href="#" onclick="navigateTo('view-pos-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sales List</a>
+                    <a href="#" onclick="navigateTo('view-sales-return', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sales Return</a>
+                </div>
+            </div>
+
+            <!-- 6. Stock Adjustment -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('stockAdjMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="sliders" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Stock Adjustment</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="stockAdjMenu-arrow"></i>
+                </button>
+                <div id="stockAdjMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-create-adjustment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Adjustment</a>
+                    <a href="#" onclick="navigateTo('view-adjustment-list', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Adjustment List</a>
+                </div>
+            </div>
+
+            <!-- 7. Vouchers -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('vouchersMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="receipt" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Vouchers</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="vouchersMenu-arrow"></i>
+                </button>
+                <div id="vouchersMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-cash-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Cash Receipt Voucher</a>
+                    <a href="#" onclick="navigateTo('view-cash-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Cash Payment Voucher</a>
+                    <a href="#" onclick="navigateTo('view-bank-receipt', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Bank Receipt Voucher</a>
+                    <a href="#" onclick="navigateTo('view-bank-payment', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Bank Payment Voucher</a>
+                    <a href="#" onclick="navigateTo('view-create-journal', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Create Journal</a>
+                </div>
+            </div>
+
+            <!-- 8. HR Department -->
+            <a href="#" onclick="navigateTo('view-hr-department', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="building-2" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">HR Department</span>
+            </a>
+
+            <!-- 9. Purchase Reports -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('purRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="clipboard-list" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Purchase Reports</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="purRptMenu-arrow"></i>
+                </button>
+                <div id="purRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-date', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Date Wise Report</a>
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-supplier', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Purchase By Supplier</a>
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-product', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Product Wise Purchase</a>
+                    <a href="#" onclick="navigateTo('view-rpt-purchase-all', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">All Product Wise Purchase</a>
+                </div>
+            </div>
+
+            <!-- 10. Sales Reports -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('saleRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="bar-chart-2" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Sales Reports</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="saleRptMenu-arrow"></i>
+                </button>
+                <div id="saleRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-rpt-sales-daily', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Daily Sales Summary</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-item', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Sale Report</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-customer', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Customer Wise Sell Report</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-itemwise', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Wise Sales</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-loadpaper', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Sell Load Paper</a>
+                    <a href="#" onclick="navigateTo('view-rpt-sales-summary', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Item Sell Summary</a>
+                </div>
+            </div>
+
+            <!-- 11. Stock Report -->
+            <a href="#" onclick="navigateTo('view-stock-report', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="boxes" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">Stock Report</span>
+            </a>
+
+            <!-- 12. Utilities & Downloads -->
+            <a href="#" onclick="navigateTo('view-download-product-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="download" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">Download Product List</span>
+            </a>
+            <a href="#" onclick="navigateTo('view-print-customer-list', this)" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                <i data-lucide="printer" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                <span class="sidebar-text truncate">Print Customer List</span>
+            </a>
+
+            <!-- 13. Account Reports -->
+            <div class="menu-group">
+                <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <i data-lucide="file-spreadsheets" class="w-4 h-4 shrink-0 text-slate-400"></i>
+                        <span class="sidebar-text truncate">Account Reports</span>
+                    </div>
+                    <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 transition-transform duration-200 text-slate-400" id="accRptMenu-arrow"></i>
+                </button>
+                <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
+                    <a href="#" onclick="navigateTo('view-account-ledger', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Ledger</a>
+                    <a href="#" onclick="navigateTo('view-day-book', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Day Book</a>
+                    <a href="#" onclick="navigateTo('view-trail-balance', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Account Trail Balance</a>
+                    <a href="#" onclick="navigateTo('view-income-statement', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Income Statement</a>
+                    <a href="#" onclick="navigateTo('view-trading-pls', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Trading PLS Statement</a>
+                    <a href="#" onclick="navigateTo('view-balance-sheet', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Balance Sheet</a>
+                </div>
+            </div>
+
+            <!-- 14. Administrative -->
             <div class="menu-group">
                 <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-colors">
                     <div class="flex items-center gap-3 overflow-hidden">
@@ -177,6 +319,8 @@
                 </button>
                 <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-xs font-medium">
                     <a href="#" onclick="navigateTo('view-audit-transactions', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Audit Transactions</a>
+                    <a href="#" onclick="navigateTo('view-app-settings', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Application Settings</a>
+                    <a href="#" onclick="navigateTo('view-db-backup', this)" class="block py-1.5 px-2 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50/50">Database Backup</a>
                 </div>
             </div>
 
@@ -355,7 +499,7 @@
         </main>
 
         <!-- ========================================================= -->
-        <!-- MASTER PROFILE VIEWS                                     -->
+        <!-- MASTER PROFILE & OTHER MODULE VIEWS                      -->
         <!-- ========================================================= -->
 
         <!-- Categories View -->
@@ -675,7 +819,7 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    // REAL SUPABASE DATABASE TELEMETRY & QUERYING
+    // REAL SUPABASE DATABASE TELEMETRY & DIAGNOSTICS
     async function loadDashboardTelemetry() {
         const badge = document.getElementById('connectionBadge');
         const startDateVal = document.getElementById('dashStartDate').value;
