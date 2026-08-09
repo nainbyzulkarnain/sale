@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS360 ERP - Falcon Edition</title>
+    <!-- Inline Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -43,7 +47,7 @@
         }
         .btn-falcon-success:hover { background: #059669; }
 
-        /* FIXED SIDEBAR WIDTH & EXPANSION */
+        /* SIDEBAR TOGGLE & TRANSITION ENGINE */
         #sidebar { width: 16rem; min-width: 16rem; transition: all 0.2s ease; }
         #sidebar.collapsed { width: 4rem !important; min-width: 4rem !important; }
         #sidebar.collapsed .sidebar-text,
@@ -59,12 +63,14 @@
 
 <div class="flex h-screen overflow-hidden">
 
+    <!-- MOBILE BACKDROP -->
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm"></div>
 
     <!-- SIDEBAR NAVIGATION -->
     <aside id="sidebar" class="bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col justify-between shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
         <div class="flex flex-col min-h-0 flex-1">
+            <!-- Brand Header -->
             <div class="h-16 flex items-center justify-between px-4 border-b border-[#e3ebf6] shrink-0 bg-white brand-container">
                 <div class="flex items-center gap-2.5 overflow-hidden">
                     <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-[10px] shrink-0 shadow-sm">
@@ -80,6 +86,7 @@
                 </button>
             </div>
 
+            <!-- Complete Navigation Menu -->
             <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-[11px] font-semibold" id="sidebarNav">
                 
                 <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-bold shadow-sm">
@@ -87,6 +94,7 @@
                     <span class="sidebar-text truncate">Dashboard</span>
                 </a>
 
+                <!-- 1. Master Profile -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -105,6 +113,7 @@
                     </div>
                 </div>
 
+                <!-- 2. CRM -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -119,6 +128,7 @@
                     </div>
                 </div>
 
+                <!-- 3. Accounts -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -133,6 +143,7 @@
                     </div>
                 </div>
 
+                <!-- 4. Purchase Invoice -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -148,6 +159,7 @@
                     </div>
                 </div>
 
+                <!-- 5. POS Invoice -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -163,15 +175,38 @@
                     </div>
                 </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
-                    <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
-                    <span class="sidebar-text truncate">Stock Adjustment</span>
-                </a>
+                <!-- 6. Stock Adjustment -->
+                <div class="menu-group">
+                    <button onclick="toggleSubmenu('stockAdjMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
+                            <span class="sidebar-text truncate">Stock Adjustment</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="stockAdjMenu-arrow"></i>
+                    </button>
+                    <div id="stockAdjMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Adjustment</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Adjustment List</a>
+                    </div>
+                </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
-                    <i data-lucide="receipt" class="w-4 h-4 text-slate-400"></i>
-                    <span class="sidebar-text truncate">Vouchers</span>
-                </a>
+                <!-- 7. Vouchers -->
+                <div class="menu-group">
+                    <button onclick="toggleSubmenu('vouchersMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <i data-lucide="receipt" class="w-4 h-4 text-slate-400"></i>
+                            <span class="sidebar-text truncate">Vouchers</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="vouchersMenu-arrow"></i>
+                    </button>
+                    <div id="vouchersMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Cash Receipt Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Cash Payment Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Bank Receipt Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Bank Payment Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Journal</a>
+                    </div>
+                </div>
 
                 <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     HR DEPARTMENT
@@ -242,6 +277,7 @@
                     <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Ledger</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Day Book</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Trail Balance</a>
                     </div>
                 </div>
 
@@ -279,7 +315,7 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        <!-- HEADER BAR -->
+        <!-- HEADER BAR WITH INTERACTIVE DROPDOWNS -->
         <header class="h-16 bg-white border-b border-[#e3ebf6] px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
@@ -296,10 +332,10 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active
                 </span>
                 
-                <button onclick="toggleTopDropdown('notifMenu1')" class="w-7 h-7 rounded-full bg-rose-600 text-white font-black text-[10px] flex items-center justify-center shadow-sm hover:opacity-90">3</button>
-                <button onclick="toggleTopDropdown('notifMenu2')" class="w-7 h-7 rounded-full bg-amber-500 text-white font-black text-[10px] flex items-center justify-center shadow-sm hover:opacity-90">4</button>
+                <button onclick="toggleTopDropdown('notifMenu1')" class="w-7 h-7 rounded-full bg-rose-600 text-white font-black text-[10px] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90">3</button>
+                <button onclick="toggleTopDropdown('notifMenu2')" class="w-7 h-7 rounded-full bg-amber-500 text-white font-black text-[10px] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90">4</button>
                 
-                <button onclick="toggleTopDropdown('userProfileMenu')" class="flex items-center gap-2 pl-2 border-l border-slate-200 hover:opacity-80">
+                <button onclick="toggleTopDropdown('userProfileMenu')" class="flex items-center gap-2 pl-2 border-l border-slate-200 cursor-pointer hover:opacity-80">
                     <span class="text-xs font-extrabold text-slate-800 hidden sm:inline tracking-tight">HASSNAIN</span>
                     <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center border border-blue-200">HA</div>
                 </button>
@@ -341,7 +377,7 @@
             </div>
         </header>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- DASHBOARD CONTAINER -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-4 md:p-6 space-y-4 sm:space-y-5 custom-scrollbar">
 
             <!-- Banner & Controls -->
@@ -614,7 +650,6 @@
         setDashboardPreset('this_month');
     }
 
-    // PURE DYNAMIC DATA TELEMETRY ENGINE
     async function loadDashboardTelemetry() {
         try {
             if (!dbRaw.products) {
@@ -864,10 +899,9 @@
         const sales = Number(salesAmt) || 0;
         const expenses = Number(purchaseAmt) || 0;
 
-        // Clean empty-state rendering when both values equal 0
         const isZero = sales === 0 && expenses === 0;
         const plotData = isZero ? [1, 0] : [sales, expenses];
-        .const plotColors = isZero ? ['#e3ebf6', '#e3ebf6'] : ['#2563eb', '#ef4444'];
+        const plotColors = isZero ? ['#e3ebf6', '#e3ebf6'] : ['#2563eb', '#ef4444'];
 
         doughnutChartInstance = new Chart(ctx.getContext('2d'), {
             type: 'doughnut',
@@ -899,12 +933,10 @@
     }
 
     window.onload = () => {
-        // Restore sidebar state from local storage
         if (localStorage.getItem('sidebarCollapsed') === 'true') {
             document.getElementById('sidebar').classList.add('collapsed');
         }
         
-        // Load dynamic system date (Today)
         const todayStr = getTodayStr();
         document.getElementById('dashStartDate').value = todayStr;
         document.getElementById('dashEndDate').value = todayStr;
