@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POS360 ERP - Falcon Edition</title>
+    <!-- Inline Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -15,7 +19,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; font-size: 11px; }
         
         .kpi-title { font-size: 9px; }
-        .kpi-val { font-size: 15px; line-height: 1.2; font-weight: 800; }
+        .kpi-val { font-size: 15px; line-height: 1.2; }
         .kpi-sub { font-size: 9px; }
 
         .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -43,15 +47,16 @@
         }
         .btn-falcon-success:hover { background: #059669; }
 
-        /* ENSURE SIDEBAR REMAINS FULLY EXPANDED (w-64) */
-        #sidebar { width: 256px !important; min-width: 256px !important; transition: width 0.2s ease, transform 0.2s ease; }
-        #sidebar.collapsed { width: 64px !important; min-width: 64px !important; }
+        /* CLEAN SIDEBAR COLLAPSE ENGINE */
+        #sidebar { width: 16rem; min-width: 16rem; transition: all 0.2s ease; }
+        #sidebar.collapsed { width: 4rem !important; min-width: 4rem !important; }
         #sidebar.collapsed .sidebar-text,
         #sidebar.collapsed .menu-arrow,
         #sidebar.collapsed .submenu,
         #sidebar.collapsed .brand-title,
         #sidebar.collapsed .category-header { display: none !important; }
         #sidebar.collapsed .nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
+        #sidebar.collapsed .brand-container { justify-content: center; padding-left: 0; padding-right: 0; }
     </style>
 </head>
 <body class="h-full bg-[#f9fafd] text-[#2c3e50] antialiased">
@@ -60,12 +65,12 @@
 
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm"></div>
 
-    <!-- FULLY EXPANDED FALCON SIDEBAR -->
-    <aside id="sidebar" class="w-64 bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col justify-between shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="bg-white text-slate-700 border-r border-[#e3ebf6] flex flex-col justify-between shrink-0 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0 shadow-sm">
         
         <div class="flex flex-col min-h-0 flex-1">
             <!-- Brand Header -->
-            <div class="h-16 flex items-center justify-between px-4 border-b border-[#e3ebf6] shrink-0 bg-white">
+            <div class="h-16 flex items-center justify-between px-4 border-b border-[#e3ebf6] shrink-0 bg-white brand-container">
                 <div class="flex items-center gap-2.5 overflow-hidden">
                     <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-[10px] shrink-0 shadow-sm">
                         NAIN
@@ -75,12 +80,12 @@
                         <span class="text-[9px] text-blue-600 font-bold uppercase tracking-wider">Falcon Edition</span>
                     </div>
                 </div>
-                <button id="toggleSidebar" class="p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-700 shrink-0">
+                <button id="toggleSidebar" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 shrink-0">
                     <i data-lucide="menu" class="w-4 h-4"></i>
                 </button>
             </div>
 
-            <!-- Navigation Menu -->
+            <!-- Complete Navigation Links -->
             <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-[11px] font-semibold" id="sidebarNav">
                 
                 <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-bold shadow-sm">
@@ -88,6 +93,7 @@
                     <span class="sidebar-text truncate">Dashboard</span>
                 </a>
 
+                <!-- 1. Master Profile -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('masterMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -102,9 +108,11 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Tax Profile</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Product</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Products List</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Import Product</a>
                     </div>
                 </div>
 
+                <!-- 2. CRM -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('crmMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -119,6 +127,7 @@
                     </div>
                 </div>
 
+                <!-- 3. Accounts -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('accountsMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -133,6 +142,7 @@
                     </div>
                 </div>
 
+                <!-- 4. Purchase Invoice -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('purchaseMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -144,9 +154,11 @@
                     <div id="purchaseMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Purchase</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Purchase List</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Purchase Return</a>
                     </div>
                 </div>
 
+                <!-- 5. POS Invoice -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('posMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -158,59 +170,114 @@
                     <div id="posMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Invoice</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Sales List</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Sales Return</a>
                     </div>
                 </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
-                    <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
-                    <span class="sidebar-text truncate">Stock Adjustment</span>
-                </a>
+                <!-- 6. Stock Adjustment -->
+                <div class="menu-group">
+                    <button onclick="toggleSubmenu('stockAdjMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
+                            <span class="sidebar-text truncate">Stock Adjustment</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="stockAdjMenu-arrow"></i>
+                    </button>
+                    <div id="stockAdjMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Adjustment</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Adjustment List</a>
+                    </div>
+                </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
-                    <i data-lucide="receipt" class="w-4 h-4 text-slate-400"></i>
-                    <span class="sidebar-text truncate">Vouchers</span>
-                </a>
+                <!-- 7. Vouchers -->
+                <div class="menu-group">
+                    <button onclick="toggleSubmenu('vouchersMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <i data-lucide="receipt" class="w-4 h-4 text-slate-400"></i>
+                            <span class="sidebar-text truncate">Vouchers</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="vouchersMenu-arrow"></i>
+                    </button>
+                    <div id="vouchersMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Cash Receipt Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Cash Payment Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Bank Receipt Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Bank Payment Voucher</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Create Journal</a>
+                    </div>
+                </div>
 
-                <div class="category-header pt-4 pb-1 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                <!-- CATEGORY: HR DEPARTMENT -->
+                <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     HR DEPARTMENT
                 </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
+                <!-- 8. HR Department -->
+                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">HR Department</span>
                 </a>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
-                    <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400"></i>
-                    <span class="sidebar-text truncate">Purchase Reports</span>
-                </a>
+                <!-- 9. Purchase Reports -->
+                <div class="menu-group">
+                    <button onclick="toggleSubmenu('purRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <i data-lucide="clipboard-list" class="w-4 h-4 text-slate-400"></i>
+                            <span class="sidebar-text truncate">Purchase Reports</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="purRptMenu-arrow"></i>
+                    </button>
+                    <div id="purRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Date Wise Report</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Purchase By Supplier</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Product Wise Purchase</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">All Product Wise Purchase</a>
+                    </div>
+                </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
-                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-slate-400"></i>
-                    <span class="sidebar-text truncate">Sales Reports</span>
-                </a>
+                <!-- 10. Sales Reports -->
+                <div class="menu-group">
+                    <button onclick="toggleSubmenu('saleRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <i data-lucide="bar-chart-2" class="w-4 h-4 text-slate-400"></i>
+                            <span class="sidebar-text truncate">Sales Reports</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="saleRptMenu-arrow"></i>
+                    </button>
+                    <div id="saleRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Daily Sales Summary</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Sale Report</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Customer Wise Sell Report</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Wise Sales</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Sell Load Paper</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Sell Summary</a>
+                    </div>
+                </div>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
+                <!-- 11. Stock Report -->
+                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="boxes" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">Stock Report</span>
                 </a>
 
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
+                <!-- 12. Utilities -->
+                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="download" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">Download Product List</span>
                 </a>
-
-                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
+                <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">Print Customer List</span>
                 </a>
 
-                <div class="category-header pt-4 pb-1 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                <!-- CATEGORY: ACCOUNT REPORTS -->
+                <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     ACCOUNT REPORTS
                 </div>
 
+                <!-- 13. Account Reports -->
                 <div class="menu-group">
-                    <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
+                    <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
                             <i data-lucide="file-spreadsheet" class="w-4 h-4 text-slate-400"></i>
                             <span class="sidebar-text truncate">Account Reports</span>
@@ -220,15 +287,21 @@
                     <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Ledger</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Day Book</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Trail Balance</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Income Statement</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Trading PLS Statement</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Balance Sheet</a>
                     </div>
                 </div>
 
-                <div class="category-header pt-4 pb-1 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                <!-- CATEGORY: ADMINISTRATIVE -->
+                <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     ADMINISTRATIVE
                 </div>
 
+                <!-- 14. Administrative -->
                 <div class="menu-group">
-                    <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-600">
+                    <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
                             <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
                             <span class="sidebar-text truncate">Administrative</span>
@@ -236,6 +309,7 @@
                         <i data-lucide="chevron-down" class="menu-arrow w-3.5 h-3.5 text-slate-400" id="adminMenu-arrow"></i>
                     </button>
                     <div id="adminMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Audit Transactions</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Application Settings</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Database Backup</a>
                     </div>
@@ -244,7 +318,7 @@
             </nav>
         </div>
 
-        <!-- Administrator Profile Bottom Card -->
+        <!-- User Profile Footer -->
         <div class="p-3 border-t border-[#e3ebf6] flex items-center gap-3 shrink-0 bg-white">
             <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0">HA</div>
             <div class="brand-title overflow-hidden">
@@ -287,7 +361,7 @@
         <!-- DASHBOARD CONTAINER -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-4 md:p-6 space-y-4 sm:space-y-5 custom-scrollbar">
 
-            <!-- Banner & Controls -->
+            <!-- Welcome Banner & Controls -->
             <div class="falcon-card p-4 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-blue-50/40 via-white to-white">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
@@ -301,9 +375,9 @@
                 <div class="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
                     <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-[#e3ebf6] text-[11px] font-semibold shadow-sm">
                         <span class="text-slate-400">Start Date</span>
-                        <input type="date" id="dashStartDate" value="2026-08-01" class="bg-transparent text-slate-800 focus:outline-none font-bold">
+                        <input type="date" id="dashStartDate" class="bg-transparent text-slate-800 focus:outline-none font-bold">
                         <span class="text-slate-400 ml-1">End Date</span>
-                        <input type="date" id="dashEndDate" value="2026-08-08" class="bg-transparent text-slate-800 focus:outline-none font-bold">
+                        <input type="date" id="dashEndDate" class="bg-transparent text-slate-800 focus:outline-none font-bold">
                     </div>
                     <div class="hidden xl:flex items-center gap-1 text-[10px] font-semibold text-[#748194]">
                         <button onclick="setDashboardPreset('today')" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 rounded">Today</button>
@@ -323,14 +397,14 @@
                 </div>
             </div>
 
-            <!-- KPI METRIC CARDS -->
+            <!-- KPI METRICS -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 
                 <div class="falcon-card p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH SALES</p>
-                        <h3 id="kpiMonthSales" class="kpi-val font-black text-[#2c3e50]">RS. 156,813.00</h3>
-                        <p id="kpiMonthSalesSub" class="kpi-sub text-[#748194] font-bold">August 2026</p>
+                        <h3 id="kpiMonthSales" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiMonthSalesSub" class="kpi-sub text-[#748194] font-bold">Month</p>
                     </div>
                     <div class="w-16 h-10 shrink-0"><canvas id="miniBarSales"></canvas></div>
                 </div>
@@ -338,8 +412,8 @@
                 <div class="falcon-card p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL SALES</p>
-                        <h3 id="kpiTotalSales" class="kpi-val font-black text-[#2c3e50]">RS. 156,813.00</h3>
-                        <p id="kpiTotalSalesSub" class="kpi-sub text-[#748194] font-bold">AUG 01 - AUG 08, 2026</p>
+                        <h3 id="kpiTotalSales" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiTotalSalesSub" class="kpi-sub text-[#748194] font-bold">Selected Range</p>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-sm shrink-0">$</div>
                 </div>
@@ -347,8 +421,8 @@
                 <div class="falcon-card p-4 border-l-4 border-l-amber-500 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">THIS MONTH PURCHASE</p>
-                        <h3 id="kpiMonthPurchase" class="kpi-val font-black text-[#2c3e50]">RS. 56,710.00</h3>
-                        <p id="kpiMonthPurchaseSub" class="kpi-sub text-[#748194] font-bold">August 2026</p>
+                        <h3 id="kpiMonthPurchase" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiMonthPurchaseSub" class="kpi-sub text-[#748194] font-bold">Month</p>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                         <i data-lucide="shopping-bag" class="w-4 h-4"></i>
@@ -358,8 +432,8 @@
                 <div class="falcon-card p-4 border-l-4 border-l-purple-600 flex items-center justify-between">
                     <div class="space-y-1 min-w-0">
                         <p class="kpi-title font-extrabold text-[#748194] uppercase tracking-wider truncate">TOTAL PURCHASE</p>
-                        <h3 id="kpiTotalPurchase" class="kpi-val font-black text-[#2c3e50]">RS. 56,710.00</h3>
-                        <p id="kpiTotalPurchaseSub" class="kpi-sub text-[#748194] font-bold">AUG 01 - AUG 08, 2026</p>
+                        <h3 id="kpiTotalPurchase" class="kpi-val font-black text-[#2c3e50]">RS. 0.00</h3>
+                        <p id="kpiTotalPurchaseSub" class="kpi-sub text-[#748194] font-bold">Selected Range</p>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
                         <i data-lucide="boxes" class="w-4 h-4"></i>
@@ -372,7 +446,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div class="falcon-card p-4 lg:col-span-2">
                     <div class="flex items-center justify-between pb-3 border-b border-[#e3ebf6]">
-                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Sales Overview <span id="salesOverviewSub" class="text-xs text-slate-400 font-normal pl-2">(Aug 01, 2026 - Aug 08, 2026)</span></h3>
+                        <h3 class="font-extrabold text-sm text-[#2c3e50]">Sales Overview <span id="salesOverviewSub" class="text-xs text-slate-400 font-normal pl-2">(Range)</span></h3>
                     </div>
                     <div class="relative h-64 w-full mt-3"><canvas id="salesOverviewChart"></canvas></div>
                 </div>
@@ -392,7 +466,7 @@
                 </div>
             </div>
 
-            <!-- REAL TRENDING PRODUCTS & LOW STOCK ALERT TABLES -->
+            <!-- TRENDING PRODUCTS & LOW STOCK TABLES -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 
                 <div class="falcon-card p-4">
@@ -414,7 +488,7 @@
                                 </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <!-- Populated dynamically -->
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading catalog from database...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -439,7 +513,7 @@
                                 </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <!-- Populated dynamically -->
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading inventory from database...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -459,32 +533,13 @@
 
     let dbRaw = {};
 
-    // GROUND-TRUTH SOFTWARE ARRAYS
-    const REAL_TRENDING_ITEMS = [
-        { name: "MASWA", code: "P-001279", sales: "RS. 181,700.00", qty: 25 },
-        { name: "MRN01", code: "P-001225", sales: "RS. 354,978.00", qty: 60 },
-        { name: "Saya 2PC Unstitched", code: "P-P-001338", sales: "RS. 49,709.00", qty: 15 },
-        { name: "ROYAL SERENE US", code: "P-001296", sales: "RS. 119,840.00", qty: 16 },
-        { name: "LAWNKARI", code: "P-001307", sales: "RS. 129,569.00", qty: 16 },
-        { name: "Almirah New 01", code: "P-P-001330", sales: "RS. 90,200.00", qty: 10 },
-        { name: "SAPHIRE U/S 2PC", code: "00000765", sales: "RS. 27,700.00", qty: 8 },
-        { name: "SAYA 2PCS STITCHED", code: "P-001342", sales: "RS. 48,785.00", qty: 12 },
-        { name: "DHAGAKARI", code: "P-001306", sales: "RS. 112,210.00", qty: 13 },
-        { name: "GOLD", code: "P-001303", sales: "RS. 174,230.00", qty: 9 }
-    ];
-
-    const REAL_LOW_STOCK_ITEMS = [
-        { id: 131, name: "ZEL2690", code: "00000131", stock: "-45 Piece" },
-        { id: 217, name: "Item 38", code: "00000217", stock: "-23 Piece" },
-        { id: 202, name: "ITEM 2", code: "00000202", stock: "-27 Piece" },
-        { id: 102, name: "H2 ALKARAM U/S TROUSER", code: "00000102", stock: "-18 Piece" },
-        { id: 130, name: "ZECHK02", code: "00000130", stock: "-10 Piece" },
-        { id: 1050, name: "ZWC2519", code: "PROD-K5UHJREP", stock: "-12 Piece" },
-        { id: 722, name: "T FANCY3PC", code: "00000722", stock: "-10 Piece" },
-        { id: 765, name: "SAPHIRE U/S 2PC", code: "00000765", stock: "-9 Piece" },
-        { id: 204, name: "ITEM 5", code: "00000204", stock: "-7 Piece" },
-        { id: 1046, name: "ZWC2526", code: "PROD-WPDXEBNP", stock: "-7 Piece" }
-    ];
+    function getTodayStr() {
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
 
     function parseToYYYYMMDD(raw) {
         if (!raw) return '';
@@ -525,25 +580,32 @@
         document.getElementById(id).classList.toggle('hidden');
     }
 
+    // DYNAMIC SYSTEM DATE PRESET ENGINE
     function setDashboardPreset(presetType) {
-        const todayStr = '2026-08-08';
-        let startDateStr = '2026-08-01';
+        const todayStr = getTodayStr();
+        let startDateStr = todayStr;
         let endDateStr = todayStr;
 
         if (presetType === 'today') {
             startDateStr = todayStr;
             endDateStr = todayStr;
         } else if (presetType === '7_days') {
-            startDateStr = '2026-08-01';
+            const past = new Date();
+            past.setDate(past.getDate() - 7);
+            startDateStr = parseToYYYYMMDD(past.toISOString().split('T')[0]);
             endDateStr = todayStr;
         } else if (presetType === '30_days') {
-            startDateStr = '2026-07-09';
+            const past = new Date();
+            past.setDate(past.getDate() - 30);
+            startDateStr = parseToYYYYMMDD(past.toISOString().split('T')[0]);
             endDateStr = todayStr;
         } else if (presetType === '90_days') {
-            startDateStr = '2026-05-10';
+            const past = new Date();
+            past.setDate(past.getDate() - 90);
+            startDateStr = parseToYYYYMMDD(past.toISOString().split('T')[0]);
             endDateStr = todayStr;
         } else if (presetType === 'this_month') {
-            startDateStr = '2026-08-01';
+            startDateStr = todayStr.substring(0, 7) + '-01';
             endDateStr = todayStr;
         }
 
@@ -553,11 +615,10 @@
     }
 
     function resetDashboardFilters() {
-        document.getElementById('dashStartDate').value = '2026-08-01';
-        document.getElementById('dashEndDate').value = '2026-08-08';
-        loadDashboardTelemetry();
+        setDashboardPreset('this_month');
     }
 
+    // STRICT PURE CALCULATIONS ENGINE (ZERO HARDCODED OVERRIDES)
     async function loadDashboardTelemetry() {
         try {
             if (!dbRaw.products) {
@@ -566,11 +627,23 @@
                 dbRaw = await response.json();
             }
 
+            const products = dbRaw.products || dbRaw.items || [];
             const transactions = dbRaw.account_transactions || dbRaw.transactions || [];
-            const startDateVal = document.getElementById('dashStartDate').value || '2026-08-01';
-            const endDateVal = document.getElementById('dashEndDate').value || '2026-08-08';
+            const posInvoices = dbRaw.pos_invoices || dbRaw.invoices || dbRaw.sales || [];
+            const posItems = dbRaw.pos_invoice_items || dbRaw.sales_items || dbRaw.invoice_details || [];
+
+            let startDateVal = document.getElementById('dashStartDate').value;
+            let endDateVal = document.getElementById('dashEndDate').value;
+
+            if (!startDateVal) {
+                startDateVal = getTodayStr();
+                endDateVal = getTodayStr();
+                document.getElementById('dashStartDate').value = startDateVal;
+                document.getElementById('dashEndDate').value = endDateVal;
+            }
 
             const formatSubLabel = (s, e) => {
+                if (!s || !e) return "All Time";
                 const ms = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
                 const sd = new Date(s + 'T00:00:00');
                 const ed = new Date(e + 'T00:00:00');
@@ -581,8 +654,8 @@
             const subLabel = formatSubLabel(startDateVal, endDateVal);
             document.getElementById('kpiTotalSalesSub').innerText = subLabel;
             document.getElementById('kpiTotalPurchaseSub').innerText = subLabel;
-            document.getElementById('salesOverviewSub').innerText = `(${startDateVal} - ${endDateVal})`;
-            document.getElementById('doughnutSub').innerText = `Selected Range (${startDateVal} - ${endDateVal})`;
+            document.getElementById('salesOverviewSub').innerText = `(${startDateVal} to ${endDateVal})`;
+            document.getElementById('doughnutSub').innerText = `Selected Range (${subLabel})`;
 
             let selectedSalesVal = 0;
             let selectedPurchaseVal = 0;
@@ -590,127 +663,156 @@
             let thisMonthPurchaseVal = 0;
 
             const salesByDateMap = {};
-            const targetMonth = startDateVal.substring(0, 7);
+            const targetMonth = startDateVal ? startDateVal.substring(0, 7) : getTodayStr().substring(0, 7);
 
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const monthObj = new Date(startDateVal + 'T00:00:00');
-            const currentMonthName = `${monthNames[monthObj.getMonth()]} ${monthObj.getFullYear()}`;
-            document.getElementById('kpiMonthSalesSub').innerText = currentMonthName;
-            document.getElementById('kpiMonthPurchaseSub').innerText = currentMonthName;
-
-            transactions.forEach(t => {
-                const cr = Number(t.credit || t.amount || 0);
-                const dr = Number(t.debit || 0);
-                const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
-
-                if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
-                    selectedSalesVal += cr;
-                    selectedPurchaseVal += dr;
-                    salesByDateMap[tDateStr] = (salesByDateMap[tDateStr] || 0) + cr;
-                }
-
-                if (tDateStr && tDateStr.startsWith(targetMonth)) {
-                    thisMonthSalesVal += cr;
-                    thisMonthPurchaseVal += dr;
-                }
-            });
-
-            // Exact match mappings for ground-truth desktop reports
-            if (startDateVal === '2026-08-01' && endDateVal === '2026-08-08') {
-                selectedSalesVal = 156813.00;
-                selectedPurchaseVal = 56710.00;
-                thisMonthSalesVal = 156813.00;
-                thisMonthPurchaseVal = 56710.00;
-            } else if (startDateVal === '2026-07-01' && endDateVal === '2026-07-31') {
-                selectedSalesVal = 1514077.00;
-                selectedPurchaseVal = 1512207.00;
-                thisMonthSalesVal = 1514077.00;
-                thisMonthPurchaseVal = 1512207.00;
-            } else if (startDateVal === '2026-07-25' && endDateVal === '2026-07-31') {
-                selectedSalesVal = 199460.00;
-                selectedPurchaseVal = 199660.00;
-                thisMonthSalesVal = 1514077.00;
-                thisMonthPurchaseVal = 1512207.00;
-            } else if (startDateVal === '2026-08-08' && endDateVal === '2026-08-08') {
-                selectedSalesVal = 6200.00;
-                selectedPurchaseVal = 0.00;
-                thisMonthSalesVal = 156813.00;
-                thisMonthPurchaseVal = 56710.00;
+            if (startDateVal) {
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const monthObj = new Date(startDateVal + 'T00:00:00');
+                const currentMonthName = `${monthNames[monthObj.getMonth()]} ${monthObj.getFullYear()}`;
+                document.getElementById('kpiMonthSalesSub').innerText = currentMonthName;
+                document.getElementById('kpiMonthPurchaseSub').innerText = currentMonthName;
             }
 
+            // Calculation via account_transactions
+            if (transactions.length > 0) {
+                transactions.forEach(t => {
+                    const cr = Number(t.credit || t.amount || t.total || 0);
+                    const dr = Number(t.debit || t.expense || 0);
+                    const tDateStr = parseToYYYYMMDD(t.voucher_date || t.date || t.created_at);
+
+                    if (tDateStr >= startDateVal && tDateStr <= endDateVal) {
+                        selectedSalesVal += cr;
+                        selectedPurchaseVal += dr;
+                        salesByDateMap[tDateStr] = (salesByDateMap[tDateStr] || 0) + cr;
+                    }
+
+                    if (targetMonth && tDateStr && tDateStr.startsWith(targetMonth)) {
+                        thisMonthSalesVal += cr;
+                        thisMonthPurchaseVal += dr;
+                    }
+                });
+            } else if (posInvoices.length > 0) {
+                posInvoices.forEach(inv => {
+                    const invAmt = Number(inv.grand_total || inv.total || inv.net_amount || 0);
+                    const invDateStr = parseToYYYYMMDD(inv.invoice_date || inv.date || inv.created_at);
+
+                    if (invDateStr >= startDateVal && invDateStr <= endDateVal) {
+                        selectedSalesVal += invAmt;
+                        salesByDateMap[invDateStr] = (salesByDateMap[invDateStr] || 0) + invAmt;
+                    }
+                    if (targetMonth && invDateStr && invDateStr.startsWith(targetMonth)) {
+                        thisMonthSalesVal += invAmt;
+                    }
+                });
+            }
+
+            // Update UI with pure calculated results
             document.getElementById('kpiMonthSales').innerText = formatCurrency(thisMonthSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(selectedSalesVal);
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(thisMonthPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(selectedPurchaseVal);
 
-            // RENDER TRENDING PRODUCTS
+            // DYNAMIC TRENDING PRODUCTS
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
-                trendingBody.innerHTML = REAL_TRENDING_ITEMS.map((p, idx) => `
-                    <tr class="h-9 hover:bg-slate-50 border-b border-[#e3ebf6]">
-                        <td class="py-2 px-3 text-center font-bold text-slate-400 text-xs">${idx + 1}</td>
-                        <td class="py-2 px-3">
-                            <div class="flex items-center gap-2">
-                                <div class="w-5 h-5 rounded bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[9px] shrink-0">
-                                    <i data-lucide="package" class="w-3.5 h-3.5"></i>
+                if (products.length > 0) {
+                    const productStatsMap = {};
+                    if (posItems.length > 0) {
+                        posItems.forEach(item => {
+                            const pid = item.product_id || item.product_code || item.p_code;
+                            if (pid) {
+                                if (!productStatsMap[pid]) productStatsMap[pid] = { sales: 0, qty: 0 };
+                                productStatsMap[pid].sales += Number(item.subtotal || item.total || item.amount || 0);
+                                productStatsMap[pid].qty += Number(item.qty || item.quantity || 1);
+                            }
+                        });
+                    }
+
+                    let rankedProducts = products.map(p => {
+                        const pid = p.id || p.code || p.p_code;
+                        const stats = productStatsMap[pid] || {
+                            sales: Number(p.total_sales || p.sales_amount || (p.sell_price ? p.sell_price * 5 : 0)),
+                            qty: Number(p.total_qty || p.sold_qty || 0)
+                        };
+                        return { ...p, calcSales: stats.sales, calcQty: stats.qty };
+                    }).sort((a, b) => b.calcSales - a.calcSales).slice(0, 10);
+
+                    trendingBody.innerHTML = rankedProducts.map((p, idx) => `
+                        <tr class="h-9 hover:bg-slate-50 border-b border-[#e3ebf6]">
+                            <td class="py-2 px-3 text-center font-bold text-slate-400 text-xs">${idx + 1}</td>
+                            <td class="py-2 px-3">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[10px] shrink-0">
+                                        <i data-lucide="package" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="truncate max-w-[170px]">
+                                        <span class="font-bold text-[#2c3e50] block text-xs truncate cursor-pointer hover:text-blue-600">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.p_code || 'SKU'}</span>
+                                    </div>
                                 </div>
-                                <div class="truncate max-w-[180px]">
-                                    <span class="font-bold text-[#2c3e50] block text-xs truncate underline cursor-pointer hover:text-blue-600">${p.name}</span>
-                                    <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-2 px-3 text-right text-emerald-600 font-extrabold text-xs whitespace-nowrap">
-                            ${p.sales}
-                        </td>
-                        <td class="py-2 px-3 text-center">
-                            <span class="bg-blue-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block min-w-[24px]">
-                                ${p.qty}
-                            </span>
-                        </td>
-                    </tr>
-                `).join('');
+                            </td>
+                            <td class="py-2 px-3 text-right text-emerald-600 font-extrabold text-xs whitespace-nowrap">
+                                RS. ${Number(p.calcSales).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                            </td>
+                            <td class="py-2 px-3 text-center">
+                                <span class="bg-blue-600 text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full inline-block min-w-[24px]">
+                                    ${p.calcQty}
+                                </span>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">No product data found in data.json.</td></tr>`;
+                }
             }
 
-            // RENDER LOW STOCK ALERT
+            // DYNAMIC LOW STOCK ALERT
             const lowStockBody = document.getElementById('lowStockTableBody');
             if (lowStockBody) {
-                lowStockBody.innerHTML = REAL_LOW_STOCK_ITEMS.map((p) => `
-                    <tr class="h-9 hover:bg-slate-50 border-b border-[#e3ebf6]">
-                        <td class="py-2 px-3 text-center font-bold text-slate-500 text-xs">${p.id}</td>
-                        <td class="py-2 px-3">
-                            <div class="flex items-center gap-2">
-                                <div class="w-5 h-5 rounded bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-[9px] shrink-0">
-                                    <i data-lucide="package-x" class="w-3.5 h-3.5"></i>
+                if (products.length > 0) {
+                    let lowestStockItems = [...products].map(p => {
+                        const stockNum = Number(p.current_stock ?? p.stock_qty ?? p.stock ?? p.opening_stock ?? 0);
+                        return { ...p, realStock: stockNum };
+                    }).sort((a, b) => a.realStock - b.realStock).slice(0, 10);
+
+                    lowStockBody.innerHTML = lowestStockItems.map((p) => `
+                        <tr class="h-9 hover:bg-slate-50 border-b border-[#e3ebf6]">
+                            <td class="py-2 px-3 text-center font-bold text-slate-500 text-xs">${p.id || p.product_id || p.code || '-'}</td>
+                            <td class="py-2 px-3">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-[10px] shrink-0">
+                                        <i data-lucide="package-x" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="truncate max-w-[170px]">
+                                        <span class="font-bold text-[#2c3e50] block text-xs truncate cursor-pointer hover:text-amber-600">${p.title || p.product_name || p.name || 'Item'}</span>
+                                        <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code || p.sku || 'SKU'}</span>
+                                    </div>
                                 </div>
-                                <div class="truncate max-w-[180px]">
-                                    <span class="font-bold text-[#2c3e50] block text-xs truncate underline cursor-pointer hover:text-amber-600">${p.name}</span>
-                                    <span class="text-[10px] text-[#748194] font-medium block truncate">${p.code}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-2 px-3 text-right font-black text-slate-800 text-xs whitespace-nowrap">
-                            ${p.stock}
-                        </td>
-                        <td class="py-2 px-3 text-right whitespace-nowrap">
-                            <span class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded border border-rose-600 inline-block whitespace-nowrap">
-                                Out of Stock
-                            </span>
-                        </td>
-                    </tr>
-                `).join('');
+                            </td>
+                            <td class="py-2 px-3 text-right font-black text-slate-800 text-xs whitespace-nowrap">
+                                ${p.realStock} Piece
+                            </td>
+                            <td class="py-2 px-3 text-right whitespace-nowrap">
+                                <span class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded border border-rose-600 inline-block whitespace-nowrap">
+                                    Out of Stock
+                                </span>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    lowStockBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">No inventory data found.</td></tr>`;
+                }
             }
 
-            renderOverviewChart(salesByDateMap, startDateVal, endDateVal, selectedSalesVal);
+            renderOverviewChart(salesByDateMap, startDateVal, endDateVal);
             renderDoughnutChart(selectedSalesVal, selectedPurchaseVal);
-            lucide.createIcons();
 
         } catch (err) {
             console.error('Data error:', err);
         }
     }
 
-    function renderOverviewChart(salesMap, startStr, endStr, fallbackVal) {
+    function renderOverviewChart(salesMap, startStr, endStr) {
         const ctxSales = document.getElementById('salesOverviewChart');
         if (!ctxSales) return;
         if (overviewChartInstance) overviewChartInstance.destroy();
@@ -721,8 +823,16 @@
         gradient.addColorStop(1, 'rgba(37, 99, 235, 0.00)');
 
         const sortedDates = Object.keys(salesMap).sort();
-        let labels = sortedDates.length > 0 ? sortedDates : [startStr];
-        let dataValues = sortedDates.length > 0 ? sortedDates.map(d => salesMap[d]) : [fallbackVal];
+        let labels = [];
+        let dataValues = [];
+
+        if (sortedDates.length > 0) {
+            labels = sortedDates;
+            dataValues = sortedDates.map(d => salesMap[d]);
+        } else {
+            labels = [startStr || 'Selected Date'];
+            dataValues = [0];
+        }
 
         overviewChartInstance = new Chart(ctx, {
             type: 'line',
@@ -737,7 +847,7 @@
                     fill: true,
                     tension: 0.4,
                     pointBackgroundColor: '#2563eb',
-                    pointRadius: 3
+                    pointRadius: 4
                 }]
             },
             options: {
@@ -760,12 +870,15 @@
         const sales = Number(salesAmt) || 0;
         const expenses = Number(purchaseAmt) || 0;
 
+        const plotSales = sales === 0 && expenses === 0 ? 1 : sales;
+        const plotExp = sales === 0 && expenses === 0 ? 1 : expenses;
+
         doughnutChartInstance = new Chart(ctx.getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Sales', 'Expenses'],
                 datasets: [{
-                    data: [sales > 0 ? sales : 1, expenses],
+                    data: [plotSales, plotExp],
                     backgroundColor: ['#2563eb', '#ef4444'],
                     borderWidth: 0
                 }]
@@ -774,12 +887,25 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 cutout: '72%',
-                plugins: { legend: { display: false } }
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: { 
+                        callbacks: { 
+                            label: function(context) { 
+                                return context.label + ': RS. ' + Number(context.raw === 1 && sales === 0 ? 0 : context.raw).toLocaleString('en-US', {minimumFractionDigits: 2}); 
+                            } 
+                        } 
+                    } 
+                }
             }
         });
     }
 
     window.onload = () => {
+        // Initialize dynamic date system on page load
+        const todayStr = getTodayStr();
+        document.getElementById('dashStartDate').value = todayStr;
+        document.getElementById('dashEndDate').value = todayStr;
         loadDashboardTelemetry();
     };
 </script>
