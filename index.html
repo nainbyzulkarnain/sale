@@ -19,7 +19,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; color: #2c3e50; font-size: 11px; }
         
         .kpi-title { font-size: 9px; }
-        .kpi-val { font-size: 15px; line-height: 1.2; }
+        .kpi-val { font-size: 15px; line-height: 1.2; font-weight: 800; }
         .kpi-sub { font-size: 9px; }
 
         .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -29,7 +29,7 @@
         .falcon-card {
             background: #ffffff;
             border: 1px solid #e3ebf6;
-            box-shadow: 0 0.25rem 0.75rem rgba(18, 38, 63, 0.03);
+            box-shadow: 0 0.375rem 0.75rem rgba(18, 38, 63, 0.02);
             border-radius: 0.5rem;
         }
 
@@ -47,7 +47,7 @@
         }
         .btn-falcon-success:hover { background: #059669; }
 
-        /* CLEAN SIDEBAR COLLAPSE ENGINE */
+        /* SIDEBAR TOGGLE & TRANSITION ENGINE */
         #sidebar { width: 16rem; min-width: 16rem; transition: all 0.2s ease; }
         #sidebar.collapsed { width: 4rem !important; min-width: 4rem !important; }
         #sidebar.collapsed .sidebar-text,
@@ -63,6 +63,7 @@
 
 <div class="flex h-screen overflow-hidden">
 
+    <!-- MOBILE BACKDROP -->
     <div id="mobileBackdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden backdrop-blur-sm"></div>
 
     <!-- SIDEBAR NAVIGATION -->
@@ -85,7 +86,7 @@
                 </button>
             </div>
 
-            <!-- Complete Navigation Links -->
+            <!-- Complete Navigation Menu -->
             <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-[11px] font-semibold" id="sidebarNav">
                 
                 <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-bold shadow-sm">
@@ -207,18 +208,15 @@
                     </div>
                 </div>
 
-                <!-- CATEGORY: HR DEPARTMENT -->
                 <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     HR DEPARTMENT
                 </div>
 
-                <!-- 8. HR Department -->
                 <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">HR Department</span>
                 </a>
 
-                <!-- 9. Purchase Reports -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('purRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -231,11 +229,9 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Date Wise Report</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Purchase By Supplier</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Product Wise Purchase</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">All Product Wise Purchase</a>
                     </div>
                 </div>
 
-                <!-- 10. Sales Reports -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('saleRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -248,34 +244,28 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Daily Sales Summary</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Sale Report</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Customer Wise Sell Report</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Wise Sales</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Sell Load Paper</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Sell Summary</a>
                     </div>
                 </div>
 
-                <!-- 11. Stock Report -->
                 <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="boxes" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">Stock Report</span>
                 </a>
 
-                <!-- 12. Utilities -->
                 <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="download" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">Download Product List</span>
                 </a>
+
                 <a href="#" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                     <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i>
                     <span class="sidebar-text truncate">Print Customer List</span>
                 </a>
 
-                <!-- CATEGORY: ACCOUNT REPORTS -->
                 <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     ACCOUNT REPORTS
                 </div>
 
-                <!-- 13. Account Reports -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('accRptMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -288,18 +278,13 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Ledger</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Day Book</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Trail Balance</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Income Statement</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Trading PLS Statement</a>
-                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Balance Sheet</a>
                     </div>
                 </div>
 
-                <!-- CATEGORY: ADMINISTRATIVE -->
                 <div class="category-header pt-4 pb-2 px-3 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                     ADMINISTRATIVE
                 </div>
 
-                <!-- 14. Administrative -->
                 <div class="menu-group">
                     <button onclick="toggleSubmenu('adminMenu')" class="nav-link w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-50 text-slate-600">
                         <div class="flex items-center gap-2.5 overflow-hidden">
@@ -318,7 +303,6 @@
             </nav>
         </div>
 
-        <!-- User Profile Footer -->
         <div class="p-3 border-t border-[#e3ebf6] flex items-center gap-3 shrink-0 bg-white">
             <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0">HA</div>
             <div class="brand-title overflow-hidden">
@@ -331,7 +315,7 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        <!-- HEADER BAR -->
+        <!-- HEADER BAR WITH ACTION MODALS -->
         <header class="h-16 bg-white border-b border-[#e3ebf6] px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
@@ -348,20 +332,56 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GitHub Dataset Active
                 </span>
                 
-                <button class="w-7 h-7 rounded-full bg-rose-600 text-white font-black text-[10px] flex items-center justify-center shadow-sm">3</button>
-                <button class="w-7 h-7 rounded-full bg-amber-500 text-white font-black text-[10px] flex items-center justify-center shadow-sm">4</button>
+                <button onclick="toggleTopDropdown('notifMenu1')" class="w-7 h-7 rounded-full bg-rose-600 text-white font-black text-[10px] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90">3</button>
+                <button onclick="toggleTopDropdown('notifMenu2')" class="w-7 h-7 rounded-full bg-amber-500 text-white font-black text-[10px] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90">4</button>
                 
-                <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
+                <button onclick="toggleTopDropdown('userProfileMenu')" class="flex items-center gap-2 pl-2 border-l border-slate-200 cursor-pointer hover:opacity-80">
                     <span class="text-xs font-extrabold text-slate-800 hidden sm:inline tracking-tight">HASSNAIN</span>
                     <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center border border-blue-200">HA</div>
+                </button>
+
+                <!-- DROPDOWN MODALS -->
+                <div id="notifMenu1" class="hidden absolute right-16 top-12 w-64 bg-white border border-[#e3ebf6] rounded-xl shadow-xl z-50 p-3 space-y-2 text-xs">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-1.5 font-extrabold text-slate-800">
+                        <span>Critical Stock Alerts</span>
+                        <span class="bg-rose-100 text-rose-700 text-[10px] px-2 py-0.5 rounded-full">3 Critical</span>
+                    </div>
+                    <div class="space-y-1 text-[11px] text-slate-600">
+                        <p>• <strong>ZEL2690</strong>: -45 Piece</p>
+                        <p>• <strong>Item 38</strong>: -23 Piece</p>
+                        <p>• <strong>ITEM 2</strong>: -27 Piece</p>
+                    </div>
                 </div>
+
+                <div id="notifMenu2" class="hidden absolute right-12 top-12 w-64 bg-white border border-[#e3ebf6] rounded-xl shadow-xl z-50 p-3 space-y-2 text-xs">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-1.5 font-extrabold text-slate-800">
+                        <span>System Notifications</span>
+                        <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full">4 Active</span>
+                    </div>
+                    <div class="space-y-1 text-[11px] text-slate-600">
+                        <p>• Live telemetry sync operational.</p>
+                        <p>• Database parsing active.</p>
+                        <p>• Dynamic Date engine configured.</p>
+                        <p>• Falcon Dashboard v2.4 live.</p>
+                    </div>
+                </div>
+
+                <div id="userProfileMenu" class="hidden absolute right-0 top-12 w-48 bg-white border border-[#e3ebf6] rounded-xl shadow-xl z-50 p-2 text-xs space-y-1">
+                    <div class="px-3 py-2 border-b border-slate-100">
+                        <p class="font-extrabold text-slate-900">Hassnain Admin</p>
+                        <p class="text-[10px] text-slate-400 font-semibold">Master Administrator</p>
+                    </div>
+                    <a href="#" class="block px-3 py-1.5 hover:bg-slate-50 rounded-lg text-slate-700 font-medium">Application Settings</a>
+                    <a href="#" class="block px-3 py-1.5 hover:bg-slate-50 rounded-lg text-slate-700 font-medium">Audit Logs</a>
+                </div>
+
             </div>
         </header>
 
         <!-- DASHBOARD CONTAINER -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-4 md:p-6 space-y-4 sm:space-y-5 custom-scrollbar">
 
-            <!-- Welcome Banner & Controls -->
+            <!-- Banner & Dynamic Filters -->
             <div class="falcon-card p-4 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-blue-50/40 via-white to-white">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
@@ -466,7 +486,7 @@
                 </div>
             </div>
 
-            <!-- TRENDING PRODUCTS & LOW STOCK TABLES -->
+            <!-- TABLES SECTION -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 
                 <div class="falcon-card p-4">
@@ -533,6 +553,7 @@
 
     let dbRaw = {};
 
+    // REAL SYSTEM TODAY DATE COMPUTATION
     function getTodayStr() {
         const d = new Date();
         const yyyy = d.getFullYear();
@@ -560,6 +581,18 @@
         return `RS. ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
+    function toggleTopDropdown(id) {
+        const menus = ['notifMenu1', 'notifMenu2', 'userProfileMenu'];
+        menus.forEach(m => {
+            if (m !== id) {
+                const el = document.getElementById(m);
+                if (el) el.classList.add('hidden');
+            }
+        });
+        const target = document.getElementById(id);
+        if (target) target.classList.toggle('hidden');
+    }
+
     function navigateTo(viewId, element) {
         document.querySelectorAll('.app-view').forEach(v => v.classList.add('hidden'));
         const targetView = document.getElementById(viewId);
@@ -580,7 +613,7 @@
         document.getElementById(id).classList.toggle('hidden');
     }
 
-    // DYNAMIC SYSTEM DATE PRESET ENGINE
+    // DYNAMIC DATE PRESET CONTROLLER
     function setDashboardPreset(presetType) {
         const todayStr = getTodayStr();
         let startDateStr = todayStr;
@@ -618,7 +651,7 @@
         setDashboardPreset('this_month');
     }
 
-    // STRICT PURE CALCULATIONS ENGINE (ZERO HARDCODED OVERRIDES)
+    // STRICT DATABASE PARSING ENGINE (ZERO FAKE HARDCODED OVERRIDES)
     async function loadDashboardTelemetry() {
         try {
             if (!dbRaw.products) {
@@ -706,13 +739,13 @@
                 });
             }
 
-            // Update UI with pure calculated results
+            // Render pure database computations
             document.getElementById('kpiMonthSales').innerText = formatCurrency(thisMonthSalesVal);
             document.getElementById('kpiTotalSales').innerText = formatCurrency(selectedSalesVal);
             document.getElementById('kpiMonthPurchase').innerText = formatCurrency(thisMonthPurchaseVal);
             document.getElementById('kpiTotalPurchase').innerText = formatCurrency(selectedPurchaseVal);
 
-            // DYNAMIC TRENDING PRODUCTS
+            // DYNAMIC TRENDING PRODUCTS GENERATOR
             const trendingBody = document.getElementById('trendingProductsTableBody');
             if (trendingBody) {
                 if (products.length > 0) {
@@ -762,11 +795,11 @@
                         </tr>
                     `).join('');
                 } else {
-                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">No product data found in data.json.</td></tr>`;
+                    trendingBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">No product data found in database.</td></tr>`;
                 }
             }
 
-            // DYNAMIC LOW STOCK ALERT
+            // DYNAMIC LOW STOCK ALERT GENERATOR
             const lowStockBody = document.getElementById('lowStockTableBody');
             if (lowStockBody) {
                 if (products.length > 0) {
@@ -902,7 +935,7 @@
     }
 
     window.onload = () => {
-        // Initialize dynamic date system on page load
+        // Automatically detect Today's real system date
         const todayStr = getTodayStr();
         document.getElementById('dashStartDate').value = todayStr;
         document.getElementById('dashEndDate').value = todayStr;
