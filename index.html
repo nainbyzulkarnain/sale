@@ -47,7 +47,7 @@
         }
         .btn-falcon-success:hover { background: #059669; }
 
-        /* SIDEBAR TOGGLE & TRANSITION ENGINE */
+        /* SIDEBAR COLLAPSE & EXPANSION ENGINE */
         #sidebar { width: 16rem; min-width: 16rem; transition: all 0.2s ease; }
         #sidebar.collapsed { width: 4rem !important; min-width: 4rem !important; }
         #sidebar.collapsed .sidebar-text,
@@ -86,7 +86,7 @@
                 </button>
             </div>
 
-            <!-- Complete Navigation Menu -->
+            <!-- All 14 ERP Modules and Submenus -->
             <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-[11px] font-semibold" id="sidebarNav">
                 
                 <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-bold shadow-sm">
@@ -229,6 +229,7 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Date Wise Report</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Purchase By Supplier</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Product Wise Purchase</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">All Product Wise Purchase</a>
                     </div>
                 </div>
 
@@ -244,6 +245,9 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Daily Sales Summary</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Sale Report</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Customer Wise Sell Report</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Wise Sales</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Sell Load Paper</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Item Sell Summary</a>
                     </div>
                 </div>
 
@@ -278,6 +282,9 @@
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Ledger</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Day Book</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Trail Balance</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Income Statement</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Trading PLS Statement</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Balance Sheet</a>
                     </div>
                 </div>
 
@@ -315,7 +322,7 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        <!-- HEADER BAR WITH ACTION MODALS -->
+        <!-- HEADER BAR WITH INTERACTIVE DROPDOWNS -->
         <header class="h-16 bg-white border-b border-[#e3ebf6] px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
@@ -359,10 +366,10 @@
                         <span class="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full">4 Active</span>
                     </div>
                     <div class="space-y-1 text-[11px] text-slate-600">
-                        <p>• Live telemetry sync operational.</p>
-                        <p>• Database parsing active.</p>
-                        <p>• Dynamic Date engine configured.</p>
-                        <p>• Falcon Dashboard v2.4 live.</p>
+                        <p>• Dynamic telemetry engine online.</p>
+                        <p>• SQL database sync operational.</p>
+                        <p>• System date set to 2026-08-09.</p>
+                        <p>• POS360 Falcon Engine v2.5 live.</p>
                     </div>
                 </div>
 
@@ -381,7 +388,7 @@
         <!-- DASHBOARD CONTAINER -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-4 md:p-6 space-y-4 sm:space-y-5 custom-scrollbar">
 
-            <!-- Banner & Dynamic Filters -->
+            <!-- Banner & Controls -->
             <div class="falcon-card p-4 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-blue-50/40 via-white to-white">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
@@ -508,7 +515,7 @@
                                 </tr>
                             </thead>
                             <tbody id="trendingProductsTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading catalog from database...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">Loading catalog from database...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -533,7 +540,7 @@
                                 </tr>
                             </thead>
                             <tbody id="lowStockTableBody" class="divide-y divide-[#e3ebf6] font-medium text-slate-700">
-                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading inventory from database...</td></tr>
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400 font-bold">Loading inventory from database...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -935,7 +942,7 @@
     }
 
     window.onload = () => {
-        // Automatically detect Today's real system date
+        // Init dynamic system date
         const todayStr = getTodayStr();
         document.getElementById('dashStartDate').value = todayStr;
         document.getElementById('dashEndDate').value = todayStr;
