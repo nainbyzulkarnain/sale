@@ -47,7 +47,7 @@
         }
         .btn-falcon-success:hover { background: #059669; }
 
-        /* SIDEBAR COLLAPSE ENGINE */
+        /* COLLAPSED SIDEBAR FIX: PREVENT BRAND LOGO CLIPPING & MISALIGNMENT */
         #sidebar { width: 16rem; min-width: 16rem; transition: all 0.2s ease; }
         #sidebar.collapsed { width: 4rem !important; min-width: 4rem !important; }
         #sidebar.collapsed .sidebar-text,
@@ -57,6 +57,7 @@
         #sidebar.collapsed .category-header { display: none !important; }
         #sidebar.collapsed .nav-link { justify-content: center; padding-left: 0; padding-right: 0; }
         #sidebar.collapsed .brand-container { justify-content: center; padding-left: 0; padding-right: 0; }
+        #sidebar.collapsed .user-profile-card { justify-content: center; padding-left: 0; padding-right: 0; }
     </style>
 </head>
 <body class="h-full bg-[#f9fafd] text-[#2c3e50] antialiased">
@@ -86,7 +87,7 @@
                 </button>
             </div>
 
-            <!-- ERP Modules Navigation -->
+            <!-- Complete Navigation Menu -->
             <nav class="flex-1 overflow-y-auto p-3 space-y-1 custom-scrollbar text-[11px] font-semibold" id="sidebarNav">
                 
                 <a href="#" onclick="navigateTo('view-dashboard', this)" class="nav-link flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-bold shadow-sm">
@@ -277,6 +278,7 @@
                     <div id="accRptMenu" class="submenu hidden ml-4 pl-3 border-l border-slate-200 py-1 space-y-1 text-[10px] font-medium">
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Ledger</a>
                         <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Day Book</a>
+                        <a href="#" class="block py-1.5 px-2 rounded text-slate-500 hover:text-blue-600">Account Trail Balance</a>
                     </div>
                 </div>
 
@@ -302,7 +304,7 @@
             </nav>
         </div>
 
-        <div class="p-3 border-t border-[#e3ebf6] flex items-center gap-3 shrink-0 bg-white">
+        <div class="p-3 border-t border-[#e3ebf6] flex items-center gap-3 shrink-0 bg-white user-profile-card">
             <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-black text-xs flex items-center justify-center shrink-0">HA</div>
             <div class="brand-title overflow-hidden">
                 <p class="text-xs font-bold text-slate-900 truncate">Hassnain Admin</p>
@@ -314,7 +316,7 @@
     <!-- MAIN DASHBOARD CONTENT -->
     <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
-        <!-- HEADER BAR -->
+        <!-- HEADER BAR WITH ACTION MODALS -->
         <header class="h-16 bg-white border-b border-[#e3ebf6] px-4 md:px-6 flex items-center justify-between shrink-0 shadow-sm z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500 md:hidden">
@@ -334,7 +336,7 @@
                 <button onclick="toggleTopDropdown('notifMenu1')" class="w-7 h-7 rounded-full bg-rose-600 text-white font-black text-[10px] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90">3</button>
                 <button onclick="toggleTopDropdown('notifMenu2')" class="w-7 h-7 rounded-full bg-amber-500 text-white font-black text-[10px] flex items-center justify-center shadow-sm cursor-pointer hover:opacity-90">4</button>
                 
-                <button onclick="toggleTopDropdown('userProfileMenu')" class="flex items-center gap-2 pl-2 border-l border-slate-200 hover:opacity-80">
+                <button onclick="toggleTopDropdown('userProfileMenu')" class="flex items-center gap-2 pl-2 border-l border-slate-200 cursor-pointer hover:opacity-80">
                     <span class="text-xs font-extrabold text-slate-800 hidden sm:inline tracking-tight">HASSNAIN</span>
                     <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center border border-blue-200">HA</div>
                 </button>
@@ -379,7 +381,7 @@
         <!-- DASHBOARD CONTAINER -->
         <main id="view-dashboard" class="app-view flex-1 overflow-y-auto p-4 md:p-6 space-y-4 sm:space-y-5 custom-scrollbar">
 
-            <!-- Banner & Dynamic Filters -->
+            <!-- Banner & Controls -->
             <div class="falcon-card p-4 flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-blue-50/40 via-white to-white">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold shadow-sm shrink-0">
@@ -415,7 +417,7 @@
                 </div>
             </div>
 
-            <!-- KPI METRICS (Pure Dynamic Initial States) -->
+            <!-- KPI METRICS (Dynamic Zero-Default Placeholders) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 
                 <div class="falcon-card p-4 border-l-4 border-l-blue-600 flex items-center justify-between">
